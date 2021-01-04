@@ -170,8 +170,11 @@ body {
     margin-bottom: 20px;
     margin-top:20px;
 }
+.product-card-owl {
+    width: 310px;
+}
 .owl-custom-item{
-    max-width: 35vw;
+    max-width: 650px;
     max-height: 600px;
 }
 @media only screen and (max-width: 576px) {

@@ -128,18 +128,20 @@
 <div class="container mt-xxl-5 pt-xxl-5">
     <h5>NEW ON THE SITE</h5>
     <div class="row">
-        @for (var i = 0; i < 4; i++)
-        {
-            <div class="col-sm-3">
-                <div class="card product-card">
+        <div class="owl-carousel owl-theme">
+            @for (var i = 0; i < 14; i++)
+            {
+                
+                <div class="item card product-card product-card-owl">
                     <img src="~/images/reyes.jpg" class="card-img-top" alt="reyes">
                     <div class="card-body">
                         <h5 class="card-title text-center">New</h5>
                         <a href="#" class="btn btn-warning d-grid">Purchase Now</a>
                     </div>
                 </div>
-            </div>
-        }
+                
+            }
+        </div>
     </div>
 </div>
 <!-- new on this site-->
@@ -147,19 +149,22 @@
 <div class="container mt-xxl-5 pt-xxl-5">
     <h5>DEALS OF THE WEEK</h5>
     <div class="row">
-        @for (var i = 0; i < 4; i++)
-        {
-            <div class="col-sm-3">
-                <div class="card product-card">
+        <div class="owl-carousel owl-theme">
+            @for (var i = 0; i < 14; i++)
+            {
+                
+                <div class="item card product-card product-card-owl">
                     <img src="~/images/jaspereology.jpg" class="card-img-top" alt="jaspereology">
                     <div class="card-body">
-                        <a href="#" class="btn btn-warning d-grid">Purchase Now</a>
+                        <a href="" class="btn btn-warning d-grid">Purchase Now</a>
                     </div>
                 </div>
-            </div>
-        }
+               
+            }
+        </div>
     </div>
 </div>
+
 <!-- deals of the week-->
 
 
