@@ -68,7 +68,9 @@ a.navbar-brand {
 a {
   color: #EDAB06;
 }
-
+img{
+    object-fit:cover;
+}
 .btn-primary {
   color: #F5F5F5;
   background-color: #EDAB06;
@@ -154,8 +156,26 @@ body {
   padding: 5px 10px 0 10px;
 }
 
-@media only screen and (max-width: 768px){
-  .search-div{
-    display: none;
-  }
+.carousel .carousel-item {
+    max-height: 700px;
+}
+.custom-center{
+    padding-left: 5vw;
+}
+.card-img-top {
+    max-height: 250px;
+    min-height: 250px;
+}
+.product-card{
+    margin-bottom: 20px;
+    margin-top:20px;
+}
+.owl-custom-item{
+    max-width: 35vw;
+    max-height: 600px;
+}
+@media only screen and (max-width: 576px) {
+    .hidder {
+       display: none;
+    }
 }

@@ -2,7 +2,183 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- courselHero-->
+<div id="carouselHero" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#carouselHero" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#carouselHero" data-bs-slide-to="1"></li>
+        <li data-bs-target="#carouselHero" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img src="~/images/beliaikin.jpg" class="d-block w-100" alt="beliaikin">
+
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+            <img src="~/images/fera.jpg" class="d-block w-100" alt="fera">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/gabb-tapic.jpg" class="d-block w-100" alt="gabb-tapic">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselHero" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselHero" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </a>
 </div>
+<!-- courselHero-->
+<!-- icons after hero-->
+<div class="container mt-4 align-middle">
+    <div class="row">
+        <div class="col-sm">
+            <div class="mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-3x">
+                            <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fa fa-thumbs-up fa-stack-1x"></i>
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">RATE US</h4>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class=" mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-3x">
+                            <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fa fa-mail-bulk fa-stack-1x"></i>
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">CONTACT US</h4>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-3x">
+                            <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fa fa-user fa-stack-1x"></i>
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">WORK WITH US</h4>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- icons after hero-->
+<!-- headline-->
+<div class="container mt-xxl-5 pt-xxl-5 hidder">
+    <div class="d-flex justify-content-md-center">
+        <h2>FEATURED</h2>
+    </div>
+
+    <div class="d-flex mt-4 justify-content-md-center">
+        <input type="checkbox" checked data-toggle="toggle" data-on="Recommended" data-off="Favourites" data-onstyle="warning" data-offstyle="warning">
+    </div>
+
+    <div class="d-flex mt-xxl-5 pt-xxl-5 justify-content-md-center">
+        <h2>Seasonal &amp; More</h2>
+    </div>
+</div>
+<!-- headline-->
+<!-- seasonal more image-->
+<div class="container mt-5 custom-center hidder">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/images/bertelli.jpg" class="rounded-circle" alt="bertelli" height="300" width="300">
+        </div>
+        <div class="col-md-4">
+            <img src="~/images/tentis.jpg" class="rounded-circle" alt="tentis" height="300" width="300">
+        </div>
+        <div class="col-md-4">
+            <img src="~/images/shivam.jpg" class="rounded-circle" alt="shivam" height="300" width="300">
+        </div>
+    </div>
+</div>
+<div class="container mt-xxl-5 pt-xxl-5 d-md-flex justify-content-md-center hidder">
+    <button type="button" class="btn btn-outline-dark"> More Seasonal + </button>
+</div>
+<!-- seasonal more image-->
+<!-- new on this site-->
+<div class="container mt-xxl-5 pt-xxl-5">
+    <h5>NEW ON THE SITE</h5>
+    <div class="row">
+        @for (var i = 0; i < 4; i++)
+        {
+            <div class="col-sm-3">
+                <div class="card product-card">
+                    <img src="~/images/reyes.jpg" class="card-img-top" alt="reyes">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">New</h5>
+                        <a href="#" class="btn btn-warning d-grid">Purchase Now</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<!-- new on this site-->
+<!-- deals of the week-->
+<div class="container mt-xxl-5 pt-xxl-5">
+    <h5>DEALS OF THE WEEK</h5>
+    <div class="row">
+        @for (var i = 0; i < 4; i++)
+        {
+            <div class="col-sm-3">
+                <div class="card product-card">
+                    <img src="~/images/jaspereology.jpg" class="card-img-top" alt="jaspereology">
+                    <div class="card-body">
+                        <a href="#" class="btn btn-warning d-grid">Purchase Now</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<!-- deals of the week-->
+
+
+<!-- lets do the work-->
+<div class="container mt-xxl-5 d-md-flex justify-content-md-center">
+    <h2>LET US DO THE WORK</h2>
+</div>
+<div class="container d-md-flex justify-content-md-center">
+    <h5>We gathered items that you might need so you won't waste time</h5>
+</div>
+
+<div class="container mt-xxl-5 pt-xxl-5">
+    <div class="owl-carousel owl-theme">
+       @for(var i=0; i < 5; i++)
+       {
+        <div class="item owl-custom-item">
+            <img src="~/images/ouajbir.jpg" alt="ouajbir"/>
+        </div>
+       }
+    </div>
+</div>
+<!-- lets do the work-->
