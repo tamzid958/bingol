@@ -40,6 +40,26 @@
                 </div>
             </div>
         </nav>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="Products" asp-action="Index">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Product" asp-action="Index">Product</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Cart" asp-action="Index">Cart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Auth" asp-action="Index">Login &amp; Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Profile" asp-action="Index">Profile</a>
+            </li>
+        </ul>
     </header>
     <main role="main">
         @RenderBody()
