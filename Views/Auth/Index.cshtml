@@ -3,5 +3,22 @@
 *@
 @{
 }
-
-<p>User Login &amp; Register</p>
+<div class="container">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-6" style="margin:0 auto;">
+                <div class="card text-center rounded-3">
+                    <div class="card-body">
+                        <h2 class="card-title text-warning">Sign In</h2> <br />
+                        <input type="email" class="form-control" id="emailInput" placeholder="jhon@xyz.com"> <br />
+                        <input type="password" class="form-control" id="inputPassword"> <br />
+                        <a href="" class="text-warning">Forgot your password?</a> <br />
+                        <a href="#" class="btn btn-warning">Sign In</a>
+                        <p>Don't have any account?</p>
+                        <a asp-area="" asp-controller="Auth" asp-action="Register">Register now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

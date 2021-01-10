@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bingol.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,16 @@ namespace Bingol.Controllers
 {
     public class ProductsController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductRepository _productRepository;
+
+        public ProductsController(IProductRepository productRepository)
         {
-            return View();
+            _productRepository = productRepository;
+        }
+        public ViewResult Index()
+        {
+            IEnumerable<ProductModel> model = _productRepository.GetProducts();
+            return View(model);
         }
     }
 }
