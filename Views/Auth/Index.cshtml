@@ -1,47 +1,30 @@
 ﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Login";
 }
-<div class="container">
-    <div class="wrapper">
-        <div class="row">
-            <div class="col-md-8 mx-auto text-center">
-                <div class="card card-signin my-5">
-                    <div class="card bg-dark text-white">
-                        <div class="card-body">
-                            <div class="header">
-                                <h2>Log in</h2>
-                            </div>
-                            <br />
-
-                            <form class="form-signin">
-
-
-                                <b>Email</b> &#128231;
-                                <input type="email" class="form-control" id="emailInput" placeholder="jhon@xyz.com">  <br />
-
-
-                                <b>Password</b> &#x1F512;
-                                <input type="password" class="form-control" id="inputPassword"> <br />
-
-                                <br>
-                                <p><a href="" class="text-warning">Forgot your password?</a> </p>
-                                <button class="btn-light btn btn-lg" type="submit">Sign In</button><br />
-                                <hr class="my-4">
-                            </form>
-
-                            <br>
-                            <p>Don't have any account?</p>
-                            <a asp-area="" asp-controller="Auth" asp-action="Register">Register now</a> <br />
-
-
+<div class="login-reg-back">
+    <div class="container d-flex justify-content-center align-items-center  mt-xxl-5 pt-xxl-5">
+        <div class="row mx-auto">
+            <div class="col-md-8 ">
+                <div class="card text-center bg-dark text-light login-reg-card">
+                    <div class="p-3 border-bottom">
+                        <h3>Login to Bingol</h3>
+                    </div>
+                    <div class="p-3 px-4 py-4 border-bottom">
+                        <input type="email" class="form-control mb-2 mt-xxl-4" placeholder="email/username" />
+                        <input type="password" class="form-control mt-xxl-4 mb-xxl-4" placeholder="password" />
+                        <a href="#" class="text-danger">forgot password?</a> <br />
+                        <div class="d-grid mt-xxl-3 col-12 mx-auto">
+                            <button class="btn btn-lg btn-block btn-warning fw-bold mt-xxl-4">login</button>
                         </div>
+                    </div>
+                    <div class="p-3 d-flex justify-content-around text-center flex-row">
+                        <span class="fw-bold">don't have an account? </span>
+                        <a asp-controller="Auth" asp-action="Register" class="text-decoration-none text-warning ml-xxl-4">register now</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-

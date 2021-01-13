@@ -6,7 +6,7 @@
 
 <div class="container-fluid mb-4">
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-9 card bg-light">
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -20,61 +20,49 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @for(var i=0; i <6; i++)
+                        {
                         <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Dada</td>
+                            <td><img class="rounded-circle" src="https://dummyimage.com/50x50/55595c/fff" width="50" height="50" /> </td>
+                            <td>Product's Name</td>
                             <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">124,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                            <td>
+                                <input class="form-control text-center" type="number" placeholder="quantity" value="1"> 
+                            </td>
+                            <td class="text-right">124,90 $</td>
+                            <td class="text-right">
+                                <button class="btn btn-sm btn-danger">
+                                 <i class="fa fa-trash"></i>
+                                </button> 
+                            </td>
                         </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Toto</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">33,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Titi</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">70,00 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Sub-Total</td>
-                            <td class="text-right">255,90 €</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Shipping</td>
-                            <td class="text-right">6,90 €</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong>Total</strong></td>
-                            <td class="text-right"><strong>346,90 €</strong></td>
-                        </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col mb-2">
-            <div class="d-grid gap-2">
-                <button class="btn btn-lg btn-block btn-warning text-uppercase fw-bold">Checkout</button>
+        <div class="col-md-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h3 class="card-title">Order Summary</h3>
+                    <hr class="custom-hr mt-xxl-5" />
+                    <div class="d-flex justify-content-between">
+                        <p class="text-muted">Sub-Total</p>
+                        <p>2130 $</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="text-muted">Shipping Charge</p>
+                        <p>2130 $</p>
+                    </div>
+                    <hr class="custom-hr mt-xxl-4" />
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-muted">Total</h4>
+                        <h2>2130 $</h2>
+                    </div>
+                    <div class="d-grid mt-xxl-3 col-12 mx-auto">
+                        <button class="btn btn-lg btn-block btn-warning text-uppercase fw-bold">Checkout</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

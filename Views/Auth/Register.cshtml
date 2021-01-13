@@ -1,55 +1,29 @@
 ﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Register";
 }
-
-<div class="container">
-    <div class="wrapper">
-        <div class="row">
-            <div class="col-md-8" style="margin:0 auto;">
-                <div class="card text-center rounded-2">
-                    <div class="card bg-dark text-white">
-                        <div class="card-body">
-
-                            <div class="header">
-                                <h2>Register</h2>
-                            </div>
-                            <br />
-
-                            <div>
-
-                                <b>Name</b>
-                                <input type="text" class="form-control" placeholder="Enter Name" name="name" required> <br />
-
-
-                                <b>Username</b>
-                                <input type="text" class="form-control" placeholder="Enter Username" name="uname" required> <br />
-
-
-                                <b>Email</b>
-                                <input type="email" class="form-control" id="emailInput" placeholder="jhon@xyz.com">  <br />
-
-
-                                <b>Password</b>
-                                <input type="password" class="form-control" id="inputPassword" required> <br />
-
-
-                                <b>Mobile Number</b>
-                                <input type="number" name="number" class="form-control" id="inputnumber"> <br />
-                            </div>
-
-                            <br><br>
-
-
-                            <b> Address: </b>
-                            &nbsp; <input type="text" class="form-control" name="address">
-
-
-                            <br>
-                            <button type="submit">Register</button><br />
-
+<div class="login-reg-back">
+    <div class="container d-flex justify-content-center align-items-center  mt-xxl-5 pt-xxl-5">
+        <div class="row mx-auto">
+            <div class="col-md-6">
+                <div class="card text-center bg-dark text-light login-reg-card">
+                    <div class="p-3 border-bottom">
+                        <h3>Register to Bingol</h3>
+                    </div>
+                    <div class="p-3 px-4 py-4 border-bottom">
+                        <input type="text" class="form-control mb-2 mt-xxl-4" placeholder="username" />
+                        <input type="email" class="form-control mb-2 mt-xxl-4" placeholder="email" />
+                        <input type="tel" class="form-control mb-2 mt-xxl-4" placeholder="phone number" />
+                        <input type="password" class="form-control mt-xxl-4 mb-xxl-4" placeholder="password" />
+                        <input type="password" class="form-control mt-xxl-4 mb-xxl-4" placeholder="confirm password" />
+                        <div class="d-grid mt-xxl-3 col-12 mx-auto">
+                            <button class="btn btn-lg btn-block btn-warning fw-bold mt-xxl-4">register</button>
                         </div>
+                    </div>
+                    <div class="p-3 d-flex justify-content-around text-center flex-row">
+                        <span class="fw-bold">already have an account? </span>
+                        <a asp-controller="Auth" asp-action="Index" class="text-decoration-none text-warning ml-xxl-4">login now</a>
                     </div>
                 </div>
             </div>
