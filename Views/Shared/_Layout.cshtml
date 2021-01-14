@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/bootstrap4-toggle.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/owl.carousel.min.css" />
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/Chart.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -40,14 +41,6 @@
                 </div>
             </div>
         </nav>
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Products" asp-action="Index">Products</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Product" asp-action="Index">Product</a>
-            </li>
-        </ul>
     </header>
     <main role="main">
         @RenderBody()
@@ -61,6 +54,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap/bootstrap4-toggle.min.js"></script>
+    <script src="~/lib/bootstrap/Chart.bundle.min.js"></script>
     <script src="~/lib/bootstrap/owl.carousel.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
