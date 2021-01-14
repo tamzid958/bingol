@@ -1,3 +1,180 @@
-﻿@{ 
-
+﻿@{
+    ViewData["Title"] = "MY ACCOUNT";
 }
+
+
+<div class="container-fluid hidder-xl">
+    <div class="d-flex align-items-start">
+        <div class="nav flex-column nav-pills me-3 card profile-tab bg-dark text-light" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <div class="d-flex justify-content-around align-items-center profile-card">
+                <img class="rounded-circle" src="https://dummyimage.com/100x100/55595c/fff" width="100" height="100" />
+                <p class="text-muted">Tamzid<span class="fst-italic">#7234</span></p>
+            </div>
+                <a class="nav-link active text-light" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">DASHBOARD</a>
+                <a class="nav-link text-light" id="v-pills-orders-tab" data-bs-toggle="pill" href="#v-pills-orders" role="tab" aria-controls="v-pills-orders" aria-selected="false">ORDERS</a>
+                <a class="nav-link text-light" id="v-pills-addresses-tab" data-bs-toggle="pill" href="#v-pills-addresses" role="tab" aria-controls="v-pills-addresses" aria-selected="false">ADDRESSES</a>
+                <a class="nav-link text-light" id="v-pills-account-tab" data-bs-toggle="pill" href="#v-pills-account" role="tab" aria-controls="v-pills-account" aria-selected="false">ACCOUNT DETAILS</a>
+                <a class="nav-link text-light" id="v-pills-wishlist-tab" data-bs-toggle="pill" href="#v-pills-wishlist" role="tab" aria-controls="v-pills-wishlist" aria-selected="false">WISHLIST</a>
+            </div>
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active card profile-content" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                    <p>
+                        Hello Tamzid (not Tamzid? Log out)
+                        <br /><br />
+                        From your account dashboard you can view your recent orders, manage your shipping and billing addresses, <br /> and edit your password and account details.
+                    </p>
+                </div>
+                <div class="tab-pane fade card" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
+                    <div class="table-responsive">
+                        <table class="table table-striped order-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ORDER</th>
+                                    <th scope="col">DATE</th>
+                                    <th scope="col">STATUS</th>
+                                    <th scope="col" class="text-right">TOTAL</th>
+                                    <th scope="col" class="text-right">ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < 6; i++)
+                                {
+                                    <tr>
+                                        <td class="text-right">
+                                            #4839
+                                        </td>
+                                        <td class="text-right">
+                                            July 5,2020
+                                        </td>
+                                        <td class="text-right">
+                                            Processing
+                                        </td>
+                                        <td class="text-right">
+                                            $ 210.00 for 1 item
+                                        </td>
+                                        <td class="text-right">
+                                            <button type="button" class="btn btn-warning">View</button>
+                                            <button type="button" class="btn btn-warning">INVOICE</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade card profile-content" id="v-pills-addresses" role="tabpanel" aria-labelledby="v-pills-addresses-tab">
+                    <p>The following addresses will be used on the checkout page by default.</p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 text-right">
+                                <h5>
+                                    Billing address
+                                </h5>
+                                <p>
+                                    Tamzid <br />
+                                    Malibagh <br />
+                                    Dhaka <br />
+                                    Dhaka <br />
+                                </p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <h5>
+                                    Shipping address
+                                </h5>
+                                <p>
+                                    Tamzid <br />
+                                    Malibagh <br />
+                                    Dhaka <br />
+                                    Dhaka <br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade card profile-content" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab">
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">First name</label>
+                            <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Last name</label>
+                            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                        </div>
+                    </div>
+                    <label class="form-label mt-xxl-3">Display name</label>
+                    <input type="text" class="form-control" placeholder="Display name" aria-label="Display name">
+                    <p class="fst-italic">This will be how your name will be displayed in the account section and in reviews</p>
+                    <label class="form-label mt-xxl-3">Email address</label>
+                    <input type="email" class="form-control" placeholder="Email address" aria-label="Email address">
+                    <h4 class="text-right mt-xxl-5">Password Change</h4>
+                    <hr />
+                    <label class="form-label mt-xxl-3">Current password (leave blank to leave unchanged)</label>
+                    <input type="password" class="form-control" placeholder="Password" aria-label="Password">
+                    <label class="form-label mt-xxl-3">New password (leave blank to leave unchanged)</label>
+                    <input type="password" class="form-control" placeholder="New Password" aria-label="New Password">
+                    <label class="form-label mt-xxl-3">Confirm new password</label>
+                    <input type="password" class="form-control" placeholder="Confirm New Password" aria-label="Confirm New Password">
+                    <a class="btn btn-warning mt-xxl-5">Save Changes</a>
+                </div>
+                <div class="tab-pane fade card profile-content" id="v-pills-wishlist" role="tabpanel" aria-labelledby="v-pills-wishlist-tab">
+                    <div class="row">
+                        <div class="owl-carousel owl-theme">
+                            @for (var i = 0; i < 14; i++)
+                            {
+
+                                <div class="item card product-card product-card-owl">
+                                    <img src="~/images/reyes.jpg" class="card-img-top" alt="reyes">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-danger d-grid">Remove</a>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="container mobile-profile">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ORDER</th>
+                    <th scope="col">DATE</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col" class="text-right">TOTAL</th>
+                    <th scope="col" class="text-right">ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < 6; i++)
+                {
+                    <tr>
+                        <td class="text-right">
+                            #4839
+                        </td>
+                        <td class="text-right">
+                            July 5,2020
+                        </td>
+                        <td class="text-right">
+                            Processing
+                        </td>
+                        <td class="text-right">
+                            $ 210.00 for 1 item
+                        </td>
+                        <td class="text-right">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-warning">View</button>
+                                <button type="button" class="btn btn-warning">INVOICE</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
