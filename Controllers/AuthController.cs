@@ -17,5 +17,9 @@ namespace Bingol.Controllers
         {
             return View();
         }
+        public IActionResult Forgot_Password()
+        {
+            return View();
+        }
     }
 }
