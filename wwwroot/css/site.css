@@ -234,6 +234,11 @@ hr.custom-hr {
     transform: scale(1.005);
     box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
+.cat-navbar-brand {
+    margin-top: -15px;
+    padding-top: -15px;
+}
+
 @media only screen and (max-width: 576px) {
     .hidder {
        display: none;
