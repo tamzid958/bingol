@@ -227,7 +227,7 @@ hr.custom-hr {
 .slider::-webkit-slider-thumb {
     background: #EDAB06;
 }
-.product-buttons{
+.product-buttons, .product-dropdown {
     width: 200px;
 }
 .product-card:hover, .product-card-owl:hover {
