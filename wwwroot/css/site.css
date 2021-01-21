@@ -214,10 +214,12 @@ hr.custom-hr {
     margin:30px;
 }
 .product-header {
-    height: 200px;
+    height: 250px;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    object-fit: fill;
+    background-size: 100% 400px;
+    background-position: center;
+    object-fit: cover;
+    overflow: hidden;
 }
 .product-carousel{
     max-height: 300px;
@@ -227,12 +229,13 @@ hr.custom-hr {
        display: none;
     }
 }
-
-@media only screen and (min-width: 766px) {
-    .mobile-profile {
+@media only screen and (max-width: 766px) {
+    .hidder-xl {
         display: none;
     }
-    .hidder-xl {
+}
+@media only screen and (min-width: 766px) {
+    .mobile-profile {
         display: none;
     }
 }

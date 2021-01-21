@@ -54,6 +54,7 @@
                 <option value="XXXL">XXXL</option>
             </select>
             <button class="btn btn-warning text-white btn-lg w-25 mt-4">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+            <button class="btn btn-danger text-white btn-lg w-25 mt-4">Wishlist <span class="fa fa-heart ms-3"></span></button>
         </div>
     </div>
 </div>
@@ -100,21 +101,23 @@
             @for (var i = 0; i < 14; i++)
             {
 
-                <div class="card product-card-owl">
-                    <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/fera.jpg)">
-                        <button class="btn btn-info fw-bolder text-white">-25%</button>
-                        <a class="fa fa-heart text-danger fa-2x text-decoration-none"></a>
-                    </div>
+                <a class="text-decoration-none" asp-area="" asp-controller="Product" asp-action="Index">
+                    <div class="card product-card-owl">
+                        <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/fera.jpg)">
+                            <div class="btn btn-info fw-bolder text-white">-25%</div>
+                            <span class="fa fa-heart text-danger fa-2x text-decoration-none"></span>
+                        </div>
 
-                    <div class="card-body">
-                        <h5>Jack &amp; Jones Royal Streched Shirt</h5>
-                        <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="fw-bold">$ 99.00</h5>
-                            <button class="btn btn-warning text-white">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+                        <div class="card-body">
+                            <h5 class="text-decoration-none text-dark">Jack &amp; Jones Royal Streched Shirt</h5>
+                            <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="fw-bold text-decoration-none text-dark">$ 99.00</h5>
+                                <div class="btn btn-warning text-white">Buy<span class="fa fa-shopping-bag ms-3"></span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
 
             }
         </div>
@@ -129,21 +132,23 @@
             @for (var i = 0; i < 14; i++)
             {
 
-                <div class="card product-card-owl">
-                    <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/jaspereology.jpg)">
-                        <button class="btn btn-info fw-bolder text-white">-25%</button>
-                        <a class="fa fa-heart text-danger fa-2x text-decoration-none"></a>
-                    </div>
+                <a class="text-decoration-none" asp-area="" asp-controller="Product" asp-action="Index">
+                    <div class="card product-card-owl">
+                        <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/jaspereology.jpg)">
+                            <div class="btn btn-info fw-bolder text-white">-25%</div>
+                            <span class="fa fa-heart text-danger fa-2x text-decoration-none"></span>
+                        </div>
 
-                    <div class="card-body">
-                        <h5>Jack &amp; Jones Royal Streched Shirt</h5>
-                        <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="fw-bold">$ 99.00</h5>
-                            <button class="btn btn-warning text-white">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+                        <div class="card-body">
+                            <h5 class="text-decoration-none text-dark">Jack &amp; Jones Royal Streched Shirt</h5>
+                            <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="fw-bold text-decoration-none text-dark">$ 99.00</h5>
+                                <div class="btn btn-warning text-white">Buy<span class="fa fa-shopping-bag ms-3"></span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
 
             }
         </div>
