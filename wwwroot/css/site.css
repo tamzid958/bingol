@@ -177,9 +177,7 @@ body {
     max-width: 650px;
     max-height: 600px;
 }
-.wrapper{
-    margin: 20%;
-}
+
 hr.custom-hr {
     border-top: 4px dotted #b2beb5;
     height: 4px;
@@ -198,20 +196,11 @@ hr.custom-hr {
 .login-reg-card{
     width: 40vw;
 }
-.order-table, .wishlist-table {
-    width: 70vw;
+.profile-tab, .profile-tab-content {
+    min-height: 50rem;
 }
-.profile-content {
-    padding: 60px;
-    width: 60vw;
-}
-.profile-tab{
-    padding-top: 40px;
-    padding-bottom: 40px;
-    width: 30vw;
-}
-.profile-card{
-    margin:30px;
+.profile-tab {
+    padding: 3vw;
 }
 .product-header {
     height: 250px;
@@ -246,11 +235,6 @@ hr.custom-hr {
 }
 @media only screen and (max-width: 766px) {
     .hidder-xl {
-        display: none;
-    }
-}
-@media only screen and (min-width: 766px) {
-    .mobile-profile {
         display: none;
     }
 }

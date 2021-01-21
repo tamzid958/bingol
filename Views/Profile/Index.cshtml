@@ -1,68 +1,111 @@
 ﻿@{
     ViewData["Title"] = "MY ACCOUNT";
 }
-<div class="container-fluid mt-5 hidder-xl">
-    <div class="d-flex align-items-start">
-        <div class="nav flex-column nav-pills card profile-tab bg-dark text-light" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <div class="d-flex justify-content-start align-items-center profile-card">
-                <img class="rounded-circle" src="https://dummyimage.com/100x100/55595c/fff" width="100" height="100" />
-                <p class="text-muted">Tamzid<span class="fst-italic">#7234</span></p>
+
+<div class="container-fluid navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <button class="navbar-toggler bg-dark d-md-none collapsed d-grid text-center w-100" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+            <div class="position-sticky pt-3" id="v-pills-tab" role="tablist">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-warning active" aria-current="page" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
+                            <span class="fa fa-chart-line"></span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" id="v-pills-orders-tab" data-bs-toggle="pill" href="#v-pills-orders" role="tab" aria-controls="v-pills-orders" aria-selected="false">
+                            <span class="fa fa-archive"></span>
+                            Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" id="v-pills-addresses-tab" data-bs-toggle="pill" href="#v-pills-addresses" role="tab" aria-controls="v-pills-addresses" aria-selected="false">
+                            <span class="fa fa-address-book"></span>
+                            Addresses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" id="v-pills-account-tab" data-bs-toggle="pill" href="#v-pills-account" role="tab" aria-controls="v-pills-account" aria-selected="false">
+                            <span class="fa fa-user"></span>
+                            Account Details
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" id="v-pills-wishlist-tab" data-bs-toggle="pill" href="#v-pills-wishlist" role="tab" aria-controls="v-pills-wishlist" aria-selected="false">
+                            <span class="fa fa-heart"></span>
+                            Wishlist
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="#">
+                            <span class="fas fa-sign-out-alt"></span>
+                            Sign out
+                        </a>
+                    </li>
+
+                </ul>
             </div>
-                <a class="nav-link active text-light" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">DASHBOARD</a>
-                <a class="nav-link text-light" id="v-pills-orders-tab" data-bs-toggle="pill" href="#v-pills-orders" role="tab" aria-controls="v-pills-orders" aria-selected="false">ORDERS</a>
-                <a class="nav-link text-light" id="v-pills-addresses-tab" data-bs-toggle="pill" href="#v-pills-addresses" role="tab" aria-controls="v-pills-addresses" aria-selected="false">ADDRESSES</a>
-                <a class="nav-link text-light" id="v-pills-account-tab" data-bs-toggle="pill" href="#v-pills-account" role="tab" aria-controls="v-pills-account" aria-selected="false">ACCOUNT DETAILS</a>
-                <a class="nav-link text-light" id="v-pills-wishlist-tab" data-bs-toggle="pill" href="#v-pills-wishlist" role="tab" aria-controls="v-pills-wishlist" aria-selected="false">WISHLIST</a>
-            </div>
-            <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active card profile-content" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+        </nav>
+
+        <div class="col-md-9 col-lg-10">
+            <div class="tab-content profile-tab-content" id="v-pills-tabContent">
+                <div class="tab-pane profile-tab fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
                     <p>
                         Hello Tamzid (not Tamzid? Log out)
                         <br /><br />
                         From your account dashboard you can view your recent orders, manage your shipping and billing addresses, <br /> and edit your password and account details.
                     </p>
                 </div>
-                <div class="tab-pane fade card" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
-                    <div class="table-responsive">
-                        <table class="table table-striped order-table">
-                            <thead>
+
+                <div class="tab-pane profile-tab fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
+
+                    <table class="table table-striped ">
+                        <thead>
+                            <tr>
+                                <th scope="col">ORDER</th>
+                                <th scope="col">DATE</th>
+                                <th scope="col">STATUS</th>
+                                <th scope="col" class="text-right">TOTAL</th>
+                                <th scope="col" class="text-right">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < 6; i++)
+                            {
                                 <tr>
-                                    <th scope="col">ORDER</th>
-                                    <th scope="col">DATE</th>
-                                    <th scope="col">STATUS</th>
-                                    <th scope="col" class="text-right">TOTAL</th>
-                                    <th scope="col" class="text-right">ACTIONS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (var i = 0; i < 6; i++)
-                                {
-                                    <tr>
-                                        <td class="text-right">
-                                            #4839
-                                        </td>
-                                        <td class="text-right">
-                                            July 5,2020
-                                        </td>
-                                        <td class="text-right">
-                                            Processing
-                                        </td>
-                                        <td class="text-right">
-                                            $ 210.00 for 1 item
-                                        </td>
-                                        <td class="text-right">
+                                    <td class="text-right">
+                                        #4839
+                                    </td>
+                                    <td class="text-right">
+                                        July 5,2020
+                                    </td>
+                                    <td class="text-right">
+                                        Processing
+                                    </td>
+                                    <td class="text-right">
+                                        $ 210.00 for 1 item
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-warning">View</button>
                                             <button type="button" class="btn btn-warning">INVOICE</button>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
                 </div>
-                <div class="tab-pane fade card profile-content" id="v-pills-addresses" role="tabpanel" aria-labelledby="v-pills-addresses-tab">
+                <div class="tab-pane profile-tab fade" id="v-pills-addresses" role="tabpanel" aria-labelledby="v-pills-addresses-tab">
                     <p>The following addresses will be used on the checkout page by default.</p>
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6 text-right">
                                 <h5>
@@ -89,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade card profile-content" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab">
+                <div class="tab-pane profile-tab fade" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab">
                     <div class="row">
                         <div class="col">
                             <label class="form-label">First name</label>
@@ -115,64 +158,32 @@
                     <input type="password" class="form-control" placeholder="Confirm New Password" aria-label="Confirm New Password">
                     <a class="btn btn-warning mt-xxl-5">Save Changes</a>
                 </div>
-                <div class="tab-pane fade card profile-content" id="v-pills-wishlist" role="tabpanel" aria-labelledby="v-pills-wishlist-tab">
-                    <div class="row">
-                        <div class="owl-carousel owl-theme">
+                <div class="tab-pane profile-tab fade" id="v-pills-wishlist" role="tabpanel" aria-labelledby="v-pills-wishlist-tab">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product's Name</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @for (var i = 0; i < 14; i++)
                             {
 
-                                <div class="item card product-card product-card-owl">
-                                    <img src="~/images/reyes.jpg" class="card-img-top" alt="reyes">
-                                    <div class="card-body">
-                                        <a href="#" class="btn btn-danger d-grid">Remove</a>
-                                    </div>
-                                </div>
+                                <tr>
+                                    <th scope="row">Dummy Product</th>
+                                    <th>
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </th>
+                                </tr>
 
                             }
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-</div>
-
-<div class="container mobile-profile">
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">ORDER</th>
-                    <th scope="col">DATE</th>
-                    <th scope="col">STATUS</th>
-                    <th scope="col" class="text-right">TOTAL</th>
-                    <th scope="col" class="text-right">ACTIONS</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (var i = 0; i < 6; i++)
-                {
-                    <tr>
-                        <td class="text-right">
-                            #4839
-                        </td>
-                        <td class="text-right">
-                            July 5,2020
-                        </td>
-                        <td class="text-right">
-                            Processing
-                        </td>
-                        <td class="text-right">
-                            $ 210.00 for 1 item
-                        </td>
-                        <td class="text-right">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-warning">View</button>
-                                <button type="button" class="btn btn-warning">INVOICE</button>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
     </div>
 </div>
