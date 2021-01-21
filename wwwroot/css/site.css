@@ -157,7 +157,7 @@ body {
 }
 
 .carousel .carousel-item {
-    max-height: 700px;
+    max-height: 600px;
 }
 .custom-center{
     padding-left: 5vw;
@@ -213,19 +213,26 @@ hr.custom-hr {
 .profile-card{
     margin:30px;
 }
+.product-header {
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    object-fit: fill;
+}
+.product-carousel{
+    max-height: 300px;
+}
 @media only screen and (max-width: 576px) {
     .hidder {
        display: none;
     }
 }
-@media only screen and (max-width: 766px){
-    .hidder-xl{
-        display: none;
-    }
-}
 
 @media only screen and (min-width: 766px) {
     .mobile-profile {
+        display: none;
+    }
+    .hidder-xl {
         display: none;
     }
 }

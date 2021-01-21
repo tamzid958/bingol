@@ -54,3 +54,19 @@ var myChart = new Chart(ctx, {
         }
     }
 })
+
+
+$(".decreaseVal").click(function () {
+    var input_el = $(this).next('input');
+    var v = input_el.val() - 1;
+    if (v >= input_el.attr('min'))
+        input_el.val(v)
+});
+
+
+$(".increaseVal").click(function () {
+    var input_el = $(this).prev('input');
+    var v = input_el.val() * 1 + 1;
+    if (v <= input_el.attr('max'))
+        input_el.val(v)
+});

@@ -1,6 +1,151 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "PRODUCT";
 }
-<p>Single Product Page</p>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- courselHero-->
+            <div id="carouselHero" class="carousel product-carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item product-carousel active">
+                        <img src="~/images/beliaikin.jpg" class="d-block w-100" alt="beliaikin">
+
+                    </div>
+                    <div class="carousel-item product-carousel">
+                        <img src="~/images/fera.jpg" class="d-block w-100" alt="fera">
+                    </div>
+                    <div class="carousel-item product-carousel">
+                        <img src="~/images/gabb-tapic.jpg" class="d-block w-100" alt="gabb-tapic">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselHero" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselHero" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 mt-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-muted" href="#">Products</a></li>
+                    <li class="breadcrumb-item"><a class="text-muted" href="#">Dress</a></li>
+                    <li class="breadcrumb-item active text-muted" aria-current="page">Jack &amp; Jones Royal Streched Shirt</li>
+                </ol>
+            </nav>
+            <h3>Jack &amp; Jones Royal Streched Shirt</h3>
+            <hr class="w-25" />
+            <h4 class="fw-bold">$ 99.00</h4>
+            <p class="text-success">In Stock</p>
+            <div class="d-flex justify-content-around w-25">
+                <input type="button" value="-" class="decreaseVal btn-outline-dark btn">
+                <input type="number" min="1" max="22" value="20" class="val form-control text-center">
+                <input type="button" value="+" class="increaseVal btn-outline-dark btn">
+            </div>
+            <label class="form-label mt-3">Choose an option</label>
+            <select class="form-select w-25" aria-label="option">
+                <option value="XS">XS</option>
+                <option value="SM">SM</option>
+                <option value="LG" selected>LG</option>
+                <option value="XXL">XXL</option>
+                <option value="XXXL">XXXL</option>
+            </select>
+            <button class="btn btn-warning text-white btn-lg w-25 mt-4">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-link text-uppercase active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-description" role="tab" aria-controls="nav-description" aria-selected="true">Description</a>
+            <a class="nav-link text-uppercase" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-additional-info" role="tab" aria-controls="nav-additional-info" aria-selected="false">Additional information</a>
+            <a class="nav-link text-uppercase" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-reviews" role="tab" aria-controls="nav-reviews" aria-selected="false">Reviews</a>
+        </div>
+    </nav>
+    <div class="tab-content mt-5" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab">
+            <p class="text-md-start">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        </div>
+        <div class="tab-pane fade" id="nav-additional-info" role="tabpanel" aria-labelledby="nav-additional-info-tab">
+            <p class="text-md-start fw-bolder">
+                <button class="btn btn-warning text-white" disabled>Size</button>
+                01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17
+            </p>
+        </div>
+        <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
+            <h3 class="form-label">Leave a review</h3>
+            <textarea class="form-control" rows="6" placeholder="Write anything about this product"></textarea>
+            <button class="btn btn-warning text-white btn-lg w-100 mt-4">Post a review <span class="fa fa-comment ms-3"></span></button>
+            @for (var i = 0; i < 5; i++)
+            {
+                <div class="card m-3">
+                    <div class="card-body">
+                        <h3 class="card-title">Jhon Doe</h3>
+                        <p class="card-text text-md-start">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h5>SIMILAR PRODUCTS</h5>
+    <div class="row">
+        <div class="owl-carousel owl-theme">
+            @for (var i = 0; i < 14; i++)
+            {
+
+                <div class="card product-card-owl">
+                    <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/fera.jpg)">
+                        <button class="btn btn-info fw-bolder text-white">-25%</button>
+                        <a class="fa fa-heart text-danger fa-2x text-decoration-none"></a>
+                    </div>
+
+                    <div class="card-body">
+                        <h5>Jack &amp; Jones Royal Streched Shirt</h5>
+                        <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="fw-bold">$ 99.00</h5>
+                            <button class="btn btn-warning text-white">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <h5>MORE VARIENT PRODUCTS</h5>
+    <div class="row">
+        <div class="owl-carousel owl-theme">
+            @for (var i = 0; i < 14; i++)
+            {
+
+                <div class="card product-card-owl">
+                    <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/jaspereology.jpg)">
+                        <button class="btn btn-info fw-bolder text-white">-25%</button>
+                        <a class="fa fa-heart text-danger fa-2x text-decoration-none"></a>
+                    </div>
+
+                    <div class="card-body">
+                        <h5>Jack &amp; Jones Royal Streched Shirt</h5>
+                        <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="fw-bold">$ 99.00</h5>
+                            <button class="btn btn-warning text-white">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>

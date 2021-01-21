@@ -1,3 +1,159 @@
 ﻿@model IEnumerable<Bingol.Models.ProductModel>
+@{
+    ViewData["Title"] = "PRODUCTS";
+}
 
-    <p>All Products</p>
+<!-- courselHero-->
+<div id="carouselHero" class="carousel carousel-dark slide hidder" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#carouselHero" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#carouselHero" data-bs-slide-to="1"></li>
+        <li data-bs-target="#carouselHero" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img src="~/images/beliaikin.jpg" class="d-block w-100" alt="beliaikin">
+
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+            <img src="~/images/fera.jpg" class="d-block w-100" alt="fera">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/gabb-tapic.jpg" class="d-block w-100" alt="gabb-tapic">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselHero" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselHero" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </a>
+</div>
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="category-filter-div">
+                    <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#categories" role="button" aria-expanded="false" aria-controls="categories">
+                        Categories
+                        <span class="icon-control fa fa-chevron-down"></span>
+                    </a>
+                    <div class="collapse multi-collapse m-3 show" id="categories">
+                        <input class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            Electronics
+                        </label>
+                        <br />
+                        <input class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            Watches
+                        </label>
+                        <br />
+                        <input class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            Laptops
+                        </label>
+                        <br />
+                        <input class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            Clothes
+                        </label>
+                        <br />
+                        <input class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            Accessories
+                        </label>
+                    </div>
+                </div>
+                <div class="price-filter-div">
+                    <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#price" role="button" aria-expanded="false" aria-controls="price">
+                        Price
+                        <span class="icon-control fa fa-chevron-down"></span>
+                    </a>
+
+                    <div class="collapse multi-collapse mt-3 mb-3 show" id="price">
+                        <div class="p-4">
+                            <input type="range" class="form-range" min="0" max="5" id="priceRange">
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center ms-3 me-3">
+                            <p>Min</p>
+                            <p>Max</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <input class="form-control ms-3 me-3" type="number" placeholder="$0" aria-label="minprice">
+                            <input class="form-control ms-3 me-3" type="number" placeholder="$1000" aria-label="maxprice">
+                        </div>
+                        <a class="btn btn-warning d-grid m-3">Apply Now</a>
+                    </div>
+                </div>
+                <div class="size-fliter-div">
+                    <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#size" role="button" aria-expanded="false" aria-controls="size">
+                        Size
+                        <span class="icon-control fa fa-chevron-down"></span>
+                    </a>
+                    <div class="collapse multi-collapse m-3 show" id="size">
+                        <input type="checkbox" class="btn-check" autocomplete="off">
+                        <label class="btn btn-warning" for="btn-check-2">XS</label>
+                        <input type="checkbox" class="btn-check" autocomplete="off">
+                        <label class="btn btn-warning" for="btn-check-2">SM</label>
+                        <input type="checkbox" class="btn-check" autocomplete="off">
+                        <label class="btn btn-warning" for="btn-check-2">LG</label>
+                        <input type="checkbox" class="btn-check" autocomplete="off">
+                        <label class="btn btn-warning" for="btn-check-2">XXL</label>
+                        <input type="checkbox" class="btn-check" autocomplete="off">
+                        <label class="btn btn-warning" for="btn-check-2">XXXL</label>
+                    </div>
+                </div>
+                <div class="rating-filter-div">
+                    <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#rating" role="button" aria-expanded="false" aria-controls="rating">
+                        Rating
+                        <span class="icon-control fa fa-chevron-down"></span>
+                    </a>
+                    <div class="collapse multi-collapse m-3 show" id="rating">
+                        <input class="form-check-input" type="checkbox" value="Better">
+                        <label class="form-check-label">Better</label>
+                        <br />
+                        <input class="form-check-input" type="checkbox" value="Best">
+                        <label class="form-check-label">Best</label>
+                        <br />
+                        <input class="form-check-input" type="checkbox" value="Good">
+                        <label class="form-check-label">Good</label>
+                        <br />
+                        <input class="form-check-input" type="checkbox" value="Not Good">
+                        <label class="form-check-label">Not Good</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="container">
+                <div class="row">
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        <div class="col-md-3">
+                            <div class="card product-card">
+                                <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/fera.jpg)">
+                                    <button class="btn btn-info fw-bolder text-white">-25%</button>
+                                    <a class="fa fa-heart text-danger fa-2x text-decoration-none"></a>
+                                </div>
+
+                                <div class="card-body">
+                                    <h5>Jack &amp; Jones Royal Streched Shirt</h5>
+                                    <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="fw-bold">$ 99.00</h5>
+                                        <button class="btn btn-warning text-white">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
