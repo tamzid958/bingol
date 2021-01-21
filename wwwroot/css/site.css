@@ -224,6 +224,12 @@ hr.custom-hr {
 .product-carousel{
     max-height: 300px;
 }
+.slider::-webkit-slider-thumb {
+    background: #EDAB06;
+}
+.product-buttons{
+    width: 200px;
+}
 @media only screen and (max-width: 576px) {
     .hidder {
        display: none;
