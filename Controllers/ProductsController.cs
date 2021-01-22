@@ -9,16 +9,9 @@ namespace Bingol.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IProductRepository _productRepository;
-
-        public ProductsController(IProductRepository productRepository)
+        public IActionResult Index()
         {
-            _productRepository = productRepository;
-        }
-        public ViewResult Index()
-        {
-            IEnumerable<ProductModel> model = _productRepository.GetProducts();
-            return View(model);
+            return View();
         }
     }
 }

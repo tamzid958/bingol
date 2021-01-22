@@ -26,9 +26,7 @@ namespace Bingol
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BingolContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BingolConnection")));
-            services.AddMvc().AddXmlSerializerFormatters();
-            services.AddScoped<IProductRepository, SQLProductRepository>();   
+            services.AddMvc().AddXmlSerializerFormatters();  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
