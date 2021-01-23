@@ -20,7 +20,12 @@ for details on configuring this project to bundle and minify static web assets. 
   font-weight: 700;
   font-style: normal;
 }
-
+@font-face {
+    font-family: 'pacifico';
+    src: url('../fonts/pacifico.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
 /*
 primary-color : #EDAB06 -> yellow
 secondary-color : #FFDE03 -> lightyellow
@@ -48,6 +53,9 @@ p{
 
 a{
   font-family: heebo-medium,sans-serif;
+}
+.pacifico {
+    font-family: pacifico,sans-serif !important;
 }
 i{
   height: 20px;
@@ -166,35 +174,23 @@ body {
     max-height: 250px;
     min-height: 250px;
 }
-.product-card{
-    margin-bottom: 20px;
-    margin-top:20px;
+.product-card {
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+    height: 400px;
+    transition: 1.5s;
+    color: #080326;
 }
 .product-card-owl {
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
     width: 310px;
+    transition: 1.5s;
+    color: #080326;
 }
 .owl-custom-item{
     max-width: 650px;
     max-height: 600px;
-}
-
-hr.custom-hr {
-    border-top: 4px dotted #b2beb5;
-    height: 4px;
-    border-radius: 2px;
-}
-.login-reg-back {
-    background-image: linear-gradient(90deg, rgba(2,0,36,0.7763480392156863) 0%, rgba(11,11,25,0.8183648459383753) 35%), url("../images/dids.jpg");
-    min-height: 800px;
-    overflow: hidden;
-    display: flex;
-    position: relative;
-    background-size: cover;
-    background-position:right;
-    background-repeat: no-repeat;
-}
-.login-reg-card{
-    width: 40vw;
 }
 .profile-tab, .profile-tab-content {
     min-height: 50rem;
@@ -221,6 +217,8 @@ hr.custom-hr {
 }
 .product-card:hover, .product-card-owl:hover {
     transform: scale(1.005);
+    background-color: #353331;
+    color: #F5F5F5;
     box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 .cat-navbar-brand {

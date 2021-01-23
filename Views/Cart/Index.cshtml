@@ -6,6 +6,11 @@
 
 <div class="container mb-4 mt-4">
     <div class="row">
+        <div class="text-start">
+            <h5>Your Billing Address: Tamzid, Malibagh, Dhaka</h5>
+            <h5>Your Shipping Address: Tamzid, Malibagh, Dhaka</h5>
+            <p>Incorrect information? <a asp-area="" asp-controller="Profile" asp-action="Index">Edit in your profile</a> .</p>
+        </div>
         <div class="col-md-9 card bg-light">
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -20,22 +25,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(var i=0; i <6; i++)
+                        @for (var i = 0; i < 6; i++)
                         {
-                        <tr>
-                            <td><img class="rounded-circle" src="https://dummyimage.com/50x50/55595c/fff" width="50" height="50" /> </td>
-                            <td>Product's Name</td>
-                            <td>In stock</td>
-                            <td>
-                                <input class="form-control text-center" type="number" placeholder="quantity" value="1"> 
-                            </td>
-                            <td class="text-right">124,90 $</td>
-                            <td class="text-right">
-                                <button class="btn btn-sm btn-danger">
-                                 <i class="fa fa-trash"></i>
-                                </button> 
-                            </td>
-                        </tr>
+                            <tr>
+                                <td><img class="rounded-circle" src="https://dummyimage.com/50x50/55595c/fff" width="50" height="50" /> </td>
+                                <td>Product's Name</td>
+                                <td>In stock</td>
+                                <td>
+                                    <input class="form-control text-center" type="number" placeholder="quantity" value="1" min="1">
+                                </td>
+                                <td class="text-right">$ 124,90</td>
+                                <td class="text-right">
+                                    <button class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -44,23 +49,21 @@
         <div class="col-md-3">
             <div class="card bg-light">
                 <div class="card-body">
-                    <h3 class="card-title">Order Summary</h3>
-                    <hr class="custom-hr mt-xxl-5" />
-                    <div class="d-flex justify-content-between">
-                        <p class="text-muted">Sub-Total</p>
-                        <p>2130 $</p>
+                    <h3 class="card-header">Order Summary</h3>
+                    <div class="d-flex mt-3 justify-content-between border-top">
+                        <p class="text-muted mt-4">Sub-Total</p>
+                        <p class="mt-4">$ 2130</p>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <p class="text-muted">Shipping Charge</p>
-                        <p>2130 $</p>
+                        <p class="text-muted mt-1">Shipping Charge</p>
+                        <p class="mt-1">$ 2130</p>
                     </div>
-                    <hr class="custom-hr mt-xxl-4" />
-                    <div class="d-flex justify-content-between">
-                        <h4 class="text-muted">Total</h4>
-                        <h2>2130 $</h2>
+                    <div class="d-flex justify-content-between border-top">
+                        <h4 class="text-muted mt-4">Total</h4>
+                        <h3 class="mt-4">$ 2130</h3>
                     </div>
-                    <div class="d-grid mt-xxl-3 col-12 mx-auto">
-                        <button class="btn btn-lg btn-block btn-warning text-uppercase fw-bold">Checkout</button>
+                    <div class="d-grid mt-3 col-12 mx-auto">
+                        <button class="btn btn-warning text-uppercase">Checkout <span class="ms-2 fas fa-credit-card"></span></button>
                     </div>
                 </div>
             </div>

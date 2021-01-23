@@ -70,3 +70,27 @@ $(".increaseVal").click(function () {
     if (v <= input_el.attr('max'))
         input_el.val(v)
 });
+
+$(".pass-warning").hide();
+$(".confirm-pass-warning").hide();
+
+$(".pass").keyup(function () {
+    var passLength = $(".pass").val().length;
+    if (passLength <= 6) {
+        $(".pass-warning").show();
+    }
+    else {
+        $(".pass-warning").hide();
+    }
+});
+
+$(".confirm-pass").keyup(function () {
+    var passValue = $(".pass").val();
+    var confrimPassValue = $(".confirm-pass").val();
+    if (passValue != confrimPassValue) {
+        $(".confirm-pass-warning").show();
+    }
+    else {
+        $(".confirm-pass-warning").hide();
+    }
+});

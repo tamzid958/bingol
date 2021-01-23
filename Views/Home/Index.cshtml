@@ -92,18 +92,8 @@
 </div>
 <!-- icons after hero-->
 <!-- headline-->
-<div class="container mt-xxl-5 pt-xxl-5 hidder">
-    <div class="d-flex justify-content-md-center">
-        <h2>FEATURED</h2>
-    </div>
-
-    <div class="d-flex mt-4 justify-content-md-center">
-        <input type="checkbox" checked data-toggle="toggle" data-on="Recommended" data-off="Favourites" data-onstyle="warning" data-offstyle="warning">
-    </div>
-
-    <div class="d-flex mt-xxl-5 pt-xxl-5 justify-content-md-center">
-        <h2>Seasonal &amp; More</h2>
-    </div>
+<div class="container mt-5 d-flex justify-content-md-center hidder">
+        <h2 class="pacifico">FEATURED</h2>
 </div>
 <!-- headline-->
 <!-- seasonal more image-->
@@ -120,25 +110,25 @@
         </div>
     </div>
 </div>
-<div class="container mt-xxl-5 pt-xxl-5 d-md-flex justify-content-md-center hidder">
+<div class="container mt-5 d-md-flex justify-content-md-center hidder">
     <a class="btn btn-outline-dark" asp-area="" asp-controller="Products" asp-action="Index"> More Seasonal + </a>
 </div>
 <!-- seasonal more image-->
 <!-- new on this site-->
-<div class="container mt-xxl-5 pt-xxl-5">
+<div class="container mt-5">
     <h5>NEW ON THE SITE</h5>
     <div class="row">
         <div class="owl-carousel owl-theme">
             @for (var i = 0; i < 14; i++)
             {
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product">
-                    <div class="item card product-card product-card-owl">
+                    <div class="item card product-card-owl">
                         <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/reyes.jpg)">
-                            <div class="btn btn-info fw-bolder text-white">NEW</div>
-                            <span class="fa fa-heart text-danger fa-2x text-decoration-none"></span>
+                            <span class="bg-info bg-gradient badge fw-bold text-white">NEW</span>
+                            <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
                         </div>
                         <div class="card-body">
-                            <div href="#" class="btn btn-warning bg-gradient d-grid fw-bold">Purchase Now</div>
+                            <div href="#" class="btn btn-warning bg-gradient d-grid">Purchase Now</div>
                         </div>
                     </div>
                     </a>
@@ -148,19 +138,19 @@
 </div>
 <!-- new on this site-->
 <!-- deals of the week-->
-<div class="container mt-xxl-5 pt-xxl-5">
+<div class="container mt-5">
     <h5>DEALS OF THE WEEK</h5>
     <div class="row">
         <div class="owl-carousel owl-theme">
             @for (var i = 0; i < 14; i++)
             {
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product">
-                    <div class="item card product-card product-card-owl">
+                    <div class="item card product-card-owl">
                         <div class="d-flex justify-content-end align-items-start card-header product-header" style="background-image: url(/images/jaspereology.jpg)">
-                            <span class="fa fa-heart text-danger fa-2x text-decoration-none"></span>
+                            <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
                         </div>
                         <div class="card-body">
-                            <div href="" class="btn btn-warning bg-gradient d-grid fw-bold">Purchase Now</div>
+                            <div href="" class="btn btn-warning bg-gradient d-grid">Purchase Now</div>
                         </div>
                     </div>
                 </a>
@@ -172,21 +162,21 @@
 
 <!-- deals of the week-->
 <!-- lets do the work-->
-<div class="container mt-xxl-5 d-md-flex justify-content-md-center">
-    <h2>LET US DO THE WORK</h2>
+<div class="container mt-5 d-md-flex justify-content-md-center">
+    <h2 class="pacifico">LET US DO THE WORK</h2>
 </div>
 <div class="container d-md-flex justify-content-md-center">
-    <h5>We gathered items that you might need so you won't waste time</h5>
+    <p class="fw-bold">We gathered items that you might need so you won't waste time</p>
 </div>
 
-<div class="container mt-xxl-5 pt-xxl-5">
-    <div class="owl-carousel owl-theme">
-        @for (var i = 0; i < 5; i++)
-        {
-            <div class="item owl-custom-item">
-                <img src="~/images/ouajbir.jpg" alt="ouajbir" />
-            </div>
-        }
+<div class="container mt-5 overflow-hidden">
+    <div class="d-flex justify-content-center">
+        <div>
+            <img src="~/images/tankilevitch.jpg" alt="tankilevitch" height="500" width="400"/>
+        </div>
+        <div>
+            <img src="~/images/salvadori.jpg" alt="salvadori" height="500" width="400"/>
+        </div>
     </div>
 </div>
 <!-- lets do the work-->

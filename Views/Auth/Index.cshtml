@@ -3,28 +3,23 @@
 @{
     ViewData["Title"] = "Login";
 }
-<div class="login-reg-back">
-    <div class="container d-flex justify-content-center align-items-center  mt-xxl-5 pt-xxl-5">
-        <div class="row mx-auto">
-            <div class="col-md-8 ">
-                <div class="card text-center bg-dark text-light login-reg-card">
-                    <div class="p-3 border-bottom">
-                        <h3>Login to Bingol</h3>
-                    </div>
-                    <div class="p-3 px-4 py-4 border-bottom">
-                        <input type="email" class="form-control mb-2 mt-xxl-4" placeholder="email" />
-                        <input type="password" class="form-control mt-xxl-4 mb-xxl-4" placeholder="password" />
-                        <a asp-controller="Auth" asp-action="Forgot_Password" class="text-danger">forgot password?</a> <br />
-                        <div class="d-grid mt-xxl-3 col-12 mx-auto">
-                            <a asp-controller="Profile" asp-action="Index" class="btn btn-lg btn-block btn-warning fw-bold mt-xxl-4">login</a>
-                        </div>
-                    </div>
-                    <div class="p-3 d-flex justify-content-around text-center flex-row">
-                        <span class="fw-bold">don't have an account? </span>
-                        <a asp-controller="Auth" asp-action="Register" class="text-decoration-none text-warning ml-xxl-4">register now</a>
-                    </div>
-                </div>
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card text-start bg-gradient bg-dark text-light" style="width:30rem;">
+        <div class="p-3 border-bottom">
+            <h3 class="pacifico">Login to Bingol</h3>
+        </div>
+        <div class="p-3 px-4 py-4 border-bottom">
+            <label class="form-label mt-4">Email Address</label>
+            <input type="email" class="form-control" placeholder="jhon@xyz.com" />
+            <label class="form-label mt-4">Password</label>
+            <input type="password" class="form-control  mb-4" placeholder="*****" />
+            <a asp-controller="Auth" asp-action="Forgot_Password" class="text-danger">forgot password?</a>
+            <div class="d-grid mt-3 col-12 mx-auto">
+                <a asp-controller="Profile" asp-action="Index" class="btn btn-lg btn-block btn-warning mt-4">Login</a>
             </div>
+        </div>
+        <div class="d-grid mt-3 p-4 col-8 mx-auto">
+            <a class="btn btn-danger" asp-controller="Auth" asp-action="Register">Don't have any account?</a>
         </div>
     </div>
 </div>
