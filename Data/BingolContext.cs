@@ -1,35 +1,29 @@
-﻿using Bingol.Models;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bingol.Data
 {
-    public class BingolContext
+    public static class BingolContext
     {
-        private static readonly string serverName = "localhost";
-        private static readonly string database = "bingol";
-        private static readonly string connectionString = $"Data Source={serverName};Initial Catalog={database};Integrated Security=True";
+        private const string ServerName = "localhost";
+        private const string Database = "bingol";
+        private static readonly string ConnectionString = $"Data Source={ServerName};Initial Catalog={Database};Integrated Security=True";
 
-        public DataTable GetArray(string query)
+        public static DataTable GetArray(string query)
         {
-            DataTable dataTable = new DataTable();
-            using SqlConnection connection = new SqlConnection(connectionString);
+            var dataTable = new DataTable();
+            using var connection = new SqlConnection(ConnectionString);
             connection.Open();
-            SqlDataAdapter sqlData = new SqlDataAdapter(query, connection);
+            var sqlData = new SqlDataAdapter(query, connection);
             sqlData.Fill(dataTable);
             connection.Close();
             return dataTable;
         }
-        public void Execute(string query)
+        public static void Execute(string query)
         {
-            using SqlConnection connection = new SqlConnection(connectionString);
+            using var connection = new SqlConnection(ConnectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand(query, connection);
+            var command = new SqlCommand(query, connection);
             command.ExecuteReader();
             connection.Close();
         }

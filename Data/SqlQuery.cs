@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace Bingol.Data
 {
     public class SqlQuery
     {
-        private readonly BingolContext context = new BingolContext();
-        private readonly string allProductsQuery = "SELECT * FROM bingol.products";
-        private readonly string allCategoriesQuery = "SELECT * FROM bingol.productcategories";
-        public DataTable AllProducts()
+        private const string AllProductsQuery = "SELECT * FROM bingol.products";
+        private const string AllCategoriesQuery = "SELECT * FROM bingol.productcategories";
+
+        public static DataTable AllProducts()
         {
-            return context.GetArray(allProductsQuery);
+            return BingolContext.GetArray(AllProductsQuery);
         }
-        public DataTable AllCategories()
+        public static DataTable AllCategories()
         {
-            return context.GetArray(allCategoriesQuery);
+            return BingolContext.GetArray(AllCategoriesQuery);
         }
     }
 }

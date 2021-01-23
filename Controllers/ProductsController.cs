@@ -1,11 +1,6 @@
 ﻿using Bingol.Data;
-using Bingol.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bingol.Controllers
 {
@@ -17,7 +12,7 @@ namespace Bingol.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            allProducts = Sql.AllProducts();
+            allProducts = SqlQuery.AllProducts();
             return View(allProducts);
         }
 
