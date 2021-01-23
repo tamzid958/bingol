@@ -4,29 +4,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <!-- courselHero-->
-            <div id="carouselHero" class="carousel product-carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item product-carousel active">
-                        <img src="~/images/beliaikin.jpg" class="d-block w-100" alt="beliaikin">
-
-                    </div>
-                    <div class="carousel-item product-carousel">
-                        <img src="~/images/fera.jpg" class="d-block w-100" alt="fera">
-                    </div>
-                    <div class="carousel-item product-carousel">
-                        <img src="~/images/gabb-tapic.jpg" class="d-block w-100" alt="gabb-tapic">
-                    </div>
-                </div>
-                <a class="carousel-control-prev text-decoration-none" href="#carouselHero" role="button" data-bs-slide="prev">
-                    <span class="fas fa-chevron-circle-left fa-2x" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </a>
-                <a class="carousel-control-next text-decoration-none" href="#carouselHero" role="button" data-bs-slide="next">
-                    <span class="fas fa-chevron-circle-right fa-2x" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </a>
-            </div>        
+            <img src="~/images/fera.jpg" class="img-fluid" alt="fera">        
         </div>
         <div class="col-md-6 mt-4">
             <nav aria-label="breadcrumb">
@@ -39,7 +17,8 @@
             <h3>Jack &amp; Jones Royal Streched Shirt</h3>
             <hr class="w-25" />
             <h4 class="fw-bold">$ 99.00</h4>
-            <p class="text-success">In Stock</p>
+            <p class="text-info badge bg-dark">In Stock</p>
+            <p class="text-danger badge bg-dark">Out of Stock</p>
             <div class="d-flex justify-content-around w-25">
                 <input type="button" value="-" class="decreaseVal btn-outline-dark btn">
                 <input type="number" min="1" max="22" value="20" class="val form-control text-center">
@@ -69,7 +48,7 @@
                 <button class="btn btn-warning text-white btn-lg mt-4 me-4 product-buttons">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
                 <button class="btn btn-danger text-white btn-lg mt-4 product-buttons">Wishlist <span class="fa fa-heart ms-3"></span></button>
             </div>
-            </div>
+        </div>
     </div>
 </div>
 
@@ -78,9 +57,9 @@
     <div class="addthis_inline_share_toolbox mb-3"></div>
     <nav>
         <div class="nav nav-tabs bg-dark" id="nav-tab" role="tablist">
-            <a class="nav-link text-uppercase active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-description" role="tab" aria-controls="nav-description" aria-selected="true">Description</a>
-            <a class="nav-link text-uppercase" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-additional-info" role="tab" aria-controls="nav-additional-info" aria-selected="false">Additional information</a>
-            <a class="nav-link text-uppercase" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-reviews" role="tab" aria-controls="nav-reviews" aria-selected="false">Reviews</a>
+            <a class="nav-link text-uppercase text-warning active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-description" role="tab" aria-controls="nav-description" aria-selected="true">Description</a>
+            <a class="nav-link text-uppercase text-warning" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-additional-info" role="tab" aria-controls="nav-additional-info" aria-selected="false">Additional information</a>
+            <a class="nav-link text-uppercase text-warning" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-reviews" role="tab" aria-controls="nav-reviews" aria-selected="false">Reviews</a>
         </div>
     </nav>
     <div class="tab-content mt-5" id="nav-tabContent">
