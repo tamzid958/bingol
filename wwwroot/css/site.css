@@ -84,12 +84,19 @@ img{
   background-color: #EDAB06;
   border-color: #FFDE03;
 }
+.btn-warning, .bg-warning{
+    color: #080326;
+    background-color: #EDAB06;
+}
+.text-warning {
+    color: #EDAB06;
+}
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #F5F5F5;
-  background-color: #EDAB06;
-  border-color: #FFDE03;
-  font-family: heebo-bold,sans-serif;
+    color: #F5F5F5;
+    background-color: #EDAB06;
+    border-color: #FFDE03;
+    font-family: heebo-bold,sans-serif;
 }
 textarea:focus, input:focus{
   outline: none;
@@ -171,40 +178,24 @@ body {
     padding-left: 5vw;
 }
 .card-img-top {
-    max-height: 250px;
-    min-height: 250px;
+    height: 15rem;
 }
 .product-card {
-    margin-top: 0.4rem;
-    margin-bottom: 0.4rem;
-    height: 400px;
-    transition: 1.5s;
+    transition: 0.9s;
     color: #080326;
 }
 .product-card-owl {
     margin-top: 0.4rem;
     margin-bottom: 0.4rem;
-    width: 310px;
-    transition: 1.5s;
+    width: 20rem;
+    transition: 0.9s;
     color: #080326;
-}
-.owl-custom-item{
-    max-width: 650px;
-    max-height: 600px;
 }
 .profile-tab, .profile-tab-content {
     min-height: 50rem;
 }
 .profile-tab {
     padding: 3vw;
-}
-.product-header {
-    height: 250px;
-    background-repeat: no-repeat;
-    background-size: 100% 400px;
-    background-position: center;
-    object-fit: cover;
-    overflow: hidden;
 }
 .product-carousel{
     max-height: 300px;

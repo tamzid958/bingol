@@ -67,21 +67,22 @@
             <p class="text-md-start">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
         </div>
         <div class="tab-pane fade" id="nav-additional-info" role="tabpanel" aria-labelledby="nav-additional-info-tab">
-            <p class="text-md-start fw-bold">
-                <button class="btn btn-warning text-white me-3 product-buttons" disabled>Size</button>
+            <p class="text-md-start">
+                <button class="btn btn-secondary me-3 product-buttons" disabled>Size</button>
                 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17
             </p>
-            <p class="text-md-start fw-bold">
-                <button class="btn btn-warning text-white me-3 product-buttons" disabled>Color</button>
+            <p class="text-md-start">
+                <button class="btn btn-secondary me-3 product-buttons" disabled>Color</button>
                 Green, Black, Blue
             </p>
         </div>
         <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
-            <div class="rounded-3 bg-dark p-5">
+            <div class="rounded-3 bg-light p-3">
                 <div class="row justify-content-start">
-                    <h1 class="pacifico text-light">Reviews</h1>
+                    <h1 class="pacifico">Reviews</h1>
+                    <h5>Place an order to give reviews</h5>
                 </div>
-                <div class="row d-flex justify-content-around align-items-center align-content-center mt-5">
+                <div class="row d-flex justify-content-start align-items-center align-content-center mt-5">
                     <div class="col-md-3">
                         <h4><span class="bg-success bg-gradient badge">Best</span></h4>
                     </div>
@@ -91,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-around align-items-center align-content-center mt-3">
+                <div class="row d-flex justify-content-start align-items-center align-content-center mt-3">
                     <div class="col-md-3">
                         <h4><span class="bg-primary bg-gradient badge">Better</span></h4>
                     </div>
@@ -101,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-around align-items-center align-content-center mt-3">
+                <div class="row d-flex justify-content-start align-items-center align-content-center mt-3">
                     <div class="col-md-3">
                         <h4><span class="bg-info bg-gradient badge">Good</span></h4>
                     </div>
@@ -111,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-around align-items-center align-content-center mt-3">
+                <div class="row d-flex justify-content-start align-items-center align-content-center mt-3">
                     <div class="col-md-3">
                         <h4><span class="bg-danger bg-gradient badge">Not Good</span></h4>
                     </div>
@@ -132,14 +133,15 @@
         <div class="owl-carousel owl-theme">
             @for (var i = 0; i < 14; i++)
             {
-
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product">
                     <div class="card product-card-owl">
-                        <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/fera.jpg)">
-                            <span class="bg-info bg-gradient badge fw-bold text-white">-25%</span>
-                            <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
+                        <img src="~/images/fera.jpg" class="card-img card-img-top" alt="fera">
+                        <div class="card-img-overlay">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <span class="bg-info bg-gradient badge fw-bold text-white">-25%</span>
+                                <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
+                            </div>
                         </div>
-
                         <div class="card-body">
                             <h5 class="text-decoration-none">Jack &amp; Jones Royal Streched Shirt</h5>
                             <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
@@ -165,11 +167,13 @@
             {
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product">
                     <div class="card product-card-owl">
-                        <div class="d-flex justify-content-between align-items-start card-header product-header" style="background-image: url(/images/jaspereology.jpg)">
-                            <span class="bg-info bg-gradient badge fw-bold text-white">-25%</span>
-                            <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
+                        <img src="~/images/jaspereology.jpg" class="card-img card-img-top" alt="jaspereology">
+                        <div class="card-img-overlay">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <span class="bg-info bg-gradient badge fw-bold text-white">-25%</span>
+                                <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
+                            </div>
                         </div>
-
                         <div class="card-body">
                             <h5 class="text-decoration-none">Jack &amp; Jones Royal Streched Shirt</h5>
                             <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
@@ -180,7 +184,6 @@
                         </div>
                     </div>
                 </a>
-
             }
         </div>
     </div>
