@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bingol.Migrations
 {
-    [DbContext(typeof(bingolContext))]
+    [DbContext(typeof(BingolContext))]
     partial class bingolContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

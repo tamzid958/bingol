@@ -1,5 +1,7 @@
+using Bingol.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +21,10 @@ namespace Bingol
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddSingleton(provider => Configuration);
+            services.AddDbContext<BingolContext>
+           (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<DbContext, BingolContext>();
             services.AddMvc().AddXmlSerializerFormatters();  
         }
 

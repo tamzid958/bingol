@@ -1,16 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 #nullable disable
 
 namespace Bingol.Model
 {
-    public partial class bingolContext : DbContext
+    public partial class BingolContext : DbContext
     {
-        public bingolContext()
+        private IDbConnection DbConnection { get; }
+
+        public BingolContext()
         {
         }
 
-        public bingolContext(DbContextOptions<bingolContext> options)
+        public BingolContext(DbContextOptions<BingolContext> options)
             : base(options)
         {
         }
@@ -30,7 +33,7 @@ namespace Bingol.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.\\;Database=bingol;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(DbConnection.ToString());
             }
         }
 
