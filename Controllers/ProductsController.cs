@@ -1,5 +1,5 @@
-﻿using Bingol.Models;
-using Bingol.Data;
+﻿using Bingol.Data;
+using Bingol.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 

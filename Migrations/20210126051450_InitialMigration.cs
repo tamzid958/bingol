@@ -25,20 +25,6 @@ namespace Bingol.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "options",
-                schema: "bingol",
-                columns: table => new
-                {
-                    OptionID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OptionName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_options", x => x.OptionID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "productcategories",
                 schema: "bingol",
                 columns: table => new
@@ -80,6 +66,28 @@ namespace Bingol.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.UserID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "options",
+                schema: "bingol",
+                columns: table => new
+                {
+                    OptionID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OptionName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    OptionsGroupID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_options", x => x.OptionID);
+                    table.ForeignKey(
+                        name: "FK_options_optiongroups_OptionsGroupID",
+                        column: x => x.OptionsGroupID,
+                        principalSchema: "bingol",
+                        principalTable: "optiongroups",
+                        principalColumn: "OptionGroupID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -284,6 +292,12 @@ namespace Bingol.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_options_OptionsGroupID",
+                schema: "bingol",
+                table: "options",
+                column: "OptionsGroupID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_orderdetails_DetailOrderID",
                 schema: "bingol",
                 table: "orderdetails",
@@ -373,10 +387,6 @@ namespace Bingol.Migrations
                 schema: "bingol");
 
             migrationBuilder.DropTable(
-                name: "optiongroups",
-                schema: "bingol");
-
-            migrationBuilder.DropTable(
                 name: "options",
                 schema: "bingol");
 
@@ -386,6 +396,10 @@ namespace Bingol.Migrations
 
             migrationBuilder.DropTable(
                 name: "users",
+                schema: "bingol");
+
+            migrationBuilder.DropTable(
+                name: "optiongroups",
                 schema: "bingol");
 
             migrationBuilder.DropTable(

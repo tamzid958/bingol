@@ -3,11 +3,13 @@ using System;
 using Bingol.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bingol.Migrations
 {
     [DbContext(typeof(BingolContext))]
-    partial class bingolContextModelSnapshot : ModelSnapshot
+    partial class BingolContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -18,7 +20,7 @@ namespace Bingol.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("Bingol.Model.Option", b =>
+            modelBuilder.Entity("Bingol.Models.Option", b =>
                 {
                     b.Property<int>("OptionId")
                         .ValueGeneratedOnAdd()
@@ -31,12 +33,18 @@ namespace Bingol.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int?>("OptionsGroupId")
+                        .HasColumnType("int")
+                        .HasColumnName("OptionsGroupID");
+
                     b.HasKey("OptionId");
+
+                    b.HasIndex(new[] { "OptionsGroupId" }, "IX_options_OptionsGroupID");
 
                     b.ToTable("options", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Optiongroup", b =>
+            modelBuilder.Entity("Bingol.Models.Optiongroup", b =>
                 {
                     b.Property<int>("OptionGroupId")
                         .ValueGeneratedOnAdd()
@@ -54,7 +62,7 @@ namespace Bingol.Migrations
                     b.ToTable("optiongroups", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Order", b =>
+            modelBuilder.Entity("Bingol.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -150,12 +158,12 @@ namespace Bingol.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("OrderUserId");
+                    b.HasIndex(new[] { "OrderUserId" }, "IX_orders_OrderUserID");
 
                     b.ToTable("orders", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Orderdetail", b =>
+            modelBuilder.Entity("Bingol.Models.Orderdetail", b =>
                 {
                     b.Property<int>("DetailId")
                         .ValueGeneratedOnAdd()
@@ -193,14 +201,14 @@ namespace Bingol.Migrations
                     b.HasKey("DetailId")
                         .HasName("PK_orderdetails_DetailID");
 
-                    b.HasIndex("DetailOrderId");
+                    b.HasIndex(new[] { "DetailOrderId" }, "IX_orderdetails_DetailOrderID");
 
-                    b.HasIndex("DetailProductId");
+                    b.HasIndex(new[] { "DetailProductId" }, "IX_orderdetails_DetailProductID");
 
                     b.ToTable("orderdetails", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Product", b =>
+            modelBuilder.Entity("Bingol.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -285,12 +293,12 @@ namespace Bingol.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("ProductCategoryId");
+                    b.HasIndex(new[] { "ProductCategoryId" }, "IX_products_ProductCategoryID");
 
                     b.ToTable("products", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Productcategory", b =>
+            modelBuilder.Entity("Bingol.Models.Productcategory", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -310,7 +318,7 @@ namespace Bingol.Migrations
                     b.ToTable("productcategories", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Productoption", b =>
+            modelBuilder.Entity("Bingol.Models.Productoption", b =>
                 {
                     b.Property<long>("ProductOptionId")
                         .ValueGeneratedOnAdd()
@@ -335,16 +343,16 @@ namespace Bingol.Migrations
 
                     b.HasKey("ProductOptionId");
 
-                    b.HasIndex("OptionGroupId");
+                    b.HasIndex(new[] { "OptionGroupId" }, "IX_productoptions_OptionGroupID");
 
-                    b.HasIndex("OptionId");
+                    b.HasIndex(new[] { "OptionId" }, "IX_productoptions_OptionID");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "ProductId" }, "IX_productoptions_ProductID");
 
                     b.ToTable("productoptions", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Review", b =>
+            modelBuilder.Entity("Bingol.Models.Review", b =>
                 {
                     b.Property<int>("ReviewId")
                         .HasColumnType("int")
@@ -363,14 +371,14 @@ namespace Bingol.Migrations
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("ReviewProductId");
+                    b.HasIndex(new[] { "ReviewProductId" }, "IX_reviews_ReviewProductID");
 
-                    b.HasIndex("ReviewUserId");
+                    b.HasIndex(new[] { "ReviewUserId" }, "IX_reviews_ReviewUserID");
 
                     b.ToTable("reviews", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.User", b =>
+            modelBuilder.Entity("Bingol.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -467,7 +475,7 @@ namespace Bingol.Migrations
                     b.ToTable("users", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Wishlist", b =>
+            modelBuilder.Entity("Bingol.Models.Wishlist", b =>
                 {
                     b.Property<int>("WishlistId")
                         .HasColumnType("int")
@@ -487,16 +495,25 @@ namespace Bingol.Migrations
 
                     b.HasKey("WishlistId");
 
-                    b.HasIndex("WishlistProductId");
+                    b.HasIndex(new[] { "WishlistProductId" }, "IX_wishlists_WishlistProductID");
 
-                    b.HasIndex("WishlistUserId");
+                    b.HasIndex(new[] { "WishlistUserId" }, "IX_wishlists_WishlistUserID");
 
                     b.ToTable("wishlists", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Order", b =>
+            modelBuilder.Entity("Bingol.Models.Option", b =>
                 {
-                    b.HasOne("Bingol.Model.User", "OrderUser")
+                    b.HasOne("Bingol.Models.Optiongroup", "OptionsGroup")
+                        .WithMany("Options")
+                        .HasForeignKey("OptionsGroupId");
+
+                    b.Navigation("OptionsGroup");
+                });
+
+            modelBuilder.Entity("Bingol.Models.Order", b =>
+                {
+                    b.HasOne("Bingol.Models.User", "OrderUser")
                         .WithMany("Orders")
                         .HasForeignKey("OrderUserId")
                         .HasConstraintName("FK_orders_OrderUserID")
@@ -506,16 +523,16 @@ namespace Bingol.Migrations
                     b.Navigation("OrderUser");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Orderdetail", b =>
+            modelBuilder.Entity("Bingol.Models.Orderdetail", b =>
                 {
-                    b.HasOne("Bingol.Model.Order", "DetailOrder")
+                    b.HasOne("Bingol.Models.Order", "DetailOrder")
                         .WithMany("Orderdetails")
                         .HasForeignKey("DetailOrderId")
                         .HasConstraintName("FK_orderdetails_DetailOrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bingol.Model.Product", "DetailProduct")
+                    b.HasOne("Bingol.Models.Product", "DetailProduct")
                         .WithMany("Orderdetails")
                         .HasForeignKey("DetailProductId")
                         .HasConstraintName("FK_orderdetails_DetailProductID")
@@ -527,9 +544,9 @@ namespace Bingol.Migrations
                     b.Navigation("DetailProduct");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Product", b =>
+            modelBuilder.Entity("Bingol.Models.Product", b =>
                 {
-                    b.HasOne("Bingol.Model.Productcategory", "ProductCategory")
+                    b.HasOne("Bingol.Models.Productcategory", "ProductCategory")
                         .WithMany("Products")
                         .HasForeignKey("ProductCategoryId")
                         .HasConstraintName("FK_product_ProductCategoryID")
@@ -538,23 +555,23 @@ namespace Bingol.Migrations
                     b.Navigation("ProductCategory");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Productoption", b =>
+            modelBuilder.Entity("Bingol.Models.Productoption", b =>
                 {
-                    b.HasOne("Bingol.Model.Optiongroup", "OptionGroup")
+                    b.HasOne("Bingol.Models.Optiongroup", "OptionGroup")
                         .WithMany("Productoptions")
                         .HasForeignKey("OptionGroupId")
                         .HasConstraintName("FK_productoptions_OptionGroupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bingol.Model.Option", "Option")
+                    b.HasOne("Bingol.Models.Option", "Option")
                         .WithMany("Productoptions")
                         .HasForeignKey("OptionId")
                         .HasConstraintName("FK_productoptions_optionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bingol.Model.Product", "Product")
+                    b.HasOne("Bingol.Models.Product", "Product")
                         .WithMany("Productoptions")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_productoptions_ProductID")
@@ -568,15 +585,15 @@ namespace Bingol.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Review", b =>
+            modelBuilder.Entity("Bingol.Models.Review", b =>
                 {
-                    b.HasOne("Bingol.Model.Product", "ReviewProduct")
+                    b.HasOne("Bingol.Models.Product", "ReviewProduct")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewProductId")
                         .HasConstraintName("FK__reviews__ReviewP__7E37BEF6")
                         .IsRequired();
 
-                    b.HasOne("Bingol.Model.User", "ReviewUser")
+                    b.HasOne("Bingol.Models.User", "ReviewUser")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewUserId")
                         .HasConstraintName("FK__reviews__ReviewU__7F2BE32F")
@@ -587,15 +604,15 @@ namespace Bingol.Migrations
                     b.Navigation("ReviewUser");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Wishlist", b =>
+            modelBuilder.Entity("Bingol.Models.Wishlist", b =>
                 {
-                    b.HasOne("Bingol.Model.Product", "WishlistProduct")
+                    b.HasOne("Bingol.Models.Product", "WishlistProduct")
                         .WithMany("Wishlists")
                         .HasForeignKey("WishlistProductId")
                         .HasConstraintName("FK__wishlists__Wishl__02084FDA")
                         .IsRequired();
 
-                    b.HasOne("Bingol.Model.User", "WishlistUser")
+                    b.HasOne("Bingol.Models.User", "WishlistUser")
                         .WithMany("Wishlists")
                         .HasForeignKey("WishlistUserId")
                         .HasConstraintName("FK__wishlists__Wishl__02FC7413")
@@ -606,22 +623,24 @@ namespace Bingol.Migrations
                     b.Navigation("WishlistUser");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Option", b =>
+            modelBuilder.Entity("Bingol.Models.Option", b =>
                 {
                     b.Navigation("Productoptions");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Optiongroup", b =>
+            modelBuilder.Entity("Bingol.Models.Optiongroup", b =>
                 {
+                    b.Navigation("Options");
+
                     b.Navigation("Productoptions");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Order", b =>
+            modelBuilder.Entity("Bingol.Models.Order", b =>
                 {
                     b.Navigation("Orderdetails");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Product", b =>
+            modelBuilder.Entity("Bingol.Models.Product", b =>
                 {
                     b.Navigation("Orderdetails");
 
@@ -632,12 +651,12 @@ namespace Bingol.Migrations
                     b.Navigation("Wishlists");
                 });
 
-            modelBuilder.Entity("Bingol.Model.Productcategory", b =>
+            modelBuilder.Entity("Bingol.Models.Productcategory", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Bingol.Model.User", b =>
+            modelBuilder.Entity("Bingol.Models.User", b =>
                 {
                     b.Navigation("Orders");
 

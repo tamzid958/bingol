@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Data;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Bingol.Models;
+using System.Data;
 #nullable disable
 
 namespace Bingol.Data
@@ -8,7 +10,6 @@ namespace Bingol.Data
     public partial class BingolContext : DbContext
     {
         private IDbConnection DbConnection { get; }
-
         public BingolContext()
         {
         }
@@ -33,7 +34,7 @@ namespace Bingol.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(DbConnection.ToString());
+               optionsBuilder.UseSqlServer(DbConnection.ToString());
             }
         }
 
@@ -45,11 +46,19 @@ namespace Bingol.Data
             {
                 entity.ToTable("options", "bingol");
 
+                entity.HasIndex(e => e.OptionsGroupId, "IX_options_OptionsGroupID");
+
                 entity.Property(e => e.OptionId).HasColumnName("OptionID");
 
                 entity.Property(e => e.OptionName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.OptionsGroupId).HasColumnName("OptionsGroupID");
+
+                entity.HasOne(d => d.OptionsGroup)
+                    .WithMany(p => p.Options)
+                    .HasForeignKey(d => d.OptionsGroupId);
             });
 
             modelBuilder.Entity<Optiongroup>(entity =>
@@ -66,6 +75,8 @@ namespace Bingol.Data
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("orders", "bingol");
+
+                entity.HasIndex(e => e.OrderUserId, "IX_orders_OrderUserID");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
@@ -142,6 +153,10 @@ namespace Bingol.Data
 
                 entity.ToTable("orderdetails", "bingol");
 
+                entity.HasIndex(e => e.DetailOrderId, "IX_orderdetails_DetailOrderID");
+
+                entity.HasIndex(e => e.DetailProductId, "IX_orderdetails_DetailProductID");
+
                 entity.Property(e => e.DetailId).HasColumnName("DetailID");
 
                 entity.Property(e => e.DetailName)
@@ -173,6 +188,8 @@ namespace Bingol.Data
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.ToTable("products", "bingol");
+
+                entity.HasIndex(e => e.ProductCategoryId, "IX_products_ProductCategoryID");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
@@ -251,6 +268,12 @@ namespace Bingol.Data
             {
                 entity.ToTable("productoptions", "bingol");
 
+                entity.HasIndex(e => e.OptionGroupId, "IX_productoptions_OptionGroupID");
+
+                entity.HasIndex(e => e.OptionId, "IX_productoptions_OptionID");
+
+                entity.HasIndex(e => e.ProductId, "IX_productoptions_ProductID");
+
                 entity.Property(e => e.ProductOptionId).HasColumnName("ProductOptionID");
 
                 entity.Property(e => e.OptionGroupId).HasColumnName("OptionGroupID");
@@ -278,6 +301,10 @@ namespace Bingol.Data
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.ToTable("reviews", "bingol");
+
+                entity.HasIndex(e => e.ReviewProductId, "IX_reviews_ReviewProductID");
+
+                entity.HasIndex(e => e.ReviewUserId, "IX_reviews_ReviewUserID");
 
                 entity.Property(e => e.ReviewId)
                     .ValueGeneratedNever()
@@ -373,6 +400,10 @@ namespace Bingol.Data
             modelBuilder.Entity<Wishlist>(entity =>
             {
                 entity.ToTable("wishlists", "bingol");
+
+                entity.HasIndex(e => e.WishlistProductId, "IX_wishlists_WishlistProductID");
+
+                entity.HasIndex(e => e.WishlistUserId, "IX_wishlists_WishlistUserID");
 
                 entity.Property(e => e.WishlistId)
                     .ValueGeneratedNever()
