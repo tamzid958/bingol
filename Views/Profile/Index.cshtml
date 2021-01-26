@@ -42,11 +42,14 @@
                             Wishlist <span class="badge bg-danger">9</span>
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="#">
-                            <span class="fas fa-sign-out-alt"></span>
-                            Sign out
-                        </a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="nav-link text-warning bg-dark border-0" href="#">
+                                <span class="fas fa-sign-out-alt"></span>
+                                Sign out
+                            </button>
+                        </form>
                     </li>
 
                 </ul>

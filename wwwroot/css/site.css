@@ -181,6 +181,7 @@ body {
     height: 15rem;
 }
 .product-card {
+    height: 25rem;
     transition: 0.9s;
     color: #080326;
 }
@@ -190,6 +191,9 @@ body {
     width: 20rem;
     transition: 0.9s;
     color: #080326;
+}
+.product-card-owl-lg {
+    height: 25rem;
 }
 .profile-tab, .profile-tab-content {
     min-height: 50rem;

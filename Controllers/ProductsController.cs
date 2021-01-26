@@ -2,6 +2,7 @@
 using Bingol.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Bingol.Controllers
 {
@@ -13,10 +14,9 @@ namespace Bingol.Controllers
         {
             _db = db;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page=1)
         {
-            IEnumerable<Product> products = _db.Products;
-            return View(products);
+            return View(await PaginatedList<Product>.CreateAsync(_db.Products, page, 12));
         }
 
         public IActionResult Product()

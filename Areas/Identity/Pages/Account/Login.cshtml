@@ -1,0 +1,49 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card text-start bg-gradient bg-dark text-light" style="width:30rem;">
+        <div class="p-3 border-bottom">
+            <h3 class="pacifico">Login to Bingol</h3>
+        </div>
+        <form id="account" method="post">
+            <div class="p-3 px-4 py-4 border-bottom">
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3 mb-3">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <a id="forgot-password" class="text-danger" asp-page="./ForgotPassword">Forgot your password?</a> <br />
+                <div class="d-grid mt-3 col-12 mx-auto">
+                    <button type="submit" class="btn btn-warning">Log in</button>
+                </div>
+            </div>
+            <div class="d-grid mt-3 p-4 col-8 mx-auto justify-content-center align-content-center align-items-center">
+                <a class="btn btn-danger" asp-page="./Register">Don't have any account?</a>
+                <br />
+                <a id="resend-confirmation" class="text-danger" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

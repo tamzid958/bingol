@@ -20,6 +20,110 @@ namespace Bingol.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
+            modelBuilder.Entity("Bingol.Areas.Identity.Data.BingolUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserAddress")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("UserAddress2")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("UserCity")
+                        .HasColumnType("varchar(90)");
+
+                    b.Property<string>("UserCountry")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("UserFax")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("UserFirstName")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("UserIp")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("UserLastName")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("UserPhone")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("UserRegistrationDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("UserState")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<short>("UserType")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("UserZip")
+                        .HasColumnType("varchar(12)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("Bingol.Models.Option", b =>
                 {
                     b.Property<int>("OptionId")
@@ -146,8 +250,8 @@ namespace Bingol.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(80)");
 
-                    b.Property<int>("OrderUserId")
-                        .HasColumnType("int")
+                    b.Property<string>("OrderUserId")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("OrderUserID");
 
                     b.Property<string>("OrderZip")
@@ -156,7 +260,12 @@ namespace Bingol.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "OrderUserId" }, "IX_orders_OrderUserID");
 
@@ -365,11 +474,16 @@ namespace Bingol.Migrations
                     b.Property<int?>("ReviewRating")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReviewUserId")
-                        .HasColumnType("int")
+                    b.Property<string>("ReviewUserId")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("ReviewUserID");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("ReviewId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "ReviewProductId" }, "IX_reviews_ReviewProductID");
 
@@ -481,6 +595,9 @@ namespace Bingol.Migrations
                         .HasColumnType("int")
                         .HasColumnName("WishlistID");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<short?>("Wishlist1")
                         .HasColumnType("smallint")
                         .HasColumnName("Wishlist");
@@ -489,17 +606,154 @@ namespace Bingol.Migrations
                         .HasColumnType("int")
                         .HasColumnName("WishlistProductID");
 
-                    b.Property<int>("WishlistUserId")
-                        .HasColumnType("int")
+                    b.Property<string>("WishlistUserId")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("WishlistUserID");
 
                     b.HasKey("WishlistId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "WishlistProductId" }, "IX_wishlists_WishlistProductID");
 
                     b.HasIndex(new[] { "WishlistUserId" }, "IX_wishlists_WishlistUserID");
 
                     b.ToTable("wishlists", "bingol");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("Bingol.Models.Option", b =>
@@ -513,12 +767,14 @@ namespace Bingol.Migrations
 
             modelBuilder.Entity("Bingol.Models.Order", b =>
                 {
-                    b.HasOne("Bingol.Models.User", "OrderUser")
+                    b.HasOne("Bingol.Areas.Identity.Data.BingolUser", "OrderUser")
                         .WithMany("Orders")
                         .HasForeignKey("OrderUserId")
-                        .HasConstraintName("FK_orders_OrderUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_orders_OrderUserID");
+
+                    b.HasOne("Bingol.Models.User", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("OrderUser");
                 });
@@ -593,11 +849,14 @@ namespace Bingol.Migrations
                         .HasConstraintName("FK__reviews__ReviewP__7E37BEF6")
                         .IsRequired();
 
-                    b.HasOne("Bingol.Models.User", "ReviewUser")
+                    b.HasOne("Bingol.Areas.Identity.Data.BingolUser", "ReviewUser")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewUserId")
-                        .HasConstraintName("FK__reviews__ReviewU__7F2BE32F")
-                        .IsRequired();
+                        .HasConstraintName("FK__reviews__ReviewU__7F2BE32F");
+
+                    b.HasOne("Bingol.Models.User", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ReviewProduct");
 
@@ -606,21 +865,84 @@ namespace Bingol.Migrations
 
             modelBuilder.Entity("Bingol.Models.Wishlist", b =>
                 {
+                    b.HasOne("Bingol.Models.User", null)
+                        .WithMany("Wishlists")
+                        .HasForeignKey("UserId");
+
                     b.HasOne("Bingol.Models.Product", "WishlistProduct")
                         .WithMany("Wishlists")
                         .HasForeignKey("WishlistProductId")
                         .HasConstraintName("FK__wishlists__Wishl__02084FDA")
                         .IsRequired();
 
-                    b.HasOne("Bingol.Models.User", "WishlistUser")
+                    b.HasOne("Bingol.Areas.Identity.Data.BingolUser", "WishlistUser")
                         .WithMany("Wishlists")
                         .HasForeignKey("WishlistUserId")
-                        .HasConstraintName("FK__wishlists__Wishl__02FC7413")
-                        .IsRequired();
+                        .HasConstraintName("FK__wishlists__Wishl__02FC7413");
 
                     b.Navigation("WishlistProduct");
 
                     b.Navigation("WishlistUser");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Bingol.Areas.Identity.Data.BingolUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Bingol.Areas.Identity.Data.BingolUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bingol.Areas.Identity.Data.BingolUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Bingol.Areas.Identity.Data.BingolUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Bingol.Areas.Identity.Data.BingolUser", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
+
+                    b.Navigation("Wishlists");
                 });
 
             modelBuilder.Entity("Bingol.Models.Option", b =>

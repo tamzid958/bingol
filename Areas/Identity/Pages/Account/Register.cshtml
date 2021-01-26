@@ -1,0 +1,124 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card text-start bg-gradient bg-dark text-light" style="width:50rem;">
+        <div class="p-3 border-bottom">
+            <h3 class="pacifico">Register to Bingol</h3>
+        </div>
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div class="p-3 px-4 py-4 border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.FirstName"></label>
+                            <input asp-for="Input.FirstName" class="form-control" />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.LastName"></label>
+                            <input asp-for="Input.LastName" class="form-control" />
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.Email"></label>
+                            <input asp-for="Input.Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.Phone"></label>
+                            <input asp-for="Input.Phone" class="form-control" />
+                            <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.City"></label>
+                            <input asp-for="Input.City" class="form-control" />
+                            <span asp-validation-for="Input.City" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.State"></label>
+                            <input asp-for="Input.State" class="form-control" />
+                            <span asp-validation-for="Input.State" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.ZipCode"></label>
+                            <input asp-for="Input.ZipCode" class="form-control" />
+                            <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.Country"></label>
+                            <input asp-for="Input.Country" class="form-control" />
+                            <span asp-validation-for="Input.Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.BillingAddress"></label>
+                            <input asp-for="Input.BillingAddress" class="form-control" />
+                            <span asp-validation-for="Input.BillingAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.ShippingAddress"></label>
+                            <input asp-for="Input.ShippingAddress" class="form-control" />
+                            <span asp-validation-for="Input.ShippingAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Input.ConfirmPassword"></label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid mt-3 col-12 mx-auto">
+                    <button type="submit" class="btn btn-lg btn-block btn-warning">Register</button>
+                </div>
+            </div>
+        </form>
+        <div class="d-grid mt-3 col-8 p-4 mx-auto">
+            <a class="btn btn-danger" asp-page="./Login">Already have an account?</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

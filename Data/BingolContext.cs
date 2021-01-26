@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Bingol.Models;
 using System.Data;
+using Bingol.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 #nullable disable
 
 namespace Bingol.Data
 {
-    public partial class BingolContext : DbContext
+    public partial class BingolContext : IdentityDbContext<BingolUser>
     {
         private IDbConnection DbConnection { get; }
         public BingolContext()
@@ -27,7 +29,7 @@ namespace Bingol.Data
         public virtual DbSet<Productcategory> Productcategories { get; set; }
         public virtual DbSet<Productoption> Productoptions { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<BingolUser> BingolUsers { get; set; }
         public virtual DbSet<Wishlist> Wishlists { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -40,6 +42,7 @@ namespace Bingol.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Option>(entity =>

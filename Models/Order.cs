@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bingol.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -13,7 +14,7 @@ namespace Bingol.Models
         }
 
         public int OrderId { get; set; }
-        public int OrderUserId { get; set; }
+        public string OrderUserId { get; set; }
         public float OrderAmount { get; set; }
         public string OrderShipName { get; set; }
         public string OrderShipAddress { get; set; }
@@ -31,7 +32,8 @@ namespace Bingol.Models
         public short OrderShipped { get; set; }
         public string OrderTrackingNumber { get; set; }
 
-        public virtual User OrderUser { get; set; }
+        //public virtual User OrderUser { get; set; }
+        public virtual BingolUser OrderUser { get; set; }
         public virtual ICollection<Orderdetail> Orderdetails { get; set; }
     }
 }
