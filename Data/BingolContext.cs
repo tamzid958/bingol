@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Data;
-
+using Bingol.Models;
 #nullable disable
 
-namespace Bingol.Model
+namespace Bingol.Data
 {
     public partial class BingolContext : DbContext
     {

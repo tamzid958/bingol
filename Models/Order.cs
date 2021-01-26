@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Bingol.Model
+namespace Bingol.Models
 {
     public partial class Order
     {

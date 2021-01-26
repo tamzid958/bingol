@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 #nullable disable
 
-namespace Bingol.Model
+namespace Bingol.Models
 {
     public partial class Optiongroup
     {
