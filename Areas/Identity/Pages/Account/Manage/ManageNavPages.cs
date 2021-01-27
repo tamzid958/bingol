@@ -12,6 +12,11 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
 
         public static string Email => "Email";
 
+        public static string Orders => "Orders";
+
+        public static string Wishlist => "Wishlist";
+        public static string Addresses => "Addresses";
+
         public static string ChangePassword => "ChangePassword";
 
         public static string DownloadPersonalData => "DownloadPersonalData";
@@ -26,6 +31,10 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
+        public static string OrdersNavClass(ViewContext viewContext) => PageNavClass(viewContext, Orders);
+        
+        public static string AddressesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Addresses);
+        public static string WishlistNavClass(ViewContext viewContext) => PageNavClass(viewContext, Wishlist);
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);

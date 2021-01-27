@@ -2,14 +2,43 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
-    }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+<ul class="nav nav-pills flex-column mt-3">
+    <li class="nav-item">
+        <a class="nav-link text-light @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">
+            <span class="fa fa-chart-line"></span>
+            Dashboard
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light @ManageNavPages.OrdersNavClass(ViewContext)" id="order" asp-page="./Orders">
+            <span class="fa fa-archive"></span>
+            Orders  <span class="badge bg-danger">9</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light @ManageNavPages.AddressesNavClass(ViewContext)" id="addresses" asp-page="./Addresses">
+            <span class="fa fa-address-book"></span>
+            Addresses
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light @ManageNavPages.WishlistNavClass(ViewContext)" id="wishlist" asp-page="./Wishlist">
+            <span class="fa fa-heart"></span>
+            Wishlist <span class="badge bg-danger">9</span>
+        </a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link text-light @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">
+        <span class="fa fa-user"></span>
+        Account Details
+    </a>
+    </li>
+    <li class="nav-item">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+            <button type="submit" class="nav-link text-warning bg-dark border-0">
+                <span class="fas fa-sign-out-alt"></span>
+                Sign out
+            </button>
+        </form>
+    </li>
 </ul>

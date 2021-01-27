@@ -1,0 +1,30 @@
+﻿@page
+@model WishlistModel
+@{
+    ViewData["Title"] = "Wishlist";
+    ViewData["ActivePage"] = ManageNavPages.Wishlist;
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Product's Name</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < 14; i++)
+        {
+
+            <tr>
+                <th scope="row">Dummy Product</th>
+                <th>
+                    <button class="btn btn-sm btn-danger">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </th>
+            </tr>
+
+        }
+    </tbody>
+</table>

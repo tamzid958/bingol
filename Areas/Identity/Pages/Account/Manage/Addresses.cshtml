@@ -1,0 +1,40 @@
+﻿@page
+@model AddressesModel
+@{
+    ViewData["Title"] = "Addresses";
+    ViewData["ActivePage"] = ManageNavPages.Addresses;
+}
+<div class="container-fluid">
+    <p>The following addresses will be used on the checkout page by default.</p>
+    <div class="row">
+        <div class="col">
+            <label class="form-label mt-3">City (leave blank to leave unchanged)</label>
+            <input class="form-control" type="text" placeholder="City" aria-label="City">
+        </div>
+        <div class="col">
+            <label class="form-label mt-3">State (leave blank to leave unchanged)</label>
+            <input class="form-control" type="text" placeholder="State" aria-label="State">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label class="form-label mt-3">Zip (leave blank to leave unchanged)</label>
+            <input class="form-control" type="text" placeholder="Zip" aria-label="Zip">
+        </div>
+        <div class="col">
+            <label class="form-label mt-3">Country (leave blank to leave unchanged)</label>
+            <input class="form-control" type="text" placeholder="Country" aria-label="Country">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label class="form-label mt-3">Billing Address (leave blank to leave unchanged)</label>
+            <input class="form-control" type="text" placeholder="Billing Address" aria-label="Billing Address">
+        </div>
+        <div class="col">
+            <label class="form-label mt-3">Shipping Address (leave blank to leave unchanged)</label>
+            <input class="form-control" type="text" placeholder="Shipping Address" aria-label="Shipping Address">
+        </div>
+    </div>
+    <a class="btn btn-warning mt-5">Save Changes</a>
+</div>

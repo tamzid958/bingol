@@ -72,7 +72,7 @@ namespace Bingol.Areas.Identity.Pages.Account
             
             [Required]
             [Display(Name = "Phone Number")]
-            public string Phone { get;  set; }
+            public string PhoneNumber { get;  set; }
             
             [Required]
             [Display(Name = "City")]
@@ -112,7 +112,7 @@ namespace Bingol.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new BingolUser { UserFirstName= Input.FirstName, UserLastName =Input.LastName,
-                UserName = Input.Email, Email = Input.Email, UserPhone = Input.Phone, UserCity = Input.City,
+                UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.PhoneNumber, UserCity = Input.City,
                 UserState= Input.State, UserZip = Input.ZipCode, UserCountry= Input.Country, UserAddress= Input.BillingAddress,
                 UserAddress2 = Input.ShippingAddress
                 };

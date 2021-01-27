@@ -220,7 +220,6 @@ body {
     margin-top: -15px;
     padding-top: -15px;
 }
-
 @media only screen and (max-width: 576px) {
     .hidder {
        display: none;

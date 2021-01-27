@@ -1,0 +1,42 @@
+﻿@page
+@model OrdersModel
+@{
+    ViewData["Title"] = "Orders";
+    ViewData["ActivePage"] = ManageNavPages.Orders;
+}
+<table class="table table-striped ">
+    <thead>
+        <tr>
+            <th scope="col">ORDER</th>
+            <th scope="col">DATE</th>
+            <th scope="col">STATUS</th>
+            <th scope="col" class="text-right">TOTAL</th>
+            <th scope="col" class="text-right">ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < 6; i++)
+        {
+            <tr>
+                <td class="text-right">
+                    #4839
+                </td>
+                <td class="text-right">
+                    July 5,2020
+                </td>
+                <td class="text-right">
+                    Processing
+                </td>
+                <td class="text-right">
+                    $ 210.00 for 1 item
+                </td>
+                <td class="text-right">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-warning">View</button>
+                        <button type="button" class="btn btn-warning">INVOICE</button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
