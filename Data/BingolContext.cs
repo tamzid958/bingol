@@ -1,10 +1,11 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Bingol.Models;
 using System.Data;
 using Bingol.Areas.Identity.Data;
+using Bingol.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+
 #nullable disable
 
 namespace Bingol.Data
@@ -36,13 +37,14 @@ namespace Bingol.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-               optionsBuilder.UseSqlServer(DbConnection.ToString());
+                optionsBuilder.UseSqlServer(DbConnection.ToString());
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Option>(entity =>
@@ -142,11 +144,6 @@ namespace Bingol.Data
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.OrderUser)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.OrderUserId)
-                    .HasConstraintName("FK_orders_OrderUserID");
             });
 
             modelBuilder.Entity<Orderdetail>(entity =>
@@ -320,84 +317,7 @@ namespace Bingol.Data
                 entity.HasOne(d => d.ReviewProduct)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.ReviewProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__reviews__ReviewP__7E37BEF6");
-
-                entity.HasOne(d => d.ReviewUser)
-                    .WithMany(p => p.Reviews)
-                    .HasForeignKey(d => d.ReviewUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__reviews__ReviewU__7F2BE32F");
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("users", "bingol");
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.Property(e => e.UserAddress)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserAddress2)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserCity)
-                    .HasMaxLength(90)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserCountry)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserEmail)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserEmailVerified).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.UserFax)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserFirstName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserIp)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("UserIP");
-
-                entity.Property(e => e.UserLastName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserPassword)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserPhone)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserRegistrationDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UserState)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserVerificationCode)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserZip)
-                    .HasMaxLength(12)
-                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Wishlist>(entity =>
@@ -412,8 +332,6 @@ namespace Bingol.Data
                     .ValueGeneratedNever()
                     .HasColumnName("WishlistID");
 
-                entity.Property(e => e.Wishlist1).HasColumnName("Wishlist");
-
                 entity.Property(e => e.WishlistProductId).HasColumnName("WishlistProductID");
 
                 entity.Property(e => e.WishlistUserId).HasColumnName("WishlistUserID");
@@ -421,14 +339,7 @@ namespace Bingol.Data
                 entity.HasOne(d => d.WishlistProduct)
                     .WithMany(p => p.Wishlists)
                     .HasForeignKey(d => d.WishlistProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__wishlists__Wishl__02084FDA");
-
-                entity.HasOne(d => d.WishlistUser)
-                    .WithMany(p => p.Wishlists)
-                    .HasForeignKey(d => d.WishlistUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__wishlists__Wishl__02FC7413");
             });
 
             OnModelCreatingPartial(modelBuilder);

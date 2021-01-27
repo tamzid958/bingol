@@ -32,8 +32,7 @@ namespace Bingol.Models
         public short OrderShipped { get; set; }
         public string OrderTrackingNumber { get; set; }
 
-        //public virtual User OrderUser { get; set; }
-        public virtual BingolUser OrderUser { get; set; }
+        public virtual BingolUser OrderUser{ get; set; }
         public virtual ICollection<Orderdetail> Orderdetails { get; set; }
     }
 }

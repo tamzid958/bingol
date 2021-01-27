@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bingol.Migrations
 {
     [DbContext(typeof(BingolContext))]
-    [Migration("20210126172007_Initial_Auth_Create")]
-    partial class Initial_Auth_Create
+    [Migration("20210127061218_Initial-Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -262,12 +262,7 @@ namespace Bingol.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("OrderId");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "OrderUserId" }, "IX_orders_OrderUserID");
 
@@ -480,12 +475,7 @@ namespace Bingol.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("ReviewUserID");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("ReviewId");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "ReviewProductId" }, "IX_reviews_ReviewProductID");
 
@@ -494,115 +484,17 @@ namespace Bingol.Migrations
                     b.ToTable("reviews", "bingol");
                 });
 
-            modelBuilder.Entity("Bingol.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("UserID")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("UserAddress")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("UserAddress2")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("UserCity")
-                        .HasMaxLength(90)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(90)");
-
-                    b.Property<string>("UserCountry")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("UserEmail")
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<short?>("UserEmailVerified")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasDefaultValueSql("((0))");
-
-                    b.Property<string>("UserFax")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("UserFirstName")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("UserIp")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("UserIP");
-
-                    b.Property<string>("UserLastName")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("UserPassword")
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("UserPhone")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<DateTime?>("UserRegistrationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
-
-                    b.Property<string>("UserState")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<short>("UserType")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("UserVerificationCode")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("UserZip")
-                        .HasMaxLength(12)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(12)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("users", "bingol");
-                });
-
             modelBuilder.Entity("Bingol.Models.Wishlist", b =>
                 {
                     b.Property<int>("WishlistId")
                         .HasColumnType("int")
                         .HasColumnName("WishlistID");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("BingolUser")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<short?>("Wishlist1")
-                        .HasColumnType("smallint")
-                        .HasColumnName("Wishlist");
+                    b.Property<short?>("WishlistCondition")
+                        .HasColumnType("smallint");
 
                     b.Property<int>("WishlistProductId")
                         .HasColumnType("int")
@@ -613,8 +505,6 @@ namespace Bingol.Migrations
                         .HasColumnName("WishlistUserID");
 
                     b.HasKey("WishlistId");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "WishlistProductId" }, "IX_wishlists_WishlistProductID");
 
@@ -771,12 +661,7 @@ namespace Bingol.Migrations
                 {
                     b.HasOne("Bingol.Areas.Identity.Data.BingolUser", "OrderUser")
                         .WithMany("Orders")
-                        .HasForeignKey("OrderUserId")
-                        .HasConstraintName("FK_orders_OrderUserID");
-
-                    b.HasOne("Bingol.Models.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OrderUserId");
 
                     b.Navigation("OrderUser");
                 });
@@ -849,16 +734,12 @@ namespace Bingol.Migrations
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewProductId")
                         .HasConstraintName("FK__reviews__ReviewP__7E37BEF6")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Bingol.Areas.Identity.Data.BingolUser", "ReviewUser")
                         .WithMany("Reviews")
-                        .HasForeignKey("ReviewUserId")
-                        .HasConstraintName("FK__reviews__ReviewU__7F2BE32F");
-
-                    b.HasOne("Bingol.Models.User", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ReviewUserId");
 
                     b.Navigation("ReviewProduct");
 
@@ -867,20 +748,16 @@ namespace Bingol.Migrations
 
             modelBuilder.Entity("Bingol.Models.Wishlist", b =>
                 {
-                    b.HasOne("Bingol.Models.User", null)
-                        .WithMany("Wishlists")
-                        .HasForeignKey("UserId");
-
                     b.HasOne("Bingol.Models.Product", "WishlistProduct")
                         .WithMany("Wishlists")
                         .HasForeignKey("WishlistProductId")
                         .HasConstraintName("FK__wishlists__Wishl__02084FDA")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Bingol.Areas.Identity.Data.BingolUser", "WishlistUser")
                         .WithMany("Wishlists")
-                        .HasForeignKey("WishlistUserId")
-                        .HasConstraintName("FK__wishlists__Wishl__02FC7413");
+                        .HasForeignKey("WishlistUserId");
 
                     b.Navigation("WishlistProduct");
 
@@ -978,15 +855,6 @@ namespace Bingol.Migrations
             modelBuilder.Entity("Bingol.Models.Productcategory", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Bingol.Models.User", b =>
-                {
-                    b.Navigation("Orders");
-
-                    b.Navigation("Reviews");
-
-                    b.Navigation("Wishlists");
                 });
 #pragma warning restore 612, 618
         }

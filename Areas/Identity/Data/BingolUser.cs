@@ -68,8 +68,14 @@ namespace Bingol.Areas.Identity.Data
         [PersonalData]
         [Column(TypeName = "smallint")]
         public short UserType { get; set; }
+
+        [ForeignKey("OrderUserId")]
         public virtual ICollection<Order> Orders { get; set; }
+        
+        [ForeignKey("ReviewUserId")]
         public virtual ICollection<Review> Reviews { get; set; }
+
+        [ForeignKey("WishlistUserId")]
         public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }

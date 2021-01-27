@@ -14,7 +14,6 @@ namespace Bingol.Models
         public string ReviewUserId { get; set; }
 
         public virtual Product ReviewProduct { get; set; }
-        //public virtual User ReviewUser { get; set; }
         public virtual BingolUser ReviewUser { get; set; }
     }
 }
