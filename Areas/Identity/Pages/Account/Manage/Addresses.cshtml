@@ -6,35 +6,56 @@
 }
 <div class="container-fluid">
     <p>The following addresses will be used on the checkout page by default.</p>
-    <div class="row">
-        <div class="col">
-            <label class="form-label mt-3">City (leave blank to leave unchanged)</label>
-            <input class="form-control" type="text" placeholder="City" aria-label="City">
+    <partial name="_StatusMessage" for="StatusMessage" />
+    <form id="addresses-form" method="post">
+        <div class="row mt-3">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Input.City"></label>
+                    <input asp-for="Input.City" class="form-control" />
+                    <span asp-validation-for="Input.City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Input.State"></label>
+                    <input asp-for="Input.State" class="form-control" />
+                    <span asp-validation-for="Input.State" class="text-danger"></span>
+                </div>
+            </div>
         </div>
-        <div class="col">
-            <label class="form-label mt-3">State (leave blank to leave unchanged)</label>
-            <input class="form-control" type="text" placeholder="State" aria-label="State">
+        <div class="row mt-3">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Input.ZipCode"></label>
+                    <input asp-for="Input.ZipCode" class="form-control" />
+                    <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Input.Country"></label>
+                    <input asp-for="Input.Country" class="form-control" />
+                    <span asp-validation-for="Input.Country" class="text-danger"></span>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label class="form-label mt-3">Zip (leave blank to leave unchanged)</label>
-            <input class="form-control" type="text" placeholder="Zip" aria-label="Zip">
+        <div class="row mt-3">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Input.BillingAddress"></label>
+                    <input asp-for="Input.BillingAddress" class="form-control" />
+                    <span asp-validation-for="Input.BillingAddress" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Input.ShippingAddress"></label>
+                    <input asp-for="Input.ShippingAddress" class="form-control" />
+                    <span asp-validation-for="Input.ShippingAddress" class="text-danger"></span>
+                </div>
+            </div>
         </div>
-        <div class="col">
-            <label class="form-label mt-3">Country (leave blank to leave unchanged)</label>
-            <input class="form-control" type="text" placeholder="Country" aria-label="Country">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label class="form-label mt-3">Billing Address (leave blank to leave unchanged)</label>
-            <input class="form-control" type="text" placeholder="Billing Address" aria-label="Billing Address">
-        </div>
-        <div class="col">
-            <label class="form-label mt-3">Shipping Address (leave blank to leave unchanged)</label>
-            <input class="form-control" type="text" placeholder="Shipping Address" aria-label="Shipping Address">
-        </div>
-    </div>
-    <a class="btn btn-warning mt-5">Save Changes</a>
+        <button type="submit" class="btn btn-warning mt-5">Save Changes</button>
+    </form>
 </div>

@@ -7,34 +7,27 @@
 <table class="table table-striped ">
     <thead>
         <tr>
-            <th scope="col">ORDER</th>
-            <th scope="col">DATE</th>
-            <th scope="col">STATUS</th>
-            <th scope="col" class="text-right">TOTAL</th>
-            <th scope="col" class="text-right">ACTIONS</th>
+            <th scope="col" class="text-center">ORDER</th>
+            <th scope="col" class="text-center">DATE</th>
+            <th scope="col" class="text-center">TOTAL</th>
+            <th scope="col" class="text-center">ACTIONS</th>
         </tr>
     </thead>
     <tbody>
         @for (var i = 0; i < 6; i++)
         {
             <tr>
-                <td class="text-right">
+                <td class="text-center">
                     #4839
                 </td>
-                <td class="text-right">
+                <td class="text-center">
                     July 5,2020
                 </td>
-                <td class="text-right">
-                    Processing
-                </td>
-                <td class="text-right">
+                <td class="text-center">
                     $ 210.00 for 1 item
                 </td>
-                <td class="text-right">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-warning">View</button>
-                        <button type="button" class="btn btn-warning">INVOICE</button>
-                    </div>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning">Invoice</button>
                 </td>
             </tr>
         }

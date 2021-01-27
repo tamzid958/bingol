@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Bingol.Models;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Bingol.Areas.Identity.Data
 {
     // Add profile data for application users by adding properties to the BingolUser class
-    public class BingolUser : IdentityUser
+    public class BingolUser : IdentityUser   
     {
         public BingolUser()
         {
@@ -77,5 +78,6 @@ namespace Bingol.Areas.Identity.Data
 
         [ForeignKey("WishlistUserId")]
         public virtual ICollection<Wishlist> Wishlists { get; set; }
+
     }
 }
