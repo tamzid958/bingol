@@ -1,27 +1,34 @@
-﻿@{
-    ViewData["Title"] = "Product";
+﻿@model Bingol.Models.Product
+@{
+    ViewData["Title"] = Model.ProductName;
 }
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="~/images/fera.jpg" class="img-fluid" alt="fera">
+            <img src="@(Model.ProductImage.Length == 0 ? "/images/img_preview_lg.png" : Model.ProductImage)" class="img-fluid" alt="fera">
         </div>
         <div class="col-md-6 mt-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a class="text-muted" href="#">Products</a></li>
                     <li class="breadcrumb-item"><a class="text-muted" href="#">Dress</a></li>
-                    <li class="breadcrumb-item active text-muted" aria-current="page">Jack &amp; Jones Royal Streched Shirt</li>
+                    <li class="breadcrumb-item active text-muted" aria-current="page">@Model.ProductName</li>
                 </ol>
             </nav>
-            <h3>Jack &amp; Jones Royal Streched Shirt</h3>
+            <h3>@Model.ProductName</h3>
             <hr class="w-25" />
-            <h4 class="fw-bold">$ 99.00</h4>
-            <p class="text-info bg-gradient badge bg-dark">In Stock</p>
-            <p class="text-danger bg-gradient badge bg-dark">Out of Stock</p>
+            <h4 class="fw-bold">$ @Model.ProductPrice</h4>
+            @if (Model.ProductStock != 0)
+            {
+                <p class="text-info bg-gradient badge bg-dark">In Stock</p>
+            }
+            else
+            {
+                <p class="text-danger bg-gradient badge bg-dark">Out of Stock</p>
+            }
             <div class="d-flex justify-content-around w-25">
                 <input type="button" value="-" class="decreaseVal btn-outline-dark btn">
-                <input type="number" min="1" max="22" value="20" class="val form-control text-center">
+                <input type="number" min="1" max="@(Model.ProductStock)" value="1" class="val form-control text-center">
                 <input type="button" value="+" class="increaseVal btn-outline-dark btn">
             </div>
             <div class="d-flex justify-content-start">
@@ -64,7 +71,7 @@
     </nav>
     <div class="tab-content mt-5" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab">
-            <p class="text-md-start">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p class="text-md-start">@Model.ProductLongDesc</p>
         </div>
         <div class="tab-pane fade" id="nav-additional-info" role="tabpanel" aria-labelledby="nav-additional-info-tab">
             <p class="text-md-start">
