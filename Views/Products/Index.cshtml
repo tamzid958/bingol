@@ -1,4 +1,4 @@
-﻿@model PaginatedList<Bingol.Models.Product>
+﻿@model dynamic
 @{
     ViewData["Title"] = "Products";
 }
@@ -39,110 +39,105 @@
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 d-md-block sidebar collapse mt-3">
             <div class="position-sticky">
-                <div class="card">
-                    <div class="category-filter-div">
-                        <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#categories" role="button" aria-expanded="false" aria-controls="categories">
-                            Categories
-                            <span class="icon-control fa fa-chevron-down"></span>
-                        </a>
-                        <div class="collapse multi-collapse m-3 show" id="categories">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">
-                                Electronics
-                            </label>
-                            <br />
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">
-                                Watches
-                            </label>
-                            <br />
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">
-                                Laptops
-                            </label>
-                            <br />
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">
-                                Clothes
-                            </label>
-                            <br />
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">
-                                Accessories
-                            </label>
+                <form method="get" asp-action="Index">
+                    <div class="card">
+                        <div class="sorting-filter-div ">
+                            <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#sorts" role="button" aria-expanded="false" aria-controls="sorts">
+                                Sorting
+                                <span class="icon-control fa fa-chevron-down"></span>
+                            </a>
+                            <div class="collapse multi-collapse m-3 show" id="sorts">
+                                <select class="form-select" aria-label="Sorting" name="sorted">
+                                    <option value="default" selected>Default</option>
+                                    <option value="asce">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="price-filter-div">
-                        <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#price" role="button" aria-expanded="false" aria-controls="price">
-                            Price
-                            <span class="icon-control fa fa-chevron-down"></span>
-                        </a>
+                            <div class="category-filter-div mt-3">
+                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#categories" role="button" aria-expanded="false" aria-controls="categories">
+                                    Categories
+                                    <span class="icon-control fa fa-chevron-down"></span>
+                                </a>
+                                <div class="collapse multi-collapse m-3 show" id="categories">
 
-                        <div class="collapse multi-collapse mt-3 mb-3 show" id="price">
-                            <div class="p-4">
-                                <input type="range" class="form-range slider" min="0" max="1000" id="priceRange">
+                                    @foreach (Productcategory obj in Model.Categories)
+                                    {
+                                        <input class="form-check-input " type="radio" name="category" value="@(obj.CategoryId)">
+                                        <label class="form-check-label">
+                                            @obj.CategoryName
+                                        </label>
+                                        <br />
+                                    }
+
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center ms-3 me-3">
-                                <p>Min</p>
-                                <p>Max</p>
+                            <div class="price-filter-div">
+                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#price" role="button" aria-expanded="false" aria-controls="price">
+                                    Price
+                                    <span class="icon-control fa fa-chevron-down"></span>
+                                </a>
+
+                                <div class="collapse multi-collapse mt-3 mb-3 show" id="price">
+                                    <div class="p-4">
+                                        <input type="range" class="form-range slider" min="0" max="1000" id="priceRange">
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center ms-3 me-3">
+                                        <p>Min</p>
+                                        <p>Max</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <input class="form-control ms-3 me-3" id="minprice" type="number" placeholder="$0" aria-label="minprice" readonly>
+                                        <input class="form-control ms-3 me-3" id="maxPrice" type="number" placeholder="$1000" aria-label="maxprice" readonly>
+                                    </div>
+
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <input class="form-control ms-3 me-3" type="number" placeholder="$0" aria-label="minprice">
-                                <input class="form-control ms-3 me-3" type="number" placeholder="$1000" aria-label="maxprice">
+                            <div class="size-fliter-div">
+                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#size" role="button" aria-expanded="false" aria-controls="size">
+                                    Size
+                                    <span class="icon-control fa fa-chevron-down"></span>
+                                </a>
+                                <div class="collapse multi-collapse m-3 show" id="size">
+
+                                    @foreach (Option obj in Model.Size)
+                                    {
+                                        <input type="radio" class="btn-check " name="size" id="@obj.OptionName" value="@obj.OptionId" autocomplete="off">
+                                        <label class="btn btn-outline-warning" for="@obj.OptionName">@obj.OptionName</label>
+                                    }
+
+                                </div>
                             </div>
-                            <a class="btn btn-warning d-grid m-3">Apply Now</a>
+                            <div class="color-fliter-div">
+                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#color" role="button" aria-expanded="false" aria-controls="color">
+                                    Color
+                                    <span class="icon-control fa fa-chevron-down"></span>
+                                </a>
+                                <div class="collapse multi-collapse m-3 show" id="color">
+
+                                    @foreach (Option obj in Model.Color)
+                                    {
+                                        <input type="radio" class="btn-check radio-custom" name="color" id="@obj.OptionName" value="@obj.OptionId" autocomplete="off">
+                                        <label class="btn rounded-circle border-2 border-dark" for="@obj.OptionName" style="background-color:@obj.OptionName.ToLower();"></label>
+                                    }
+
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-warning d-grid m-3">Apply Now</button>
                         </div>
-                    </div>
-                    <div class="size-fliter-div">
-                        <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#size" role="button" aria-expanded="false" aria-controls="size">
-                            Size
-                            <span class="icon-control fa fa-chevron-down"></span>
-                        </a>
-                        <div class="collapse multi-collapse m-3 show" id="size">
-                            <input type="checkbox" class="btn-check" id="XS" autocomplete="off">
-                            <label class="btn btn-outline-warning" for="XS">XS</label>
-                            <input type="checkbox" class="btn-check" id="SM" autocomplete="off">
-                            <label class="btn btn-outline-warning" for="SM">SM</label>
-                            <input type="checkbox" class="btn-check" id="LG" autocomplete="off">
-                            <label class="btn btn-outline-warning" for="LG">LG</label>
-                            <input type="checkbox" class="btn-check" id="XXL" autocomplete="off">
-                            <label class="btn btn-outline-warning" for="XXL">XXL</label>
-                            <input type="checkbox" class="btn-check" id="XXXL" autocomplete="off">
-                            <label class="btn btn-outline-warning" for="XXXL">XXXL</label>
-                        </div>
-                    </div>
-                    <div class="rating-filter-div">
-                        <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#rating" role="button" aria-expanded="false" aria-controls="rating">
-                            Rating
-                            <span class="icon-control fa fa-chevron-down"></span>
-                        </a>
-                        <div class="collapse multi-collapse m-3 show" id="rating">
-                            <input class="form-check-input" type="checkbox" value="Better">
-                            <label class="form-check-label">Better</label>
-                            <br />
-                            <input class="form-check-input" type="checkbox" value="Best">
-                            <label class="form-check-label">Best</label>
-                            <br />
-                            <input class="form-check-input" type="checkbox" value="Good">
-                            <label class="form-check-label">Good</label>
-                            <br />
-                            <input class="form-check-input" type="checkbox" value="Not Good">
-                            <label class="form-check-label">Not Good</label>
-                        </div>
-                    </div>
-                </div>
+</form>
             </div>
         </nav>
         <div class="col-md-9 mt-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5>Sorted by</h5>
-                <select class="form-select w-25" aria-label="Sorting">
-                    <option value="asce" selected>Ascending</option>
-                    <option value="desc">Descending</option>
-                </select>
+            <div class="d-flex justify-content-start align-items-center">
+                <h5>Showing @Model.Products.Count Products</h5>
             </div>
+            @if (Model.Products.Count == 0)
+            {
+                <h1 class="display-3 text-center pacifico mt-5">No Product Found</h1>
+            }
             <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-2 mt-3">
-                @foreach (var obj in Model)
+                @foreach (Product obj in Model.Products)
                 {
                     <div class="col">
                         <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product" asp-route-id="@obj.ProductId">
@@ -150,7 +145,7 @@
                                 <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : obj.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
                                 <div class="card-img-overlay">
                                     <div class="d-flex justify-content-between align-items-start">
-                                        <span class="bg-info bg-gradient badge fw-bold text-white">-25%</span>
+                                        <span class="bg-info bg-gradient badge fw-bold text-white">@obj.ProductCategory.CategoryName</span>
                                         <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
                                     </div>
                                 </div>
@@ -159,7 +154,9 @@
                                     <p class="card-text text-muted">@obj.ProductShortDesc</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="fw-bold text-decoration-none">$ @obj.ProductPrice</h5>
-                                        <div class="btn btn-warning bg-gradient">Buy<span class="fa fa-shopping-bag ms-3"></span></div>
+                                        <div class="btn btn-warning bg-gradient" data-id="@obj.ProductId">
+                                            Buy<span class="fa fa-shopping-bag ms-3"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -167,17 +164,17 @@
                     </div>
                 }
             </div>
-            @{ 
-                var prevDisabled = !Model.PreviousPage ? "disabled" : "";
-                var nextDisabled = !Model.NextPage ? "disabled" : "";
+            @{
+                var prevDisabled = !Model.Products.PreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.Products.NextPage ? "disabled" : "";
             }
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-end mt-3">
                     <li class="page-item @prevDisabled">
-                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.PageIndex-1)">Previous</a>
+                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.Products.PageIndex-1)">Previous</a>
                     </li>
                     <li class="page-item text-dark @nextDisabled">
-                        <a class="page-link"  asp-action="Index" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.Products.PageIndex + 1)">Next</a>
                     </li>
                 </ul>
             </nav>

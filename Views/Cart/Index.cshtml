@@ -1,73 +1,71 @@
-﻿@*
-*@
-@{
+﻿@{
     ViewData["Title"] = "Cart";
 }
 
-<div class="container mb-4 mt-4">
-    <div class="row">
-        <div class="text-start">
-            <h5>Your Billing Address: Jhon Doe, Paris, USA</h5>
-            <h5>Your Shipping Address: Jhon Doe, Paris, USA</h5>
-            <p>Incorrect information? <a asp-area="Identity" asp-page="/Account/Manage/Addresses">edit in your profile.</a></p>
-        </div>
-        <div class="col-md-9 card bg-light">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col"> </th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Available</th>
-                            <th scope="col" class="text-center">Quantity</th>
-                            <th scope="col" class="text-right">Price</th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i < 6; i++)
-                        {
-                            <tr>
-                                <td><img class="rounded-circle" src="https://dummyimage.com/50x50/55595c/fff" width="50" height="50" /> </td>
-                                <td>Product's Name</td>
-                                <td>In stock</td>
-                                <td>
-                                    <input class="form-control text-center" type="number" placeholder="quantity" value="1" min="1">
-                                </td>
-                                <td class="text-right">$ 124,90</td>
-                                <td class="text-right">
-                                    <button class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+    <div class="container mb-4 mt-4">
+        <div class="row">
+            <div class="text-start">
+                <h5>Your Billing Address: Jhon Doe, Paris, USA</h5>
+                <h5>Your Shipping Address: Jhon Doe, Paris, USA</h5>
+                <p>Incorrect information? <a asp-area="Identity" asp-page="/Account/Manage/Addresses">edit in your profile.</a></p>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h3 class="card-header">Order Summary</h3>
-                    <div class="d-flex mt-3 justify-content-between border-top">
-                        <p class="text-muted mt-4">Sub-Total</p>
-                        <p class="mt-4">$ 2130</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="text-muted mt-1">Shipping Charge</p>
-                        <p class="mt-1">$ 2130</p>
-                    </div>
-                    <div class="d-flex justify-content-between border-top">
-                        <h4 class="text-muted mt-4">Total</h4>
-                        <h3 class="mt-4">$ 2130</h3>
-                    </div>
-                    <div class="d-grid mt-3 col-12 mx-auto">
-                        <button class="btn btn-warning text-uppercase">Checkout <span class="ms-2 fas fa-credit-card"></span></button>
+            <div class="col-md-9 card bg-light">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col"> </th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Available</th>
+                                <th scope="col" class="text-center">Quantity</th>
+                                <th scope="col" class="text-right">Price</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < 6; i++)
+                            {
+                                <tr>
+                                    <td><img class="rounded-circle" src="https://dummyimage.com/50x50/55595c/fff" width="50" height="50" /> </td>
+                                    <td>Product's Name</td>
+                                    <td>In stock</td>
+                                    <td>
+                                        <input class="form-control text-center" type="number" placeholder="quantity" value="1" min="1">
+                                    </td>
+                                    <td class="text-right">$ 124,90</td>
+                                    <td class="text-right">
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h3 class="card-header">Order Summary</h3>
+                        <div class="d-flex mt-3 justify-content-between border-top">
+                            <p class="text-muted mt-4">Sub-Total</p>
+                            <p class="mt-4">$ 2130</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="text-muted mt-1">Shipping Charge</p>
+                            <p class="mt-1">$ 2130</p>
+                        </div>
+                        <div class="d-flex justify-content-between border-top">
+                            <h4 class="text-muted mt-4">Total</h4>
+                            <h3 class="mt-4">$ 2130</h3>
+                        </div>
+                        <div class="d-grid mt-3 col-12 mx-auto">
+                            <button class="btn btn-warning text-uppercase">Checkout <span class="ms-2 fas fa-credit-card"></span></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 

@@ -18,16 +18,19 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <h1 class="pacifico">Bingol</h1>
                 </a>
-                <form class="form-inline hidder">
-                    <div class="input-group search-div">
-                        <input class="form-control searchbar" type="search" placeholder="I'm Searching for" id="search-input">
-                        <span class="input-group-append s-icon">
-                            <a class="text-dark" asp-controller="Home">
-                                <i class="fas fa-search"></i>
-                            </a>
-                        </span>
+                @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+                {
+                    <div class="form-inline hidder">
+                        <div class="input-group search-div">
+                            <input class="form-control searchbar" type="search" name="searching" placeholder="I'm Searching for" id="search-input">
+                            <span class="input-group-append s-icon">
+                                <button type="submit" class="text-dark bg-transparent border-0">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
-                </form>
+                }
                 <div class="d-inline-flex">
                     <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
                         <i class="fas fa-user"></i>
@@ -52,14 +55,15 @@
             &copy; 2021 - Bingol - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js" defer></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="~/lib/bootstrap/bootstrap4-toggle.min.js" defer></script>
-    <script src="~/lib/bootstrap/Chart.bundle.min.js" defer></script>
-    <script src="~/lib/bootstrap/owl.carousel.min.js" defer></script>
-    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6a2229f290dcba" defer></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.cookie.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/bootstrap4-toggle.min.js"></script>
+    <script src="~/lib/bootstrap/Chart.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/owl.carousel.min.js"></script>
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6a2229f290dcba"></script>
     <!-- <script src="//code.tidio.co/zszdwngu3sk3q92dnuoyaxikh8vmpwig.js" async></script> -->
-    <script src="~/js/site.js" asp-append-version="true" defer></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

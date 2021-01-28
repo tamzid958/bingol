@@ -94,3 +94,14 @@ $(".confirm-pass").keyup(function () {
         $(".confirm-pass-warning").hide();
     }
 });
+
+
+$(".on-click-submit").change(function () {
+    this.form.submit();
+});
+
+$(".buy-button").click(function () {
+    var productId = $(this).attr("data-id");
+    /*$("#addedCart").modal("show");*/
+    alert("Product Added");
+});

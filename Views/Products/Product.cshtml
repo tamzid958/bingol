@@ -18,47 +18,63 @@
             <h3>@Model.ProductName</h3>
             <hr class="w-25" />
             <h4 class="fw-bold">$ @Model.ProductPrice</h4>
-            @if (Model.ProductStock != 0)
+            @if (Model.ProductLive != 0)
             {
                 <p class="text-info bg-gradient badge bg-dark">In Stock</p>
+                <div class="d-flex justify-content-around w-25">
+                    <input type="button" value="-" class="decreaseVal btn-outline-dark btn">
+                    <input type="number" min="1" max="@(Model.ProductStock)" value="1" class="val form-control text-center">
+                    <input type="button" value="+" class="increaseVal btn-outline-dark btn">
+                </div>
+                <div class="d-flex justify-content-start">
+                    <div>
+                        <label class="form-label mt-3">Choose Size</label>
+                        <select class="form-select product-dropdown" aria-label="option">
+                            <option value="XS">XS</option>
+                            <option value="SM">SM</option>
+                            <option value="LG" selected>LG</option>
+                            <option value="XXL">XXL</option>
+                            <option value="XXXL">XXXL</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label mt-3 ms-3">Choose Color</label>
+                        <select class="form-select ms-3 product-dropdown" aria-label="option">
+                            <option value="XS">Green</option>
+                            <option value="SM">Black</option>
+                            <option value="LG" selected>Blue</option>
+                        </select>
+                    </div>
+                </div>
             }
             else
             {
                 <p class="text-danger bg-gradient badge bg-dark">Out of Stock</p>
             }
-            <div class="d-flex justify-content-around w-25">
-                <input type="button" value="-" class="decreaseVal btn-outline-dark btn">
-                <input type="number" min="1" max="@(Model.ProductStock)" value="1" class="val form-control text-center">
-                <input type="button" value="+" class="increaseVal btn-outline-dark btn">
-            </div>
             <div class="d-flex justify-content-start">
-                <div>
-                    <label class="form-label mt-3">Choose Size</label>
-                    <select class="form-select product-dropdown" aria-label="option">
-                        <option value="XS">XS</option>
-                        <option value="SM">SM</option>
-                        <option value="LG" selected>LG</option>
-                        <option value="XXL">XXL</option>
-                        <option value="XXXL">XXXL</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label mt-3 ms-3">Choose Color</label>
-                    <select class="form-select ms-3 product-dropdown" aria-label="option">
-                        <option value="XS">Green</option>
-                        <option value="SM">Black</option>
-                        <option value="LG" selected>Blue</option>
-                    </select>
-                </div>
-            </div>
-            <div class="d-flex justify-content-start">
-                <button class="btn bg-gradient btn-warning btn-lg mt-4 me-4 product-buttons">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+                <button class="btn bg-gradient btn-warning btn-lg mt-4 me-4 buy-button product-buttons @(Model.ProductLive != 0 ? "": "disabled")" data-id="@(Model.ProductId)" data-bs-toggle="modal">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
                 <button class="btn bg-gradient btn-danger btn-lg mt-4 product-buttons">Wishlist <span class="far fa-heart ms-3"></span></button>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="addedCart" tabindex="-1" aria-labelledby="addedCartLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Successfully added</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning d-grid" type="button" data-bs-dismiss="modal" aria-label="Close">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container mt-5 mb-5">
     <h4>Share this Product</h4>
     <div class="addthis_inline_share_toolbox mb-3"></div>

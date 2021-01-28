@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bingol.Models
+namespace Bingol.Services
 {
     public class PaginatedList<T> : List<T>
     {
