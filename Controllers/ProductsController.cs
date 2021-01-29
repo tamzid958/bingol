@@ -84,7 +84,7 @@ namespace Bingol.Controllers
             }
             return View(product);
         }
-
+        [Route("/{action=Index}")]
         public IActionResult Cart()
         {
             return View();
@@ -101,8 +101,8 @@ namespace Bingol.Controllers
                 { "total_amount", $"{price}" },
                 { "tran_id", "TESTASPNET1234" },
                 { "success_url", baseUrl + "/Identity/Account/Manage/Orders" },
-                { "fail_url", baseUrl + "/Products/CheckoutFail" },
-                { "cancel_url", baseUrl + "/Products/CheckoutCancel" },
+                { "fail_url", baseUrl + "/CheckoutFail" },
+                { "cancel_url", baseUrl + "/CheckoutCancel" },
                 { "version", "3.00" },
                 { "cus_name", "ABC XY" },
                 { "cus_email", "abc.xyz@mail.co" },
@@ -139,6 +139,7 @@ namespace Bingol.Controllers
             return Redirect(response);
         }
 
+        [Route("/{action=Index}")]
         public IActionResult CheckoutConfirmation()
         {
             if (!(!string.IsNullOrEmpty(Request.Form["status"]) && Request.Form["status"] == "VALID"))
@@ -157,11 +158,15 @@ namespace Bingol.Controllers
 
             return View();
         }
+
+        [Route("/{action=Index}")]
         public IActionResult CheckoutFail()
         {
             ViewBag.FailInfo = "There some error while processing your payment. Please try again.";
             return View();
         }
+
+        [Route("/{action=Index}")]
         public IActionResult CheckoutCancel()
         {
             ViewBag.CancelInfo = "Your payment has been cancel";
