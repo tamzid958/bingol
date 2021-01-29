@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
 using System.Net;
@@ -15,10 +16,16 @@ namespace Bingol.Controllers
     public class ProductsController : Controller
     {
         private readonly BingolContext _db;
+        //we can get from email notificaton
+        private readonly string storeId = "theby5f956bcb364af";
+        private readonly string storePassword = "theby5f956bcb364af@ssl";
+        private readonly bool isSandboxMode = true;
+        private readonly string currency = "BDT";
         public ProductsController(BingolContext db)
         {
             _db = db;
         }
+
         public IQueryable<Product> SearchProduct(string searching, int category, int color, int size, string sorted)
         {
             var products = _db.Products.AsQueryable();
@@ -76,6 +83,89 @@ namespace Bingol.Controllers
                 return NotFound();
             }
             return View(product);
+        }
+
+        public IActionResult Cart()
+        {
+            return View();
+        }
+
+        public IActionResult Checkout()
+        {
+            var productName = "Blue Jeans";
+            var price = 8500;
+            var baseUrl = Request.Scheme + "://" + Request.Host;
+
+            NameValueCollection PostData = new NameValueCollection
+            {
+                { "total_amount", $"{price}" },
+                { "tran_id", "TESTASPNET1234" },
+                { "success_url", baseUrl + "/Identity/Account/Manage/Orders" },
+                { "fail_url", baseUrl + "/Products/CheckoutFail" },
+                { "cancel_url", baseUrl + "/Products/CheckoutCancel" },
+                { "version", "3.00" },
+                { "cus_name", "ABC XY" },
+                { "cus_email", "abc.xyz@mail.co" },
+                { "cus_add1", "Address Line On" },
+                { "cus_add2", "Address Line Tw" },
+                { "cus_city", "City Nam" },
+                { "cus_state", "State Nam" },
+                { "cus_postcode", "Post Cod" },
+                { "cus_country", "Countr" },
+                { "cus_phone", "0111111111" },
+                { "cus_fax", "0171111111" },
+                { "ship_name", "ABC XY" },
+                { "ship_add1", "Address Line On" },
+                { "ship_add2", "Address Line Tw" },
+                { "ship_city", "City Nam" },
+                { "ship_state", "State Nam" },
+                { "ship_postcode", "Post Cod" },
+                { "ship_country", "Countr" },
+                { "value_a", "ref00" },
+                { "value_b", "ref00" },
+                { "value_c", "ref00" },
+                { "value_d", "ref00" },
+                { "shipping_method", "NO" },
+                { "num_of_item", "1" },
+                { "product_name", $"{productName}" },
+                { "product_profile", "general" },
+                { "product_category", "Demo" }
+            };
+
+
+            SSLCommerzGatewayProcessor sslcz = new SSLCommerzGatewayProcessor(storeId, storePassword, isSandboxMode);
+            string response = sslcz.InitiateTransaction(PostData);
+
+            return Redirect(response);
+        }
+
+        public IActionResult CheckoutConfirmation()
+        {
+            if (!(!string.IsNullOrEmpty(Request.Form["status"]) && Request.Form["status"] == "VALID"))
+            {
+                ViewBag.SuccessInfo = "There some error while processing your payment. Please try again.";
+                return View();
+            }
+
+            string TrxID = Request.Form["tran_id"];
+            // AMOUNT and Currency FROM DB FOR THIS TRANSACTION
+            string amount = "85000";
+            SSLCommerzGatewayProcessor sslcz = new SSLCommerzGatewayProcessor(storeId, storePassword, isSandboxMode);
+            var resonse = sslcz.OrderValidate(TrxID, amount, currency, Request);
+            var successInfo = $"Validation Response: {resonse}";
+            ViewBag.SuccessInfo = successInfo;
+
+            return View();
+        }
+        public IActionResult CheckoutFail()
+        {
+            ViewBag.FailInfo = "There some error while processing your payment. Please try again.";
+            return View();
+        }
+        public IActionResult CheckoutCancel()
+        {
+            ViewBag.CancelInfo = "Your payment has been cancel";
+            return View();
         }
     }
 }
