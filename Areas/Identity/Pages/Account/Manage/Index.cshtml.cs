@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Bingol.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -67,15 +69,28 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
                 Email = email
             };
         }
+        
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            switch (user)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                case null:
+                    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                default:
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Dashboard", null);
+                    }
+                    else if (await _userManager.IsInRoleAsync(user, "Customer"))
+                    {
+                        await LoadAsync(user);
+                        return Page();
+                    }
+
+                    break;
             }
-            await LoadAsync(user);
-            return Page();
+            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
         public async Task<IActionResult> OnPostAsync()

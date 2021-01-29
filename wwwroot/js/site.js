@@ -105,8 +105,7 @@ $(".buy-button").click(function () {
     /*$("#addedCart").modal("show");*/
     alert("Product Added");
 });
-if (window.location.pathname == "/checkoutfail"
-    || window.location.pathname == "/checkoutcancel") {
+if (window.location.pathname.toLowerCase() == "/checkoutfail" || window.location.pathname.toLowerCase() == "/checkoutcancel") {
     window.setTimeout(function () {
         location.href = "/cart";
     }, 3000);

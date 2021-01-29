@@ -12,10 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bingol.Areas.Identity.Pages.Account.Manage
 {
-
+    [Authorize(Roles = "Customer")]
     public partial class AddressesModel : PageModel
     {
         private readonly UserManager<BingolUser> _userManager;

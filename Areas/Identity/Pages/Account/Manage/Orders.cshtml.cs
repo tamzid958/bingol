@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bingol.Areas.Identity.Pages.Account.Manage
 {
-
+    [Authorize(Roles = "Customer")]
     public partial class OrdersModel : PageModel
     {
         private readonly UserManager<BingolUser> _userManager;

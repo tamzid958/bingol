@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Bingol.Data;
+using Bingol.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Bingol.Areas.Identity.Pages.Account
 {
@@ -21,14 +24,17 @@ namespace Bingol.Areas.Identity.Pages.Account
         private readonly UserManager<BingolUser> _userManager;
         private readonly SignInManager<BingolUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly BingolContext _db;
 
         public LoginModel(SignInManager<BingolUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<BingolUser> userManager)
+            UserManager<BingolUser> userManager,
+            BingolContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _db = db;
         }
 
         [BindProperty]
@@ -80,17 +86,33 @@ namespace Bingol.Areas.Identity.Pages.Account
         
             if (ModelState.IsValid)
             {
+                
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var userInfo = _db.BingolUsers.FirstOrDefault(o => o.Email == Input.Email);
+                    SessionUser roleInfo = (from ur in _db.UserRoles
+                                    join r in _db.Roles on ur.RoleId
+                                    equals r.Id where ur.UserId == userInfo.Id
+                                    select new SessionUser() {
+                                        Username = Input.Email,
+                                        RoleName = r.Name
+                                    }).FirstOrDefault();
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return roleInfo != null
+                        ? (roleInfo.RoleName switch
+                        {
+                            "Customer" => LocalRedirect(returnUrl),
+                            "Admin" => RedirectToAction("Index", "Dashboard", null),
+                            _ => Page(),
+                        })
+                        : (IActionResult)Page();
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToPage("./LoginWith2fa", (ReturnUrl: returnUrl, Input.RememberMe));
                 }
                 if (result.IsLockedOut)
                 {
