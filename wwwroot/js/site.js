@@ -105,3 +105,9 @@ $(".buy-button").click(function () {
     /*$("#addedCart").modal("show");*/
     alert("Product Added");
 });
+if (window.location.pathname == "/checkoutfail"
+    || window.location.pathname == "/checkoutcancel") {
+    window.setTimeout(function () {
+        location.href = "/cart";
+    }, 3000);
+}

@@ -26,12 +26,16 @@ namespace Bingol.Controllers
             _db = db;
         }
 
-        public IQueryable<Product> SearchProduct(string searching, int category, int color, int size, string sorted)
+        public IQueryable<Product> SearchProduct(string searching, int category, int color, int size, string sorted, int price)
         {
             var products = _db.Products.AsQueryable();
             if (!string.IsNullOrEmpty(searching))
             {
                 products = products.Where(o => o.ProductName.ToLower().Contains(searching.ToLower()));
+            }
+            if (price > 0)
+            {
+                products = products.Where(o => o.ProductPrice < price);
             }
             if (category > 0)
             {
@@ -39,11 +43,11 @@ namespace Bingol.Controllers
             }
             if (color > 0)
             {
-
+                products = products.Where(o => o.Productoptions.Any(a => a.OptionId == color));
             }
             if (size > 0)
             {
-
+                products = products.Where(o => o.Productoptions.Any(a => a.OptionId == size));
             }
             if (!string.IsNullOrEmpty(sorted))
             {
@@ -59,10 +63,11 @@ namespace Bingol.Controllers
             }
             return products;
         }
-        public async Task<IActionResult> Index(string searching, int category, int color, int size, string sorted, int page=1)
+        public async Task<IActionResult> Index(string searching, int category, int color, int size, string sorted, int price, int page=1)
         {
-           
-            var products = SearchProduct(searching, category, color, size, sorted);
+            ViewBag.maxProductPrice = (int)Math.Ceiling(_db.Products.AsQueryable().Max(o => o.ProductPrice));
+            ViewBag.minProductPrice = (int)Math.Ceiling(_db.Products.AsQueryable().Min(o => o.ProductPrice));
+            var products = SearchProduct(searching, category, color, size, sorted, price);
             dynamic mymodel = new ExpandoObject();
             mymodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory), page, 12); ;
             mymodel.Categories = _db.Productcategories;
