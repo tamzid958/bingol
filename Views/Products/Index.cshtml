@@ -54,78 +54,78 @@
                                 </select>
                             </div>
                         </div>
-                            <div class="category-filter-div mt-3">
-                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#categories" role="button" aria-expanded="false" aria-controls="categories">
-                                    Categories
-                                    <span class="icon-control fa fa-chevron-down"></span>
-                                </a>
-                                <div class="collapse multi-collapse m-3 show" id="categories">
+                        <div class="category-filter-div mt-3">
+                            <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#categories" role="button" aria-expanded="false" aria-controls="categories">
+                                Categories
+                                <span class="icon-control fa fa-chevron-down"></span>
+                            </a>
+                            <div class="collapse multi-collapse m-3 show" id="categories">
 
-                                    @foreach (Productcategory obj in Model.Categories)
-                                    {
-                                        <input class="form-check-input " type="radio" name="category" value="@(obj.CategoryId)">
-                                        <label class="form-check-label">
-                                            @obj.CategoryName
-                                        </label>
-                                        <br />
-                                    }
+                                @foreach (Productcategory obj in Model.Categories)
+                                {
+                                    <input class="form-check-input " type="radio" name="category" value="@(obj.CategoryId)">
+                                    <label class="form-check-label">
+                                        @obj.CategoryName
+                                    </label>
+                                    <br />
+                                }
 
-                                </div>
                             </div>
-                            <div class="price-filter-div">
-                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#price" role="button" aria-expanded="false" aria-controls="price">
-                                    Price
-                                    <span class="icon-control fa fa-chevron-down"></span>
-                                </a>
-
-                                <div class="collapse multi-collapse mt-3 mb-3 show" id="price">
-                                    <div class="p-4">
-                                        <input type="range" class="form-range slider" min="0" max="1000" id="priceRange">
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center ms-3 me-3">
-                                        <p>Min</p>
-                                        <p>Max</p>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <input class="form-control ms-3 me-3" id="minprice" type="number" placeholder="$0" aria-label="minprice" readonly>
-                                        <input class="form-control ms-3 me-3" id="maxPrice" type="number" placeholder="$1000" aria-label="maxprice" readonly>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="size-fliter-div">
-                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#size" role="button" aria-expanded="false" aria-controls="size">
-                                    Size
-                                    <span class="icon-control fa fa-chevron-down"></span>
-                                </a>
-                                <div class="collapse multi-collapse m-3 show" id="size">
-
-                                    @foreach (Option obj in Model.Size)
-                                    {
-                                        <input type="radio" class="btn-check " name="size" id="@obj.OptionName" value="@obj.OptionId" autocomplete="off">
-                                        <label class="btn btn-outline-warning" for="@obj.OptionName">@obj.OptionName</label>
-                                    }
-
-                                </div>
-                            </div>
-                            <div class="color-fliter-div">
-                                <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#color" role="button" aria-expanded="false" aria-controls="color">
-                                    Color
-                                    <span class="icon-control fa fa-chevron-down"></span>
-                                </a>
-                                <div class="collapse multi-collapse m-3 show" id="color">
-
-                                    @foreach (Option obj in Model.Color)
-                                    {
-                                        <input type="radio" class="btn-check radio-custom" name="color" id="@obj.OptionName" value="@obj.OptionId" autocomplete="off">
-                                        <label class="btn rounded-circle border-2 border-dark" for="@obj.OptionName" style="background-color:@obj.OptionName.ToLower();"></label>
-                                    }
-
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-warning d-grid m-3">Apply Now</button>
                         </div>
-</form>
+                        <div class="price-filter-div">
+                            <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#price" role="button" aria-expanded="false" aria-controls="price">
+                                Price
+                                <span class="icon-control fa fa-chevron-down"></span>
+                            </a>
+
+                            <div class="collapse multi-collapse mt-3 mb-3 show" id="price">
+                                <div class="p-4">
+                                    <input type="range" class="form-range slider" min="0" max="1000" id="priceRange">
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center ms-3 me-3">
+                                    <p>Min</p>
+                                    <p>Max</p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <input class="form-control ms-3 me-3" id="minprice" type="number" placeholder="$0" aria-label="minprice" readonly>
+                                    <input class="form-control ms-3 me-3" id="maxPrice" type="number" placeholder="$1000" aria-label="maxprice" readonly>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="size-fliter-div">
+                            <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#size" role="button" aria-expanded="false" aria-controls="size">
+                                Size
+                                <span class="icon-control fa fa-chevron-down"></span>
+                            </a>
+                            <div class="collapse multi-collapse m-3 show" id="size">
+
+                                @foreach (Option obj in Model.Size)
+                                {
+                                    <input type="radio" class="btn-check " name="size" id="@obj.OptionName" value="@obj.OptionId" autocomplete="off">
+                                    <label class="btn btn-outline-warning" for="@obj.OptionName">@obj.OptionName</label>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="color-fliter-div">
+                            <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#color" role="button" aria-expanded="false" aria-controls="color">
+                                Color
+                                <span class="icon-control fa fa-chevron-down"></span>
+                            </a>
+                            <div class="collapse multi-collapse m-3 show" id="color">
+
+                                @foreach (Option obj in Model.Color)
+                                {
+                                    <input type="radio" class="btn-check radio-custom" name="color" id="@obj.OptionName" value="@obj.OptionId" autocomplete="off">
+                                    <label class="btn rounded-circle border-2 border-dark" for="@obj.OptionName" style="background-color:@obj.OptionName.ToLower();"></label>
+                                }
+
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning d-grid m-3">Apply Now</button>
+                    </div>
+                </form>
             </div>
         </nav>
         <div class="col-md-9 mt-3">
