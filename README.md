@@ -1,1 +1,18 @@
 # bingol
+ASP.NET CORE MVC CORE ECOMMERCE WEBSITE WITH SSLCOMERZ INTEGRATION. 
+
+
+DATABASE USED MSSQL.
+
+ER DIAGRAM OF THIS PROJECT:
+
+
+![ER DIAGRAM](https://github.com/tamzid958/bingol/blob/master/wwwroot/diagram/er%20diagram.png)
+
+
+
+CONTRIBUTION:
+1) TAMZID AHMED - 99.84%
+2) SHIAM - 0.04%
+3) NUSRAT CHAITI - 0.12%
+4) FARZANA FARHIA - 0.009%
