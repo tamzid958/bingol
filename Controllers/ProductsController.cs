@@ -2,7 +2,6 @@
 using Bingol.Data;
 using Bingol.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +9,6 @@ using System;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Bingol.Areas.Identity.Data;
 
@@ -20,11 +18,12 @@ namespace Bingol.Controllers
     {
         private readonly BingolContext _db;
         private readonly UserManager<BingolUser> _userManager;
-        //we can get from email notificaton
-        private readonly string storeId = "theby5f956bcb364af";
-        private readonly string storePassword = "theby5f956bcb364af@ssl";
-        private readonly bool isSandboxMode = true;
-        private readonly string currency = "BDT";
+        //we can get from email notification
+        private const string StoreId = "theby5f956bcb364af";
+        private const string StorePassword = "theby5f956bcb364af@ssl";
+        private const bool IsSandboxMode = true;
+        private const string Currency = "BDT";
+
         public ProductsController(BingolContext db, UserManager<BingolUser> userManager)
         {
             _db = db;
@@ -54,17 +53,15 @@ namespace Bingol.Controllers
             {
                 products = products.Where(o => o.Productoptions.Any(a => a.OptionId == size));
             }
-            if (!string.IsNullOrEmpty(sorted))
+
+            if (string.IsNullOrEmpty(sorted)) return products;
             {
-                switch (sorted)
-                { 
-                    case "asce":
-                        products = products.OrderBy(o => o.ProductId);
-                        break;
-                    case "desc":
-                        products = products.OrderByDescending(o => o.ProductId);
-                        break;
-                }
+                products = sorted switch
+                {
+                    "asce" => products.OrderBy(o => o.ProductId),
+                    "desc" => products.OrderByDescending(o => o.ProductId),
+                    _ => products
+                };
             }
             return products;
         }
@@ -73,12 +70,12 @@ namespace Bingol.Controllers
             ViewBag.maxProductPrice = (int)Math.Ceiling(_db.Products.AsQueryable().Max(o => o.ProductPrice));
             ViewBag.minProductPrice = (int)Math.Ceiling(_db.Products.AsQueryable().Min(o => o.ProductPrice));
             var products = SearchProduct(searching, category, color, size, sorted, price);
-            dynamic mymodel = new ExpandoObject();
-            mymodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory), page, 12);
-            mymodel.Categories = _db.Productcategories;
-            mymodel.Color = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 1);
-            mymodel.Size = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 2);
-            return View(mymodel);
+            dynamic metamodel = new ExpandoObject();
+            metamodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory), page, 12);
+            metamodel.Categories = _db.Productcategories;
+            metamodel.Color = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 1);
+            metamodel.Size = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 2);
+            return View(metamodel);
         }
         
         public async Task<IActionResult> ProductAsync(int? id)
@@ -87,18 +84,14 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            dynamic mymodel = new ExpandoObject();
-            mymodel.Product = await _db.Products.Include(m => m.ProductCategory).FirstOrDefaultAsync(m => m.ProductId == id);
-            mymodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroupId == 2 && o.Productoptions.Any(o => o.ProductId == id));
-            mymodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroupId == 1 && o.Productoptions.Any(o => o.ProductId == id));
-            var category = _db.Productcategories.Where(o => o.Products.Any(o => o.ProductId == id)).FirstOrDefault();
-            mymodel.SimilarProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId == category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
-            mymodel.VarientProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId != category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
-            if (mymodel.Product == null)
-            {
-                return NotFound();
-            }
-            return View(mymodel);
+            dynamic metamodel = new ExpandoObject();
+            metamodel.Product = await _db.Products.Include(m => m.ProductCategory).FirstOrDefaultAsync(m => m.ProductId == id);
+            metamodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroupId == 2 && o.Productoptions.Any(m => m.ProductId == id));
+            metamodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroupId == 1 && o.Productoptions.Any(m => m.ProductId == id));
+            var category = _db.Productcategories.FirstOrDefault(o => o.Products.Any(m => m.ProductId == id));
+            metamodel.SimilarProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId == category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
+            metamodel.VarientProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId != category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
+            return metamodel.Product == null ? NotFound() : (IActionResult) View(metamodel);
         }
         
         [Authorize]
@@ -114,14 +107,14 @@ namespace Bingol.Controllers
 
         public IActionResult Checkout()
         {
-            var productName = "Blue Jeans";
-            var price = 8500;
+            const string productName = "Blue Jeans";
+            const int price = 8500;
             var baseUrl = Request.Scheme + "://" + Request.Host;
 
-            NameValueCollection PostData = new NameValueCollection
+            var postData = new NameValueCollection
             {
                 { "total_amount", $"{price}" },
-                { "tran_id", "TESTASPNET1234" },
+                { "tran_id", "Bingol" },
                 { "success_url", baseUrl + "/Identity/Account/Manage/Orders" },
                 { "fail_url", baseUrl + "/CheckoutFail" },
                 { "cancel_url", baseUrl + "/CheckoutCancel" },
@@ -133,7 +126,7 @@ namespace Bingol.Controllers
                 { "cus_city", "City Nam" },
                 { "cus_state", "State Nam" },
                 { "cus_postcode", "Post Cod" },
-                { "cus_country", "Countr" },
+                { "cus_country", "Country" },
                 { "cus_phone", "0111111111" },
                 { "cus_fax", "0171111111" },
                 { "ship_name", "ABC XY" },
@@ -142,7 +135,7 @@ namespace Bingol.Controllers
                 { "ship_city", "City Nam" },
                 { "ship_state", "State Nam" },
                 { "ship_postcode", "Post Cod" },
-                { "ship_country", "Countr" },
+                { "ship_country", "Country" },
                 { "value_a", "ref00" },
                 { "value_b", "ref00" },
                 { "value_c", "ref00" },
@@ -155,8 +148,8 @@ namespace Bingol.Controllers
             };
 
 
-            SSLCommerzGatewayProcessor sslcz = new SSLCommerzGatewayProcessor(storeId, storePassword, isSandboxMode);
-            string response = sslcz.InitiateTransaction(PostData);
+            var sslv = new SslCommerzGatewayProcessor(StoreId, StorePassword, IsSandboxMode);
+            var response = sslv.InitiateTransaction(postData);
 
             return Redirect(response);
         }
@@ -167,18 +160,18 @@ namespace Bingol.Controllers
             if (!(!string.IsNullOrEmpty(Request.Form["status"]) && Request.Form["status"] == "VALID"))
             {
                 ViewBag.SuccessInfo = "There some error while processing your payment. Please try again.";
-                return View();
+                return RedirectToAction("CheckoutFail");
             }
 
-            string TrxID = Request.Form["tran_id"];
+            string trxId = Request.Form["tran_id"];
             // AMOUNT and Currency FROM DB FOR THIS TRANSACTION
-            string amount = "85000";
-            SSLCommerzGatewayProcessor sslcz = new SSLCommerzGatewayProcessor(storeId, storePassword, isSandboxMode);
-            var resonse = sslcz.OrderValidate(TrxID, amount, currency, Request);
-            var successInfo = $"Validation Response: {resonse}";
+            const string amount = "85000";
+            var sslv = new SslCommerzGatewayProcessor(StoreId, StorePassword, IsSandboxMode);
+            var response = sslv.OrderValidate(trxId, amount, Currency, Request);
+            var successInfo = $"Validation Response: {response}";
             ViewBag.SuccessInfo = successInfo;
 
-            return View();
+            return RedirectToAction("Cart");
         }
 
         [Route("/{action=Index}")]

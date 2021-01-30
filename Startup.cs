@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,13 +20,13 @@ namespace Bingol
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddSingleton(provider => Configuration);
+            services.AddSingleton(_ => Configuration);
             services.AddDbContext<BingolContext>
            (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<BingolUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
@@ -43,13 +42,13 @@ namespace Bingol
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;
+                options.CheckConsentNeeded = _ => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public  void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -87,13 +86,13 @@ namespace Bingol
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<BingolUser>>();
             Task<IdentityResult> roleResult;
-            string email = "admin@gmail.com";
+            const string email = "admin@gmail.com";
 
             //Check that there is an Administrator role and create if not
-            Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Admin");
+            var hasAdminRole = roleManager.RoleExistsAsync("Admin");
             hasAdminRole.Wait();
 
-            Task<bool> hasCustomerRole = roleManager.RoleExistsAsync("Customer");
+            var hasCustomerRole = roleManager.RoleExistsAsync("Customer");
             hasCustomerRole.Wait();
 
             if (!hasAdminRole.Result)
@@ -110,27 +109,23 @@ namespace Bingol
             //Check if the admin user exists and create it if not
             //Add to the Administrator role
 
-            Task<BingolUser> testUser = userManager.FindByEmailAsync(email);
+            var testUser = userManager.FindByEmailAsync(email);
             testUser.Wait();
 
-            if (testUser.Result == null)
+            if (testUser.Result != null) return;
+            var administrator = new BingolUser
             {
-                BingolUser administrator = new BingolUser
-                {
-                    EmailConfirmed = true,
-                    Email = email,
-                    UserName = email
-                };
+                EmailConfirmed = true,
+                Email = email,
+                UserName = email
+            };
 
-                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "_AStrongP@ssword123!");
-                newUser.Wait();
+            var newUser = userManager.CreateAsync(administrator, "_AStrongP@ssword123!");
+            newUser.Wait();
 
-                if (newUser.Result.Succeeded)
-                {
-                    Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(administrator, "Admin");
-                    newUserRole.Wait();
-                }
-            }
+            if (!newUser.Result.Succeeded) return;
+            var newUserRole = userManager.AddToRoleAsync(administrator, "Admin");
+            newUserRole.Wait();
 
         }
     }

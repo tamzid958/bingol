@@ -1,6 +1,4 @@
 ﻿using Bingol.Areas.Identity.Data;
-using System;
-using System.Collections.Generic;
 
 #nullable disable
 

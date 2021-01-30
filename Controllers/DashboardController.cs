@@ -77,6 +77,5 @@ namespace Bingol.Controllers
             await LoadAsync(user);
             return View();
         }
-
     }
 }

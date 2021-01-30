@@ -7,37 +7,37 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column nav-pills mt-3">
             <li class="nav-item">
-                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Dashboard" asp-action="Index">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Dashboard" asp-action="Index">
                     <span class="fa fa-chart-line"></span>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Orders" ? "active" : "")" asp-controller="Dashboard" asp-action="Orders">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Orders" ? "active" : "")" asp-controller="Dashboard" asp-action="Orders">
                     <span class="fa fa-archive"></span>
                     Orders
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Products" ? "active" : "")" asp-controller="Dashboard" asp-action="Products">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Products" ? "active" : "")" asp-controller="Dashboard" asp-action="Products">
                     <span class="fa fa-cart-arrow-down"></span>
                     Products
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")" asp-controller="Dashboard" asp-action="Customers">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Customers" ? "active" : "")" asp-controller="Dashboard" asp-action="Customers">
                     <span class="fa fa-user"></span>
                     Customers
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Reviews" ? "active" : "")" asp-controller="Dashboard" asp-action="Reviews">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Reviews" ? "active" : "")" asp-controller="Dashboard" asp-action="Reviews">
                     <span class="fa fa-star"></span>
                     Reviews
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Account" ? "active" : "")" asp-controller="Dashboard" asp-action="Account">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Account" ? "active" : "")" asp-controller="Dashboard" asp-action="Account">
                     <span class="fas fa-info-circle"></span>
                     Personal info
                 </a>

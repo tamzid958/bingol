@@ -15,30 +15,30 @@ namespace Bingol.Services
     /// Author: SSLWIRELESS LTD.
     /// Developed By: Md. Shahnawaz Ahmed
     /// </summary>
-    public class SSLCommerzGatewayProcessor
+    public class SslCommerzGatewayProcessor
     {
-        protected List<String> key_list;
-        protected String generated_hash;
-        protected string error;
+        private List<string> key_list;
+        private string generated_hash;
+        private string error;
 
-        protected string Store_ID;
-        protected string Store_Pass;
-        protected bool Store_Test_Mode;
+        private string Store_ID;
+        private string Store_Pass;
+        private bool StoreTestMode;
 
-        protected string SSLCz_URL = "https://securepay.sslcommerz.com/";
-        protected string Submit_URL = "gwprocess/v4/api.php";
-        protected string Validation_URL = "validator/api/validationserverAPI.php";
-        protected string Checking_URL = "validator/api/merchantTransIDvalidationAPI.php";
+        private string _sslCzUrl = "https://securepay.sslcommerz.com/";
+        private const string SubmitUrl = "gwprocess/v4/api.php";
+        private const string ValidationUrl = "validator/api/validationserverAPI.php";
+        protected string CheckingUrl = "validator/api/merchantTransIDvalidationAPI.php";
 
-        public SSLCommerzGatewayProcessor(string Store_ID, string Store_Pass, bool Store_Test_Mode = false)
+        public SslCommerzGatewayProcessor(string storeId, string storePass, bool storeTestMode = false)
         {
             System.Net.ServicePointManager.SecurityProtocol = (SecurityProtocolType)0x00000C00;
 
-            if (Store_ID != "" && Store_Pass != "")
+            if (storeId != "" && storePass != "")
             {
-                this.Store_ID = Store_ID;
-                this.Store_Pass = Store_Pass;
-                this.SetSSLCzTestMode(Store_Test_Mode);
+                this.Store_ID = storeId;
+                this.Store_Pass = storePass;
+                this.SetSSLCzTestMode(storeTestMode);
             }
             else
             {
@@ -46,23 +46,23 @@ namespace Bingol.Services
             }
         }
 
-        public string InitiateTransaction(NameValueCollection PostData, bool GetGateWayList = false)
+        public string InitiateTransaction(NameValueCollection postData, bool getGateWayList = false)
         {
-            PostData.Add("store_id", this.Store_ID);
-            PostData.Add("store_passwd", this.Store_Pass);
-            string response = this.SendPost(PostData);
+            postData.Add("store_id", this.Store_ID);
+            postData.Add("store_passwd", this.Store_Pass);
+            string response = this.SendPost(postData);
             try
             {
                 SSLCommerzInitResponse resp = new JavaScriptSerializer().Deserialize<SSLCommerzInitResponse>(response);
                 if (resp.status == "SUCCESS")
                 {
-                    if (GetGateWayList)
+                    if (getGateWayList)
                     {
                         // We will work on it!
                     }
                     else
                     {
-                        return resp.GatewayPageURL.ToString();
+                        return resp.GatewayPageUrl.ToString();
                     }
                 }
                 else
@@ -89,7 +89,7 @@ namespace Bingol.Services
                 string EncodedStoreID = System.Web.HttpUtility.UrlEncode(this.Store_ID);
                 string EncodedStorePassword = System.Web.HttpUtility.UrlEncode(this.Store_Pass);
 
-                string validate_url = this.SSLCz_URL + this.Validation_URL + "?val_id=" + EncodedValID + "&store_id=" + EncodedStoreID + "&store_passwd=" + EncodedStorePassword + "&v=1&format=json";
+                string validate_url = this._sslCzUrl + ValidationUrl + "?val_id=" + EncodedValID + "&store_id=" + EncodedStoreID + "&store_passwd=" + EncodedStorePassword + "&v=1&format=json";
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(validate_url);
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -100,7 +100,7 @@ namespace Bingol.Services
                 }
                 if (json != "")
                 {
-                    SSLCommerzValidatorResponse resp = new JavaScriptSerializer().Deserialize<SSLCommerzValidatorResponse>(json);
+                    SslCommerzValidatorResponse resp = new JavaScriptSerializer().Deserialize<SslCommerzValidatorResponse>(json);
 
                     if (resp.status == "VALID" || resp.status == "VALIDATED")
                     {
@@ -151,19 +151,19 @@ namespace Bingol.Services
         }
         protected void SetSSLCzTestMode(bool mode)
         {
-            this.Store_Test_Mode = mode;
+            this.StoreTestMode = mode;
             if (mode)
             {
                 //this.Store_ID = "testbox";
                 //this.Store_Pass = "qwerty";
-                this.SSLCz_URL = "https://sandbox.sslcommerz.com/";
+                this._sslCzUrl = "https://sandbox.sslcommerz.com/";
             }
         }
 
         protected string SendPost(NameValueCollection PostData)
         {
-            Console.WriteLine(this.SSLCz_URL + this.Submit_URL);
-            string response = SSLCommerzGatewayProcessor.Post(this.SSLCz_URL + this.Submit_URL, PostData);
+            Console.WriteLine(this._sslCzUrl + SubmitUrl);
+            string response = SslCommerzGatewayProcessor.Post(this._sslCzUrl + SubmitUrl, PostData);
             return response;
         }
         public static string Post(string uri, NameValueCollection PostData)
@@ -284,13 +284,14 @@ namespace Bingol.Services
             public Gw gw { get; set; }
             public string redirectGatewayURL { get; set; }
             public string redirectGatewayURLFailed { get; set; }
-            public string GatewayPageURL { get; set; }
-            public string storeBanner { get; set; }
-            public string storeLogo { get; set; }
-            public List<Desc> desc { get; set; }
-            public string is_direct_pay_enable { get; set; }
+            public string GatewayPageUrl { get; set; }
+            public string StoreBanner { get; set; }
+            public string StoreLogo { get; set; }
+            public List<Desc> Desc { get; set; }
+            public string IsDirectPayEnable { get; set; }
         }
-        public class SSLCommerzValidatorResponse
+
+        private abstract class SslCommerzValidatorResponse
         {
             public string status { get; set; }
             public string tran_date { get; set; }

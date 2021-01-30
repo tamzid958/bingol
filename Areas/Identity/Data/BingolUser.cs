@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Bingol.Models;
 using Microsoft.AspNetCore.Identity;
 
