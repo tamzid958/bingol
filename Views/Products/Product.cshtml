@@ -1,48 +1,48 @@
-﻿@model Bingol.Models.Product
+﻿@model dynamic
 @{
-    ViewData["Title"] = Model.ProductName;
+    ViewData["Title"] = Model.Product.ProductName;
 }
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="@(Model.ProductImage.Length == 0 ? "/images/img_preview_lg.png" : Model.ProductImage)" class="img-fluid" alt="fera">
+            <img src="@(Model.Product.ProductImage.Length == 0 ? "/images/img_preview_lg.png" : Model.ProductImage)" class="img-fluid" alt="fera">
         </div>
         <div class="col-md-6 mt-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a class="text-muted" href="#">Products</a></li>
-                    <li class="breadcrumb-item"><a class="text-muted" href="#">Dress</a></li>
-                    <li class="breadcrumb-item active text-muted" aria-current="page">@Model.ProductName</li>
+                    <li class="breadcrumb-item"><a class="text-muted" href="#">@Model.Product.ProductCategory.CategoryName</a></li>
+                    <li class="breadcrumb-item active text-muted" aria-current="page">@Model.Product.ProductName</li>
                 </ol>
             </nav>
-            <h3>@Model.ProductName</h3>
+            <h3>@Model.Product.ProductName</h3>
             <hr class="w-25" />
-            <h4 class="fw-bold">BDT @Model.ProductPrice</h4>
-            @if (Model.ProductLive != 0)
+            <h4 class="fw-bold">BDT @Model.Product.ProductPrice</h4>
+            @if (Model.Product.ProductLive != 0)
             {
                 <p class="text-info bg-gradient badge bg-dark">In Stock</p>
                 <div class="d-flex justify-content-around w-25">
                     <input type="button" value="-" class="decreaseVal btn-outline-dark btn">
-                    <input type="number" min="1" max="@(Model.ProductStock)" value="1" class="val form-control text-center">
+                    <input type="number" min="1" max="@(Model.Product.ProductStock)" value="1" class="val form-control text-center">
                     <input type="button" value="+" class="increaseVal btn-outline-dark btn">
                 </div>
                 <div class="d-flex justify-content-start">
                     <div>
                         <label class="form-label mt-3">Choose Size</label>
                         <select class="form-select product-dropdown" aria-label="option">
-                            <option value="XS">XS</option>
-                            <option value="SM">SM</option>
-                            <option value="LG" selected>LG</option>
-                            <option value="XXL">XXL</option>
-                            <option value="XXXL">XXXL</option>
+                            @foreach (var obj in Model.ProductSizeOptions)
+                            {
+                                <option value="@obj.OptionId">@obj.OptionName</option>
+                            }
                         </select>
                     </div>
                     <div>
                         <label class="form-label mt-3 ms-3">Choose Color</label>
                         <select class="form-select ms-3 product-dropdown" aria-label="option">
-                            <option value="XS">Green</option>
-                            <option value="SM">Black</option>
-                            <option value="LG" selected>Blue</option>
+                            @foreach (var obj in Model.ProductColorOptions)
+                            {
+                                <option value="@obj.OptionId">@obj.OptionName</option>
+                            }
                         </select>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <p class="text-danger bg-gradient badge bg-dark">Out of Stock</p>
             }
             <div class="d-flex justify-content-start">
-                <button class="btn bg-gradient btn-warning btn-lg mt-4 me-4 buy-button product-buttons @(Model.ProductLive != 0 ? "": "disabled")" data-id="@(Model.ProductId)" data-bs-toggle="modal">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
+                <button class="btn bg-gradient btn-warning btn-lg mt-4 me-4 buy-button product-buttons @(Model.Product.ProductLive != 0 ? "": "disabled")" data-id="@(Model.Product.ProductId)" data-bs-toggle="modal">Buy<span class="fa fa-shopping-bag ms-3"></span></button>
                 <button class="btn bg-gradient btn-danger btn-lg mt-4 product-buttons">Wishlist <span class="far fa-heart ms-3"></span></button>
             </div>
         </div>
@@ -87,16 +87,22 @@
     </nav>
     <div class="tab-content mt-5" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab">
-            <p class="text-md-start">@Model.ProductLongDesc</p>
+            <p class="text-md-start">@Model.Product.ProductLongDesc</p>
         </div>
         <div class="tab-pane fade" id="nav-additional-info" role="tabpanel" aria-labelledby="nav-additional-info-tab">
             <p class="text-md-start">
                 <button class="btn btn-secondary me-3 product-buttons" disabled>Size</button>
-                01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17
+                @foreach (var obj in Model.ProductSizeOptions)
+                {
+                    <span class="badge bg-gradient text-white bg-dark">@obj.OptionName</span>
+                }
             </p>
             <p class="text-md-start">
                 <button class="btn btn-secondary me-3 product-buttons" disabled>Color</button>
-                Green, Black, Blue
+                @foreach (var obj in Model.ProductColorOptions)
+                {
+                    <span class="badge bg-gradient text-white bg-dark">@obj.OptionName</span>
+                }
             </p>
         </div>
         <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
@@ -154,22 +160,22 @@
     <h5>SIMILAR PRODUCTS</h5>
     <div class="row">
         <div class="owl-carousel owl-theme">
-            @for (var i = 0; i < 14; i++)
+            @foreach (var obj in Model.SimilarProducts)
             {
-                <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product">
+                <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product" asp-route-id="@obj.ProductId">
                     <div class="card product-card-owl product-card-owl-lg">
-                        <img src="~/images/fera.jpg" class="card-img card-img-top" alt="fera">
+                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : Model.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
                         <div class="card-img-overlay">
                             <div class="d-flex justify-content-between align-items-start">
-                                <span class="bg-info bg-gradient badge fw-bold text-white">-25%</span>
+                                <span class="bg-info bg-gradient badge fw-bold text-white">@obj.ProductCategory.CategoryName</span>
                                 <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="text-decoration-none">Jack &amp; Jones Royal Streched Shirt</h5>
-                            <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
+                            <h5 class="text-decoration-none">@obj.ProductName</h5>
+                            <p class="card-text text-muted">@obj.ProductShortDesc</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="fw-bold text-decoration-none">BDT 99.00</h5>
+                                <h5 class="fw-bold text-decoration-none">BDT @obj.ProductPrice</h5>
                                 <div class="btn btn-warning bg-gradient">Buy<span class="fa fa-shopping-bag ms-3"></span></div>
                             </div>
                         </div>
@@ -186,27 +192,28 @@
     <h5>MORE VARIENT PRODUCTS</h5>
     <div class="row">
         <div class="owl-carousel owl-theme">
-            @for (var i = 0; i < 14; i++)
+            @foreach (var obj in Model.VarientProducts)
             {
-                <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product">
+                <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product" asp-route-id="@obj.ProductId">
                     <div class="card product-card-owl product-card-owl-lg">
-                        <img src="~/images/jaspereology.jpg" class="card-img card-img-top" alt="jaspereology">
+                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : Model.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
                         <div class="card-img-overlay">
                             <div class="d-flex justify-content-between align-items-start">
-                                <span class="bg-info bg-gradient badge fw-bold text-white">-25%</span>
+                                <span class="bg-info bg-gradient badge fw-bold text-white">@obj.ProductCategory.CategoryName</span>
                                 <span class="far fa-heart text-danger fa-2x text-decoration-none"></span>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="text-decoration-none">Jack &amp; Jones Royal Streched Shirt</h5>
-                            <p class="card-text text-muted">Black, Yellow, Navy Blue</p>
+                            <h5 class="text-decoration-none">@obj.ProductName</h5>
+                            <p class="card-text text-muted">@obj.ProductShortDesc</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="fw-bold text-decoration-none">BDT 99.00</h5>
+                                <h5 class="fw-bold text-decoration-none">BDT @obj.ProductPrice</h5>
                                 <div class="btn btn-warning bg-gradient">Buy<span class="fa fa-shopping-bag ms-3"></span></div>
                             </div>
                         </div>
                     </div>
                 </a>
+
             }
         </div>
     </div>

@@ -1,29 +1,32 @@
-﻿using Bingol.Data;
-using Bingol.Models;
+﻿using Bingol.Models;
+using Bingol.Data;
 using Bingol.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
+using Bingol.Areas.Identity.Data;
 
 namespace Bingol.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly BingolContext _db;
+        private readonly UserManager<BingolUser> _userManager;
         //we can get from email notificaton
         private readonly string storeId = "theby5f956bcb364af";
         private readonly string storePassword = "theby5f956bcb364af@ssl";
         private readonly bool isSandboxMode = true;
         private readonly string currency = "BDT";
-        public ProductsController(BingolContext db)
+        public ProductsController(BingolContext db, UserManager<BingolUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public IQueryable<Product> SearchProduct(string searching, int category, int color, int size, string sorted, int price)
@@ -69,7 +72,7 @@ namespace Bingol.Controllers
             ViewBag.minProductPrice = (int)Math.Ceiling(_db.Products.AsQueryable().Min(o => o.ProductPrice));
             var products = SearchProduct(searching, category, color, size, sorted, price);
             dynamic mymodel = new ExpandoObject();
-            mymodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory), page, 12); ;
+            mymodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory), page, 12);
             mymodel.Categories = _db.Productcategories;
             mymodel.Color = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 1);
             mymodel.Size = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 2);
@@ -82,16 +85,28 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            var product = await _db.Products.FirstOrDefaultAsync(m => m.ProductId == id);
-            if(product == null)
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Product = await _db.Products.Include(m => m.ProductCategory).FirstOrDefaultAsync(m => m.ProductId == id);
+            mymodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroupId == 2 && o.Productoptions.Any(o => o.ProductId == id));
+            mymodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroupId == 1 && o.Productoptions.Any(o => o.ProductId == id));
+            var category = _db.Productcategories.Where(o => o.Products.Any(o => o.ProductId == id)).FirstOrDefault();
+            mymodel.SimilarProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId == category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
+            mymodel.VarientProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId != category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
+            if (mymodel.Product == null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(mymodel);
         }
+        
+        [Authorize]
         [Route("/{action=Index}")]
-        public IActionResult Cart()
+        public async Task<IActionResult> CartAsync()
         {
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.PersonalDetails = user.UserFirstName + " " + user.UserLastName;
+            ViewBag.BillingAddress = user.UserAddress + " , " + user.UserCity + " , " + user.UserState + " , " + user.UserCountry;
+            ViewBag.ShippingAddress = user.UserAddress2;
             return View();
         }
 

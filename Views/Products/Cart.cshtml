@@ -5,8 +5,13 @@
 <div class="container mb-4 mt-4">
     <div class="row">
         <div class="text-start">
-            <h5>Your Billing Address: Jhon Doe, Paris, USA</h5>
-            <h5>Your Shipping Address: Jhon Doe, Paris, USA</h5>
+            <p class="text-start">
+                <mark>
+                    Name: @ViewBag.PersonalDetails <br />
+                    Your Billing Address: @ViewBag.BillingAddress <br />
+                    Your Shipping Address: @ViewBag.ShippingAddress
+                </mark>
+            </p>
             <p>Incorrect information? <a asp-area="Identity" asp-page="/Account/Manage/Addresses">edit in your profile.</a></p>
         </div>
         <div class="col-md-9 card bg-light">
