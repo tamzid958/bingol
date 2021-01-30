@@ -1,0 +1,54 @@
+﻿<div class="container-fluid navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <button class="navbar-toggler bg-dark d-md-none collapsed d-grid text-center w-100" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+    <div class="position-sticky pt-3">
+        <ul class="nav flex-column nav-pills mt-3">
+            <li class="nav-item">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Dashboard" asp-action="Index">
+                    <span class="fa fa-chart-line"></span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Orders" ? "active" : "")" asp-controller="Dashboard" asp-action="Orders">
+                    <span class="fa fa-archive"></span>
+                    Orders
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Products" ? "active" : "")" asp-controller="Dashboard" asp-action="Products">
+                    <span class="fa fa-cart-arrow-down"></span>
+                    Products
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")" asp-controller="Dashboard" asp-action="Customers">
+                    <span class="fa fa-user"></span>
+                    Customers
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Reviews" ? "active" : "")" asp-controller="Dashboard" asp-action="Reviews">
+                    <span class="fa fa-star"></span>
+                    Reviews
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"].ToString() == "Account" ? "active" : "")" asp-controller="Dashboard" asp-action="Account">
+                    <span class="fas fa-info-circle"></span>
+                    Personal info
+                </a>
+            </li>
+        </ul>
+        <hr class="text-white" />
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+            <button type="submit" class="nav-link text-danger bg-dark border-0">
+                <span class="fas fa-sign-out-alt"></span>
+                Sign out
+            </button>
+        </form>
+    </div>
+</nav>

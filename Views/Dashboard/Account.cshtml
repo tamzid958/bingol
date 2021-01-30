@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Account";
+}
+<div class="container-fluid">
+    <div class="row">
+        <partial name="_PartialAdminNav.cshtml" />
+        <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 profile-tab">
+            <div class="col-md-6">
+                <form id="change-password-form" method="post" action="@Url.Action("ChangeAccountDetails", "Dashboard")">
+                    <div class="form-group mt-3">
+                        <label class="form-label">Current Email</label>
+                        <input class="form-control" value="@ViewBag.CurrentMail" disabled />
+                    </div>
+                    <button type="submit" class="btn btn-warning mt-3">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

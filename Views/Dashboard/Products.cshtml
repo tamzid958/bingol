@@ -1,8 +1,7 @@
-﻿@model PaginatedList<Bingol.Models.Order>
+﻿@model PaginatedList<Bingol.Models.Product>
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "Products";
 }
-
 <div class="container-fluid">
     <div class="row">
         <partial name="_PartialAdminNav.cshtml" />
@@ -11,10 +10,10 @@
                 <table class="table table-striped table-sm">
                     <thead class="bg-dark text-light">
                         <tr>
-                            <th scope="col" class="text-center">ORDER (TrxID)</th>
-                            <th scope="col" class="text-center">ORDERED BY</th>
-                            <th scope="col" class="text-center">DATE</th>
-                            <th scope="col" class="text-center">TOTAL</th>
+                            <th scope="col" class="text-center">ID</th>
+                            <th scope="col" class="text-center">PRODUCT NAME</th>
+                            <th scope="col" class="text-center">CATEGORY</th>
+                            <th scope="col" class="text-center">STOCK</th>
                             <th scope="col" class="text-center">ACTIONS</th>
                         </tr>
                     </thead>
@@ -23,25 +22,29 @@
                         {
                             <tr>
                                 <td class="text-center">
-                                    #@obj.OrderId (@obj.OrderTrackingNumber)
+                                    #@obj.ProductId
                                 </td>
                                 <td class="text-center">
-                                    @obj.OrderUser.UserName
+                                    @obj.ProductName
                                 </td>
                                 <td class="text-center">
-                                    @obj.OrderDate
+                                    @obj.ProductCategory.CategoryName
                                 </td>
                                 <td class="text-center">
-                                    BDT @(obj.Orderdetails.SingleOrDefault().DetailQuantity * obj.Orderdetails.SingleOrDefault().DetailPrice) for @obj.Orderdetails.SingleOrDefault().DetailQuantity item
+                                    @(obj.ProductStock == null ? 0 : obj.ProductStock)
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" value="@obj.OrderId" class="btn btn-warning">INVOICE</button>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" value="@obj.ProductId" class="btn btn-warning">Edit</button>
+                                        <button type="button" value="@obj.ProductId" class="btn btn-danger">Delete</button>
+                                    </div>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
+
             @{
                 var prevDisabled = !Model.PreviousPage ? "disabled" : "";
                 var nextDisabled = !Model.NextPage ? "disabled" : "";
@@ -49,10 +52,10 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-end mt-3">
                     <li class="page-item @prevDisabled">
-                        <a class="page-link" asp-action="Orders" asp-route-page="@(Model.PageIndex-1)">Previous</a>
+                        <a class="page-link" asp-action="Products" asp-route-page="@(Model.PageIndex-1)">Previous</a>
                     </li>
                     <li class="page-item text-dark @nextDisabled">
-                        <a class="page-link" asp-action="Orders" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                        <a class="page-link" asp-action="Products" asp-route-page="@(Model.PageIndex + 1)">Next</a>
                     </li>
                 </ul>
             </nav>
