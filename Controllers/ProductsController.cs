@@ -2,6 +2,7 @@
 using Bingol.Data;
 using Bingol.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Bingol.Areas.Identity.Data;
 
