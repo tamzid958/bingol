@@ -4,7 +4,7 @@
     </button>
 </div>
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
-    <div class="position-sticky pt-3">
+    <div class="position-sticky pt-3 min-vh-100">
         <ul class="nav flex-column nav-pills mt-3">
             <li class="nav-item">
                 <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Dashboard" asp-action="Index">
@@ -12,17 +12,45 @@
                     Dashboard
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item"> 
                 <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Orders" ? "active" : "")" asp-controller="Dashboard" asp-action="Orders">
                     <span class="fa fa-archive"></span>
                     Orders
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Products" ? "active" : "")" asp-controller="Dashboard" asp-action="Products">
-                    <span class="fa fa-cart-arrow-down"></span>
-                    Products
+                <a class="btn btn-info dropdown-toggle align-items-center d-flex justify-content-between fw-bold" data-bs-toggle="collapse" href="#productstab" role="button" aria-expanded="false" aria-controls="productstab">
+                    <div>
+                        <span class="fas fa-store"></span>
+                        Shop Listing
+                    </div>
                 </a>
+                <div class="collapse multi-collapse mt-2 show" id="productstab">
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "AddCategory" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="AddCategory">
+                        <span class="fa fa-plus-square"></span>
+                        Add Category
+                    </a>
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Categories" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="Categories">
+                        <span class="fa fa-list-alt"></span>
+                        Category List
+                    </a>
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "AddProduct" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="AddProduct">
+                        <span class="fa fa-plus-square"></span>
+                        Add Product
+                    </a>
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Products" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="Products">
+                        <span class="fas fa-boxes"></span>
+                        Product List
+                    </a>
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "AddOption" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="AddOption">
+                        <span class="fa fa-plus-square"></span>
+                        Add Option
+                    </a>
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Options" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="Options">
+                        <span class="fas fa-tasks"></span>
+                        Option List
+                    </a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Customers" ? "active" : "")" asp-controller="Dashboard" asp-action="Customers">
@@ -44,8 +72,8 @@
             </li>
         </ul>
         <hr class="text-white" />
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-            <button type="submit" class="nav-link text-danger bg-dark border-0">
+        <form class="d-grid" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+            <button type="submit" class="nav-link text-white text-start btn btn-danger">
                 <span class="fas fa-sign-out-alt"></span>
                 Sign out
             </button>

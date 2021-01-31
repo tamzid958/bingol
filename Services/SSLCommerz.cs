@@ -19,11 +19,10 @@ namespace Bingol.Services
     {
         private List<string> key_list;
         private string generated_hash;
-        private string error;
-
-        private string Store_ID;
-        private string Store_Pass;
+        private readonly string Store_ID;
+        private readonly string Store_Pass;
         private bool StoreTestMode;
+        private string error;
 
         private string _sslCzUrl = "https://securepay.sslcommerz.com/";
         private const string SubmitUrl = "gwprocess/v4/api.php";
@@ -54,7 +53,7 @@ namespace Bingol.Services
             try
             {
                 SSLCommerzInitResponse resp = new JavaScriptSerializer().Deserialize<SSLCommerzInitResponse>(response);
-                if (resp.status == "SUCCESS")
+                if (resp.Status == "SUCCESS")
                 {
                     if (getGateWayList)
                     {
@@ -79,7 +78,7 @@ namespace Bingol.Services
         }
         public bool OrderValidate(string MerchantTrxID, string MerchantTrxAmount, string MerchantTrxCurrency, HttpRequest req)
         {
-            bool hash_verified = this.ipn_hash_verify(req);
+            bool hash_verified = this.Ipn_hash_verify(req);
             if (hash_verified)
             {
 
@@ -102,11 +101,11 @@ namespace Bingol.Services
                 {
                     SslCommerzValidatorResponse resp = new JavaScriptSerializer().Deserialize<SslCommerzValidatorResponse>(json);
 
-                    if (resp.status == "VALID" || resp.status == "VALIDATED")
+                    if (resp.Status == "VALID" || resp.Status == "VALIDATED")
                     {
                         if (MerchantTrxCurrency == "BDT")
                         {
-                            if (MerchantTrxID == resp.tran_id && (Math.Abs(Convert.ToDecimal(MerchantTrxAmount) - Convert.ToDecimal(resp.amount)) < 1) && MerchantTrxCurrency == "BDT")
+                            if (MerchantTrxID == resp.Tran_id && (Math.Abs(Convert.ToDecimal(MerchantTrxAmount) - Convert.ToDecimal(resp.Amount)) < 1) && MerchantTrxCurrency == "BDT")
                             {
                                 return true;
                             }
@@ -118,7 +117,7 @@ namespace Bingol.Services
                         }
                         else
                         {
-                            if (MerchantTrxID == resp.tran_id && (Math.Abs(Convert.ToDecimal(MerchantTrxAmount) - Convert.ToDecimal(resp.currency_amount)) < 1) && MerchantTrxCurrency == resp.currency_type)
+                            if (MerchantTrxID == resp.Tran_id && (Math.Abs(Convert.ToDecimal(MerchantTrxAmount) - Convert.ToDecimal(resp.Currency_amount)) < 1) && MerchantTrxCurrency == resp.Currency_type)
                             {
                                 return true;
                             }
@@ -181,7 +180,7 @@ namespace Bingol.Services
         /// <param name="req"></param>
         /// <param name="pass"></param>
         /// <returns>Boolean - True or False</returns>
-        public Boolean ipn_hash_verify(HttpRequest req)
+        public Boolean Ipn_hash_verify(HttpRequest req)
         {
 
             // Check For verify_sign and verify_key parameters
@@ -253,37 +252,38 @@ namespace Bingol.Services
         public String MD5(String s)
         {
             byte[] asciiBytes = ASCIIEncoding.ASCII.GetBytes(s);
-            byte[] hashedBytes = System.Security.Cryptography.MD5CryptoServiceProvider.Create().ComputeHash(asciiBytes);
+            byte[] hashedBytes = System.Security.Cryptography.MD5.Create()
+                .ComputeHash(asciiBytes);
             string hashedString = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             return hashedString;
         }
 
         public class Gw
         {
-            public string visa { get; set; }
-            public string master { get; set; }
-            public string amex { get; set; }
-            public string othercards { get; set; }
-            public string internetbanking { get; set; }
-            public string mobilebanking { get; set; }
+            public string Visa { get; set; }
+            public string Master { get; set; }
+            public string Amex { get; set; }
+            public string Othercards { get; set; }
+            public string Internetbanking { get; set; }
+            public string Mobilebanking { get; set; }
         }
 
         public class Desc
         {
-            public string name { get; set; }
-            public string type { get; set; }
-            public string logo { get; set; }
-            public string gw { get; set; }
+            public string Name { get; set; }
+            public string Type { get; set; }
+            public string Logo { get; set; }
+            public string Gw { get; set; }
         }
 
         public class SSLCommerzInitResponse
         {
-            public string status { get; set; }
-            public string failedreason { get; set; }
-            public string sessionkey { get; set; }
-            public Gw gw { get; set; }
-            public string redirectGatewayURL { get; set; }
-            public string redirectGatewayURLFailed { get; set; }
+            public string Status { get; set; }
+            public string Failedreason { get; set; }
+            public string Sessionkey { get; set; }
+            public Gw Gw { get; set; }
+            public string RedirectGatewayURL { get; set; }
+            public string RedirectGatewayURLFailed { get; set; }
             public string GatewayPageUrl { get; set; }
             public string StoreBanner { get; set; }
             public string StoreLogo { get; set; }
@@ -293,44 +293,44 @@ namespace Bingol.Services
 
         private abstract class SslCommerzValidatorResponse
         {
-            public string status { get; set; }
-            public string tran_date { get; set; }
-            public string tran_id { get; set; }
-            public string val_id { get; set; }
-            public string amount { get; set; }
-            public string store_amount { get; set; }
-            public string currency { get; set; }
-            public string bank_tran_id { get; set; }
-            public string card_type { get; set; }
-            public string card_no { get; set; }
-            public string card_issuer { get; set; }
-            public string card_brand { get; set; }
-            public string card_issuer_country { get; set; }
-            public string card_issuer_country_code { get; set; }
-            public string currency_type { get; set; }
-            public string currency_amount { get; set; }
-            public string currency_rate { get; set; }
-            public string base_fair { get; set; }
-            public string value_a { get; set; }
-            public string value_b { get; set; }
-            public string value_c { get; set; }
-            public string value_d { get; set; }
-            public string emi_instalment { get; set; }
-            public string emi_amount { get; set; }
-            public string emi_description { get; set; }
-            public string emi_issuer { get; set; }
-            public string account_details { get; set; }
-            public string risk_title { get; set; }
-            public string risk_level { get; set; }
+            public string Status { get; set; }
+            public string Tran_date { get; set; }
+            public string Tran_id { get; set; }
+            public string Val_id { get; set; }
+            public string Amount { get; set; }
+            public string Store_amount { get; set; }
+            public string Currency { get; set; }
+            public string Bank_tran_id { get; set; }
+            public string Card_type { get; set; }
+            public string Card_no { get; set; }
+            public string Card_issuer { get; set; }
+            public string Card_brand { get; set; }
+            public string Card_issuer_country { get; set; }
+            public string Card_issuer_country_code { get; set; }
+            public string Currency_type { get; set; }
+            public string Currency_amount { get; set; }
+            public string Currency_rate { get; set; }
+            public string Base_fair { get; set; }
+            public string Value_a { get; set; }
+            public string Value_b { get; set; }
+            public string Value_c { get; set; }
+            public string Value_d { get; set; }
+            public string Emi_instalment { get; set; }
+            public string Emi_amount { get; set; }
+            public string Emi_description { get; set; }
+            public string Emi_issuer { get; set; }
+            public string Account_details { get; set; }
+            public string Risk_title { get; set; }
+            public string Risk_level { get; set; }
             public string APIConnect { get; set; }
-            public string validated_on { get; set; }
-            public string gw_version { get; set; }
-            public string token_key { get; set; }
-            public string shipping_method { get; set; }
-            public string num_of_item { get; set; }
-            public string product_name { get; set; }
-            public string product_profile { get; set; }
-            public string product_category { get; set; }
+            public string Validated_on { get; set; }
+            public string Gw_version { get; set; }
+            public string Token_key { get; set; }
+            public string Shipping_method { get; set; }
+            public string Num_of_item { get; set; }
+            public string Product_name { get; set; }
+            public string Product_profile { get; set; }
+            public string Product_category { get; set; }
         }
     }
 }

@@ -10,9 +10,10 @@ namespace Bingol.Data
 {
     public partial class BingolContext : IdentityDbContext<BingolUser>
     {
-        private IDbConnection DbConnection { get; }
-        public BingolContext()
+        private readonly IDbConnection _DbConnection;
+        public BingolContext(IDbConnection DbConnection)
         {
+            _DbConnection = DbConnection;
         }
 
         public BingolContext(DbContextOptions<BingolContext> options)
@@ -35,7 +36,7 @@ namespace Bingol.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(DbConnection.ToString());
+                optionsBuilder.UseSqlServer(_DbConnection.ToString());
             }
         }
 

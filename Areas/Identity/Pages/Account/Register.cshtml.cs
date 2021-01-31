@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Net;
 
 namespace Bingol.Areas.Identity.Pages.Account
 {
@@ -23,19 +25,17 @@ namespace Bingol.Areas.Identity.Pages.Account
         private readonly UserManager<BingolUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private const string IchanZip = "https://ipv4.icanhazip.com/";
         public RegisterModel(
             UserManager<BingolUser> userManager,
             SignInManager<BingolUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -115,8 +115,9 @@ namespace Bingol.Areas.Identity.Pages.Account
                 var user = new BingolUser { UserFirstName= Input.FirstName, UserLastName =Input.LastName,
                 UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.PhoneNumber, UserCity = Input.City,
                 UserState= Input.State, UserZip = Input.ZipCode, UserCountry= Input.Country, UserAddress= Input.BillingAddress,
-                UserAddress2 = Input.ShippingAddress
-                };
+                UserAddress2 = Input.ShippingAddress, UserRegistrationDate = DateTime.Now,
+                    UserIp = new WebClient().DownloadString(IchanZip).TrimEnd(),
+            };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -127,7 +128,7 @@ namespace Bingol.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                        values: (area: "Identity", userId: user.Id, code, returnUrl),
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -135,7 +136,7 @@ namespace Bingol.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", (email: Input.Email, returnUrl));
                     }
                     else
                     {

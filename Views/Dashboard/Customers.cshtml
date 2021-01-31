@@ -22,7 +22,7 @@
                         {
                             <tr>
                                 <td class="text-center">
-                                    @(obj.UserFirstName + " " + obj.UserLastName) 
+                                    @obj.UserFirstName
                                 </td>
                                 <td class="text-center">
                                     @obj.Email
@@ -41,10 +41,7 @@
                                     }
                                 </td>
                                 <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" value="@obj.Id" class="btn btn-warning">Edit</button>
-                                        <button type="button" value="@obj.Id" class="btn btn-danger">Delete</button>
-                                    </div>
+                                    <a class="btn btn-danger" asp-action="DeleteCustomer" asp-route-id="@obj.Id">Delete</a>
                                 </td>
                             </tr>
                         }

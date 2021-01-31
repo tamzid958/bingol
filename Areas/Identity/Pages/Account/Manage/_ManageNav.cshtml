@@ -12,7 +12,7 @@
     <li class="nav-item">
         <a class="nav-link text-light @ManageNavPages.OrdersNavClass(ViewContext)" id="order" asp-page="./Orders">
             <span class="fa fa-archive"></span>
-            Orders  <span class="badge bg-danger">9</span>
+            Orders
         </a>
     </li>
     <li class="nav-item">
@@ -24,21 +24,21 @@
     <li class="nav-item">
         <a class="nav-link text-light @ManageNavPages.WishlistNavClass(ViewContext)" id="wishlist" asp-page="./Wishlist">
             <span class="fa fa-heart"></span>
-            Wishlist <span class="badge bg-danger">9</span>
+            Wishlist
         </a>
     </li>
     <li class="nav-item">
-    <a class="nav-link text-light @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">
-        <span class="fa fa-user"></span>
-        Account Details
-    </a>
-    </li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-            <button type="submit" class="nav-link text-danger bg-dark border-0">
-                <span class="fas fa-sign-out-alt"></span>
-                Sign out
-            </button>
-        </form>
+        <a class="nav-link text-light @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">
+            <span class="fa fa-user"></span>
+            Account Details
+        </a>
     </li>
 </ul>
+<hr class="text-white" />
+<form class="d-grid" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+    <button type="submit" class="nav-link text-white text-start btn btn-danger">
+        <span class="fas fa-sign-out-alt"></span>
+        Sign out
+    </button>
+</form>
+

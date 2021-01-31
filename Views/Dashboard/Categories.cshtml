@@ -1,6 +1,6 @@
-﻿@model PaginatedList<Bingol.Models.Product>
+﻿@model PaginatedList<Bingol.Models.Productcategory>
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Categories";
 }
 <div class="container-fluid">
     <div class="row">
@@ -11,9 +11,7 @@
                     <thead class="bg-dark text-light">
                         <tr>
                             <th scope="col" class="text-center">ID</th>
-                            <th scope="col" class="text-center">PRODUCT NAME</th>
-                            <th scope="col" class="text-center">CATEGORY</th>
-                            <th scope="col" class="text-center">STOCK</th>
+                            <th scope="col" class="text-center">Category Name</th>
                             <th scope="col" class="text-center">ACTIONS</th>
                         </tr>
                     </thead>
@@ -22,21 +20,15 @@
                         {
                             <tr>
                                 <td class="text-center">
-                                    #@obj.ProductId
+                                    #@obj.CategoryId
                                 </td>
                                 <td class="text-center">
-                                    @obj.ProductName
-                                </td>
-                                <td class="text-center">
-                                    @obj.ProductCategory.CategoryName
-                                </td>
-                                <td class="text-center">
-                                    @(obj.ProductStock == null ? 0 : obj.ProductStock)
+                                    @obj.CategoryName
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-warning" asp-action="UpdateProduct" asp-route-id="@obj.ProductId">Edit</a>
-                                        <a class="btn btn-danger" asp-action="DeleteProduct" asp-route-id="@obj.ProductId">Delete</a>
+                                        <a class="btn btn-warning" asp-action="UpdateCategory" asp-route-id="@obj.CategoryId">Edit</a>
+                                        <a class="btn btn-danger" asp-action="DeleteCategory" asp-route-id="@obj.CategoryId">Delete</a>
                                     </div>
                                 </td>
                             </tr>
@@ -44,7 +36,6 @@
                     </tbody>
                 </table>
             </div>
-
             @{
                 var prevDisabled = !Model.PreviousPage ? "disabled" : "";
                 var nextDisabled = !Model.NextPage ? "disabled" : "";
@@ -52,10 +43,10 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-end mt-3">
                     <li class="page-item @prevDisabled">
-                        <a class="page-link" asp-action="Products" asp-route-page="@(Model.PageIndex-1)">Previous</a>
+                        <a class="page-link" asp-action="Categories" asp-route-page="@(Model.PageIndex-1)">Previous</a>
                     </li>
                     <li class="page-item text-dark @nextDisabled">
-                        <a class="page-link" asp-action="Products" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                        <a class="page-link" asp-action="Categories" asp-route-page="@(Model.PageIndex + 1)">Next</a>
                     </li>
                 </ul>
             </nav>

@@ -2,75 +2,109 @@
     ViewData["Title"] = "Cart";
 }
 
-<div class="container mb-4 mt-4">
-    <div class="row">
-        <div class="text-start">
-            <p class="text-start">
-                <mark>
-                    Name: @ViewBag.PersonalDetails <br />
-                    Your Billing Address: @ViewBag.BillingAddress <br />
-                    Your Shipping Address: @ViewBag.ShippingAddress
-                </mark>
-            </p>
-            <p>Incorrect information? <a asp-area="Identity" asp-page="/Account/Manage/Addresses">edit in your profile.</a></p>
-        </div>
-        <div class="col-md-9 card bg-light">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col"> </th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Available</th>
-                            <th scope="col" class="text-center">Quantity</th>
-                            <th scope="col" class="text-right">Price</th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i < 6; i++)
-                        {
-                            <tr>
-                                <td><img class="rounded-circle" src="https://dummyimage.com/50x50/55595c/fff" width="50" height="50" /> </td>
-                                <td>Product's Name</td>
-                                <td>In stock</td>
-                                <td>
-                                    <input class="form-control text-center" type="number" placeholder="quantity" value="1" min="1">
-                                </td>
-                                <td class="text-right">BDT 124,90</td>
-                                <td class="text-right">
-                                    <button class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+<div class="container mt-4">
+    <div class="row g-3">
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+                <span class="badge bg-success">3</span>
+            </h4>
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">Product name</h6>
+                        <small class="text-muted">Quantity: 1</small>
+                    </div>
+                    <span class="text-muted">BDT 12</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">Second product</h6>
+                        <small class="text-muted">Quantity: 1</small>
+                    </div>
+                    <span class="text-muted">BDT 8</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">Third item</h6>
+                        <small class="text-muted">Quantity: 1</small>
+                    </div>
+                    <span class="text-muted">BDT 5</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (BDT)</span>
+                    <strong>BDT 20</strong>
+                </li>
+            </ul>
+            <div class="card p-2">
+                <a class="w-100 btn btn-warning btn-lg" href="@Url.Action("Checkout","Products")">Continue to checkout</a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h3 class="card-header">Order Summary</h3>
-                    <div class="d-flex mt-3 justify-content-between border-top">
-                        <p class="text-muted mt-4">Sub-Total</p>
-                        <p class="mt-4">BDT 2130</p>
+        <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Billing address</h4>
+            <form class="needs-validation">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="firstName" class="form-label">First name</label>
+                        <input type="text" class="form-control" id="firstName" value="@ViewBag.UserFirstName" readonly required>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="text-muted mt-1">Shipping Charge</p>
-                        <p class="mt-1">BDT 2130</p>
+                    <div class="col-sm-6">
+                        <label for="lastName" class="form-label">Last name</label>
+                        <input type="text" class="form-control" id="lastName" value="@ViewBag.UserLastName" readonly required>
                     </div>
-                    <div class="d-flex justify-content-between border-top">
-                        <h4 class="text-muted mt-4">Total</h4>
-                        <h3 class="mt-4">BDT 2130</h3>
+
+                    <div class="col-12">
+                        <label for="username" class="form-label">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-success text-white"><span class="fa fa-user"></span></span>
+                            <input type="text" class="form-control" id="username" value="@ViewBag.UserName" readonly required>
+                        </div>
                     </div>
-                    <div class="d-grid mt-3 col-12 mx-auto">
-                        <a class="btn btn-warning text-uppercase" href="@Url.Action("Checkout","Products")">Checkout <span class="ms-2 fas fa-credit-card"></span></a>
+
+                    <div class="col-sm-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" value="@ViewBag.Email" readonly required>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" value="@ViewBag.PhoneNumber" readonly required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" id="Country" value="@ViewBag.City" readonly required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="state" class="form-label">State</label>
+                        <input type="text" class="form-control" id="state" value="@ViewBag.State" readonly required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="zip" class="form-label">Zip</label>
+                        <input type="text" class="form-control" id="zip" value="@ViewBag.ZipCode" readonly required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="country" value="@ViewBag.Country" readonly required>
+                    </div>
+                    <div class="col-12">
+                        <label for="address" class="form-label">Billing Address</label>
+                        <input type="text" class="form-control" id="address" value="@ViewBag.BillingAddress" readonly required>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="address2" class="form-label">Shipping Address</label>
+                        <input type="text" class="form-control" id="address2" value="@ViewBag.ShippingAddress" readonly required>
                     </div>
                 </div>
-            </div>
+            </form>
+            <a class="btn btn-warning d-grid mt-3" asp-area="Identity" asp-page="/Account/Manage/Addresses">Incorrect? Update Information</a>
         </div>
     </div>
 </div>
+
+
 

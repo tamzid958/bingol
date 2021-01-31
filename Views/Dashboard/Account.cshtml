@@ -5,15 +5,57 @@
     <div class="row">
         <partial name="_PartialAdminNav.cshtml" />
         <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 profile-tab">
-            <div class="col-md-6">
-                <form id="change-password-form" method="post" action="">
-                    <div class="form-group mt-3">
-                        <label class="form-label">Current Email</label>
-                        <input class="form-control" value="@ViewBag.CurrentMail" disabled />
+            <form id="change-password-form" method="post" action="">
+                <div class="row">
+                    <div class="col mt-3">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" required/>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-warning mt-3">Update</button>
-                </form>
-            </div>
+                    <div class="col mt-3">
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mt-3">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col mt-3">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mt-3">
+                        <div class="form-group">
+                            <label class="form-label">Current Password</label>
+                            <input type="password" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col mt-3">
+                        <div class="form-group">
+                            <label class="form-label">New Password</label>
+                            <input type="password" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col mt-3">
+                        <div class="form-group">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-warning mt-3">Update</button>
+            </form>
         </div>
     </div>
 </div>

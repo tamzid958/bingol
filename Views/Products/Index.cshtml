@@ -43,11 +43,11 @@
                     <div class="card">
                         <div class="sorting-filter-div ">
                             <a class="btn btn-outline-dark d-flex justify-content-between align-items-center fs-5" data-bs-toggle="collapse" href="#sorts" role="button" aria-expanded="false" aria-controls="sorts">
-                                Sorting
+                                Sort
                                 <span class="icon-control fa fa-chevron-down"></span>
                             </a>
                             <div class="collapse multi-collapse m-3 show" id="sorts">
-                                <select class="form-select" aria-label="Sorting" name="sorted">
+                                <select class="form-select" aria-label="Sorting" id="sort-selection" name="sorted">
                                     <option value="default" selected>Default</option>
                                     <option value="asce">Ascending</option>
                                     <option value="desc">Descending</option>
@@ -63,7 +63,7 @@
 
                                 @foreach (Productcategory obj in Model.Categories)
                                 {
-                                    <input class="form-check-input " type="radio" name="category" value="@(obj.CategoryId)">
+                                    <input class="form-check-input" type="radio" name="category" value="@(obj.CategoryId)">
                                     <label class="form-check-label">
                                         @obj.CategoryName
                                     </label>
@@ -130,7 +130,7 @@
         </nav>
         <div class="col-md-9 mt-3">
             <div class="d-flex justify-content-start align-items-center">
-                <h5>Showing @Model.Products.Count Products</h5>
+                <h6>Showing @Model.Products.Count of @ViewBag.TotalProducts Products</h6>
             </div>
             @if (Model.Products.Count == 0)
             {

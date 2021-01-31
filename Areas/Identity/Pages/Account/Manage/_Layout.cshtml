@@ -16,8 +16,10 @@
 <div class="container-fluid">
     <div class="row">
         <div id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
-            <partial name="_ManageNav" />
-        </div>
+            <div class="position-sticky pt-3 min-vh-100">
+                <partial name="_ManageNav" />
+                </div>
+            </div>
         <div class="col-md-9 col-lg-10 p-3 profile-tab-content">
             @RenderBody()
         </div>

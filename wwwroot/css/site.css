@@ -195,9 +195,7 @@ body {
 .product-card-owl-lg {
     height: 25rem;
 }
-.profile-tab, .profile-tab-content {
-    min-height: 50rem;
-}
+
 .profile-tab {
     padding: 3vw;
 }

@@ -67,14 +67,17 @@ namespace Bingol.Controllers
         }
         public async Task<IActionResult> Index(string searching, int category, int color, int size, string sorted, int price, int page=1)
         {
-            ViewBag.maxProductPrice = (int)Math.Ceiling(_db.Products.AsQueryable().Max(o => o.ProductPrice));
-            ViewBag.minProductPrice = (int)Math.Ceiling(_db.Products.AsQueryable().Min(o => o.ProductPrice));
+            var productsIndex = _db.Products;
+            var options = _db.Options;
+            ViewBag.TotalProducts = productsIndex.Count();
+            ViewBag.maxProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Max(o => o.ProductPrice));
+            ViewBag.minProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Min(o => o.ProductPrice));
             var products = SearchProduct(searching, category, color, size, sorted, price);
             dynamic metamodel = new ExpandoObject();
-            metamodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory), page, 12);
+            metamodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory).OrderByDescending(m => m.ProductId), page, 12);
             metamodel.Categories = _db.Productcategories;
-            metamodel.Color = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 1);
-            metamodel.Size = _db.Options.Where(o => o.OptionsGroup.OptionGroupId == 2);
+            metamodel.Color = options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "color");
+            metamodel.Size = options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size");
             return View(metamodel);
         }
         
@@ -86,6 +89,10 @@ namespace Bingol.Controllers
             }
             dynamic metamodel = new ExpandoObject();
             metamodel.Product = await _db.Products.Include(m => m.ProductCategory).FirstOrDefaultAsync(m => m.ProductId == id);
+            if (metamodel.Product == null)
+            {
+                return NotFound();
+            }
             metamodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroupId == 2 && o.Productoptions.Any(m => m.ProductId == id));
             metamodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroupId == 1 && o.Productoptions.Any(m => m.ProductId == id));
             var category = _db.Productcategories.FirstOrDefault(o => o.Products.Any(m => m.ProductId == id));
@@ -99,12 +106,21 @@ namespace Bingol.Controllers
         public async Task<IActionResult> CartAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            ViewBag.PersonalDetails = user.UserFirstName + " " + user.UserLastName;
-            ViewBag.BillingAddress = user.UserAddress + " , " + user.UserCity + " , " + user.UserState + " , " + user.UserCountry;
+            ViewBag.UserFirstName = user.UserFirstName;
+            ViewBag.UserLastName = user.UserLastName;
+            ViewBag.UserName = user.NormalizedUserName;
+            ViewBag.Email = user.Email;
+            ViewBag.PhoneNumber = user.PhoneNumber;
+            ViewBag.BillingAddress = user.UserAddress;
             ViewBag.ShippingAddress = user.UserAddress2;
+            ViewBag.Country = user.UserCountry;
+            ViewBag.City = user.UserCity;
+            ViewBag.State = user.UserState;
+            ViewBag.ZipCode = user.UserZip;
             return View();
         }
 
+        [Authorize]
         public IActionResult Checkout()
         {
             const string productName = "Blue Jeans";
@@ -154,6 +170,7 @@ namespace Bingol.Controllers
             return Redirect(response);
         }
 
+        [Authorize]
         [Route("/{action=Index}")]
         public IActionResult CheckoutConfirmation()
         {
@@ -174,6 +191,7 @@ namespace Bingol.Controllers
             return RedirectToAction("Cart");
         }
 
+        [Authorize]
         [Route("/{action=Index}")]
         public IActionResult CheckoutFail()
         {
@@ -181,6 +199,7 @@ namespace Bingol.Controllers
             return View();
         }
 
+        [Authorize]
         [Route("/{action=Index}")]
         public IActionResult CheckoutCancel()
         {
