@@ -33,16 +33,21 @@ namespace Bingol.Controllers
             _emailSender = emailSender;
             _logger = logger;
         }
-
-        public async Task<IActionResult> IndexAsync()
+        //normal view
+        public IActionResult AddProduct()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
             return View();
         }
+        public IActionResult AddCategory()
+        {
+            return View();
+        }
+        public IActionResult AddOption()
+        {
+            return View();
+        }
+
+        //list view
         public async Task<IActionResult> OrdersAsync(int page = 1)
         {
             var orders = await PaginatedList<Order>.CreateAsync(_db.Orders.Include(m => m.OrderUser).Include(m => m.Orderdetails).OrderByDescending(o => o.OrderId), page, 30);
@@ -63,7 +68,45 @@ namespace Bingol.Controllers
             var reviews = await PaginatedList<Review>.CreateAsync(_db.Reviews.Include(m => m.ReviewProduct).Include(m => m.ReviewUser), page, 30);
             return View(reviews);
         }
+        public async Task<IActionResult> CategoriesAsync(int page = 1)
+        {
+            var categories = await PaginatedList<Productcategory>.CreateAsync(_db.Productcategories.OrderByDescending(m => m.CategoryId), page, 30);
+            return View(categories);
+        }
+        public async Task<IActionResult> OptionsAsync(int page = 1)
+        {
+            var options = await PaginatedList<Option>.CreateAsync(_db.Options.Include(o => o.OptionsGroup).OrderByDescending(m => m.OptionId), page, 30);
+            return View(options);
+        }
 
+
+        public async Task<IActionResult> IndexAsync()
+        {
+            var checkColor = _db.Optiongroups.Where(o => o.OptionGroupName == "color");
+            var checkSize = _db.Optiongroups.Where(o => o.OptionGroupName == "size");
+            if (checkColor == null)
+            {
+                Optiongroup optionColor = new Optiongroup
+                {
+                    OptionGroupName = "color"
+                };
+                _db.Optiongroups.Add(optionColor);
+            }
+            if (checkSize == null)
+            {
+                Optiongroup optionColor = new Optiongroup
+                {
+                    OptionGroupName = "size"
+                };
+                _db.Optiongroups.Add(optionColor);
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            return View();
+        }
         public async Task<IActionResult> AccountAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -82,6 +125,102 @@ namespace Bingol.Controllers
             }
             return View();
         }
+
+        public IActionResult UpdateProduct(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return View();
+        }
+        public IActionResult UpdateCategory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var category = _db.Productcategories.First(o => o.CategoryId == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+        public IActionResult UpdateOption(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return View();
+        }
+
+        //get section
+
+        [HttpGet]
+        public IActionResult DeleteCategory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var category = _db.Productcategories.First(o => o.CategoryId == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            _db.Productcategories.Remove(category);
+            _db.SaveChanges();
+            return RedirectToAction("Categories");
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteCustomerAsync(string id)
+        {
+
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return NotFound();
+            }
+            var customer = await _userManager.FindByIdAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            if (await _userManager.IsInRoleAsync(customer, "Admin"))
+            {
+                return BadRequest("Admin Can't be deleted");
+            }
+            await _userManager.DeleteAsync(customer);
+            return RedirectToAction("Customers");
+        }
+        public IActionResult DeleteOption(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Options");
+        }
+        [HttpGet]
+        public IActionResult DeleteProduct(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _db.Products.First(x => x.ProductId == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _db.Products.Remove(product);
+            _db.SaveChanges();
+            return RedirectToAction("Products");
+        }
+
+
+        //post section
 
         [HttpPost]
         public async Task<IActionResult> OnPostAccountDataChangeAsync(BingolUser model)
@@ -113,6 +252,7 @@ namespace Bingol.Controllers
             return RedirectToAction("Account");
         }
 
+        [HttpPost]
         public async Task<IActionResult> OnPostPasswordChangeAsync(ChangePassword model)
         {
             if (!ModelState.IsValid)
@@ -142,101 +282,33 @@ namespace Bingol.Controllers
 
             return RedirectToAction("ChangePassword");
         }
-        public IActionResult AddProduct()
+        [HttpPost]
+        public IActionResult OnPostAddCategory(Productcategory model)
         {
-            return View();
-        }
-        public IActionResult AddCategory()
-        {
-            return View();
-        }
-        public IActionResult AddOption()
-        {
-            return View();
-        }
-        public IActionResult UpdateProduct(int? id)
-        {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return RedirectToAction("AddCategory");
             }
-            return View();
-        }
-        public IActionResult UpdateCategory(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            return View();
-        }
-        public IActionResult UpdateOption(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            return View();
-        }
-        public IActionResult DeleteProduct(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var product = _db.Products.First(x => x.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            _db.Products.Remove(product);
+            _db.Productcategories.Add(model);
             _db.SaveChanges();
-            return RedirectToAction("Products");
-        }
-        public IActionResult DeleteCategory(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
             return RedirectToAction("Categories");
         }
-        public IActionResult DeleteOption(int? id)
+        [HttpPost]
+        public IActionResult OnPostUpdateCategoryDetails(Productcategory model)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return RedirectToAction("Categories");
             }
-            return RedirectToAction("Options");
-        }
-        public async Task<IActionResult> DeleteCustomerAsync(string id)
-        {
-            
-            if (string.IsNullOrWhiteSpace(id))
+            var category = _db.Productcategories.First(o => o.CategoryId == model.CategoryId);
+            if(category == null)
             {
-                return NotFound();
+                return RedirectToAction("Categories");
             }
-            var customer = await _userManager.FindByIdAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            if (await _userManager.IsInRoleAsync(customer, "Admin"))
-            {
-                return BadRequest("Admin Can't be deleted");
-            }
-            await _userManager.DeleteAsync(customer);
-            return RedirectToAction("Customers");
-        }
-        public async Task<IActionResult> CategoriesAsync(int page = 1)
-        {
-            var categories = await PaginatedList<Productcategory>.CreateAsync(_db.Productcategories.OrderByDescending(m => m.CategoryId), page, 30);
-            return View(categories);
-        }
-        public async Task<IActionResult> OptionsAsync(int page = 1)
-        {
-            var options = await PaginatedList<Option>.CreateAsync(_db.Options.Include(o => o.OptionsGroup).OrderByDescending(m => m.OptionId), page, 30);
-            return View(options);
-        }
+            category.CategoryName = model.CategoryName;
+            _db.Productcategories.Update(category);
+            _db.SaveChanges();
+            return RedirectToAction("Categories");
+        } 
     }
 }

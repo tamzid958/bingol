@@ -6,6 +6,8 @@
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
     <StartupObject>Bingol.Program</StartupObject>
     <UserSecretsId>16ff9892-94e2-4c40-ad2f-f2a0d5d327a9</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
     <PackageReference Include="Nancy" Version="2.0.0" />
   </ItemGroup>
