@@ -1,22 +1,33 @@
-﻿@{
+﻿@model Bingol.Areas.Identity.Data.BingolUser
+@{
     ViewData["Title"] = "Account";
 }
 <div class="container-fluid">
     <div class="row">
         <partial name="_PartialAdminNav.cshtml" />
         <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 profile-tab">
-            <form id="change-password-form" method="post" action="">
+            @ViewBag.StatusMessage
+            <form id="change-account-form" method="post" action="@Url.Action("OnPostAccountDataChange", "Dashboard")">
+                <div class="row">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-success text-white"><span class="fa fa-user"></span></span>
+                        <input asp-for="NormalizedUserName" class="form-control" readonly>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col mt-3">
                         <div class="form-group">
                             <label class="form-label">First Name</label>
-                            <input type="text" class="form-control" required/>
+                            <input asp-for="UserFirstName" class="form-control" required/>
+                            <span asp-validation-for="UserFirstName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col mt-3">
                         <div class="form-group">
                             <label class="form-label">Last Name</label>
-                            <input type="text" class="form-control" required/>
+                            <input asp-for="UserLastName" class="form-control" required/>
+                            <span asp-validation-for="UserLastName" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -24,33 +35,15 @@
                     <div class="col mt-3">
                         <div class="form-group">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-control" required />
+                            <input asp-for="Email" class="form-control" required/>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col mt-3">
                         <div class="form-group">
                             <label class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" required />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col mt-3">
-                        <div class="form-group">
-                            <label class="form-label">Current Password</label>
-                            <input type="password" class="form-control" required />
-                        </div>
-                    </div>
-                    <div class="col mt-3">
-                        <div class="form-group">
-                            <label class="form-label">New Password</label>
-                            <input type="password" class="form-control" required />
-                        </div>
-                    </div>
-                    <div class="col mt-3">
-                        <div class="form-group">
-                            <label class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" required />
+                            <input asp-for="PhoneNumber" class="form-control" required/>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

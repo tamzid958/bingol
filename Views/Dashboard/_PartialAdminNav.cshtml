@@ -12,7 +12,7 @@
                     Dashboard
                 </a>
             </li>
-            <li class="nav-item"> 
+            <li class="nav-item">
                 <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Orders" ? "active" : "")" asp-controller="Dashboard" asp-action="Orders">
                     <span class="fa fa-archive"></span>
                     Orders
@@ -68,6 +68,12 @@
                 <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Account" ? "active" : "")" asp-controller="Dashboard" asp-action="Account">
                     <span class="fas fa-info-circle"></span>
                     Personal info
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "ChangePassword" ? "active" : "")" asp-controller="Dashboard" asp-action="ChangePassword">
+                    <span class="fas fa-key"></span>
+                    Change Password
                 </a>
             </li>
         </ul>

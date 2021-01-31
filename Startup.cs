@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -87,7 +86,7 @@ namespace Bingol
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<BingolUser>>();
             Task<IdentityResult> roleResult;
-            const string email = "admin@gmail.com";
+            const string username = "admin@bingol.com";
 
             //Check that there is an Administrator role and create if not
             var hasAdminRole = roleManager.RoleExistsAsync("Admin");
@@ -110,15 +109,15 @@ namespace Bingol
             //Check if the admin user exists and create it if not
             //Add to the Administrator role
 
-            var testUser = userManager.FindByEmailAsync(email);
+            var testUser = userManager.FindByNameAsync(username);
             testUser.Wait();
 
             if (testUser.Result != null) return;
             var administrator = new BingolUser
             {
                 EmailConfirmed = true,
-                Email = email,
-                UserName = email
+                Email = username,
+                UserName = username
             };
 
             var newUser = userManager.CreateAsync(administrator, "_AStrongP@ssword123!");

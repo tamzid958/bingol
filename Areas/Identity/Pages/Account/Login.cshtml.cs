@@ -89,6 +89,11 @@ namespace Bingol.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     var userInfo = _db.BingolUsers.FirstOrDefault(o => o.Email == Input.Email);
+                    if(userInfo == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }
                     SessionUser roleInfo = (from ur in _db.UserRoles
                                     join r in _db.Roles on ur.RoleId
                                     equals r.Id where ur.UserId == userInfo.Id

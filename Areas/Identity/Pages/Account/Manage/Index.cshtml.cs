@@ -103,6 +103,7 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
             user.UserLastName = Input.LastName;
             user.PhoneNumber = Input.PhoneNumber;
             user.Email = Input.Email;
+            user.UserName = Input.Email;
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
