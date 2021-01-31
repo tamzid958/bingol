@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Bingol.Models.Option
+@{
     ViewData["Title"] = "Update Option";
 }
 
@@ -6,6 +7,23 @@
     <div class="row">
         <partial name="_PartialAdminNav.cshtml" />
         <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 profile-tab">
+            <form method="post" action="@Url.Action("OnPostUpdateOptionDetails", "Dashboard")">
+                <input asp-for="OptionId" class="visually-hidden" required />
+                <div class="form-group">
+                    <label class="form-label">Option Name</label>
+                    <input asp-for="OptionName" class="form-control" required />
+                    <span asp-validation-for="OptionName" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="form-label">Option Group</label>
+                    <select asp-for="OptionsGroupId" class="form-control" asp-items="ViewBag.OptionsGroups" required>
+                        <option value="" disabled>Select Group</option>
+                    </select>
+                </div>
+                <div class="d-grid mt-3">
+                    <input type="submit" value="Update" class="btn btn-warning" />
+                </div>
+            </form>
         </div>
     </div>
 </div>

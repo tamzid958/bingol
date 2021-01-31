@@ -7,14 +7,14 @@
     <div class="row">
         <partial name="_PartialAdminNav.cshtml" />
         <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 profile-tab">
-            <form method="post" action="@Url.Action("OnPostAddCategory", "Dashboard")">
+            <form method="post" action="@Url.Action("OnPostAddNewCategory", "Dashboard")">
                 <div class="form-group">
                     <label class="form-label">Category Name</label>
                     <input asp-for="CategoryName" class="form-control" required />
                     <span asp-validation-for="CategoryName" class="text-danger"></span>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-warning mt-3">Add Category</button>
+                    <button type="submit" class="btn btn-warning mt-3">Create</button>
                 </div>
             </form>
         </div>

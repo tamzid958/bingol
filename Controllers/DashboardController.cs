@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace Bingol.Controllers
         }
         public IActionResult AddOption()
         {
+            ViewBag.OptionsGroups = new SelectList(_db.Optiongroups, "OptionGroupId", "OptionGroupName");
             return View();
         }
 
@@ -82,24 +84,6 @@ namespace Bingol.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            var checkColor = _db.Optiongroups.Where(o => o.OptionGroupName == "color");
-            var checkSize = _db.Optiongroups.Where(o => o.OptionGroupName == "size");
-            if (checkColor == null)
-            {
-                Optiongroup optionColor = new Optiongroup
-                {
-                    OptionGroupName = "color"
-                };
-                _db.Optiongroups.Add(optionColor);
-            }
-            if (checkSize == null)
-            {
-                Optiongroup optionColor = new Optiongroup
-                {
-                    OptionGroupName = "size"
-                };
-                _db.Optiongroups.Add(optionColor);
-            }
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -153,7 +137,9 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            return View();
+            var option = _db.Options.First(o => o.OptionId == id);
+            ViewBag.OptionsGroups = new SelectList(_db.Optiongroups, "OptionGroupId", "OptionGroupName");
+            return View(option);
         }
 
         //get section
@@ -200,6 +186,13 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
+            var option = _db.Options.First(m => m.OptionId == id);
+            if(option == null)
+            {
+                return NotFound();
+            }
+            _db.Options.Remove(option);
+            _db.SaveChanges();
             return RedirectToAction("Options");
         }
         [HttpGet]
@@ -283,7 +276,7 @@ namespace Bingol.Controllers
             return RedirectToAction("ChangePassword");
         }
         [HttpPost]
-        public IActionResult OnPostAddCategory(Productcategory model)
+        public IActionResult OnPostAddNewCategory(Productcategory model)
         {
             if (!ModelState.IsValid)
             {
@@ -310,5 +303,34 @@ namespace Bingol.Controllers
             _db.SaveChanges();
             return RedirectToAction("Categories");
         } 
+        [HttpPost]
+        public IActionResult OnPostAddNewOption(Option model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddOption");
+            }
+            _db.Options.Add(model);
+            _db.SaveChanges();
+            return RedirectToAction("Options");
+        }
+        [HttpPost]
+        public IActionResult OnPostUpdateOptionDetails(Option model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Options");
+            }
+            var option = _db.Options.First(o => o.OptionId == model.OptionId);
+            if(option == null)
+            {
+                return NotFound();
+            }
+            option.OptionName = model.OptionName;
+            option.OptionsGroupId = model.OptionsGroupId;
+            _db.Options.Update(option);
+            _db.SaveChanges();
+            return RedirectToAction("Options");
+        }
     }
 }

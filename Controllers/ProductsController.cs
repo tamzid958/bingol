@@ -67,24 +67,6 @@ namespace Bingol.Controllers
         }
         public async Task<IActionResult> Index(string searching, int category, int color, int size, string sorted, int price, int page=1)
         {
-            var checkColor = _db.Optiongroups.Where(o => o.OptionGroupName == "color");
-            var checkSize = _db.Optiongroups.Where(o => o.OptionGroupName == "size");
-            if (checkColor == null)
-            {
-                Optiongroup optionColor = new Optiongroup
-                {
-                    OptionGroupName = "color"
-                };
-                _db.Optiongroups.Add(optionColor);
-            }
-            if (checkSize == null)
-            {
-                Optiongroup optionColor = new Optiongroup
-                {
-                    OptionGroupName = "size"
-                };
-                _db.Optiongroups.Add(optionColor);
-            }
             var productsIndex = _db.Products;
             var options = _db.Options;
             ViewBag.TotalProducts = productsIndex.Count();
@@ -98,27 +80,10 @@ namespace Bingol.Controllers
             metamodel.Size = options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size");
             return View(metamodel);
         }
-        
+
+        [Route("/{action=Index}/{id?}")]
         public async Task<IActionResult> ProductAsync(int? id)
         {
-            var checkColor = _db.Optiongroups.Where(o => o.OptionGroupName == "color");
-            var checkSize = _db.Optiongroups.Where(o => o.OptionGroupName == "size");
-            if (checkColor == null)
-            {
-                Optiongroup optionColor = new Optiongroup
-                {
-                    OptionGroupName = "color"
-                };
-                _db.Optiongroups.Add(optionColor);
-            }
-            if (checkSize == null)
-            {
-                Optiongroup optionColor = new Optiongroup
-                {
-                    OptionGroupName = "size"
-                };
-                _db.Optiongroups.Add(optionColor);
-            }
             if (id == null)
             {
                 return NotFound();

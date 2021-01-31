@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Bingol.Areas.Identity.Data;
 using Bingol.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,6 +75,16 @@ namespace Bingol.Data
                 entity.Property(e => e.OptionGroupName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+                entity.HasData(new Optiongroup
+                {
+                    OptionGroupId = 1,
+                    OptionGroupName = "color"
+                },
+                 new Optiongroup
+                 {
+                     OptionGroupId = 2,
+                     OptionGroupName = "size"
+                 });
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -340,7 +351,6 @@ namespace Bingol.Data
                     .HasForeignKey(d => d.WishlistProductId)
                     .HasConstraintName("FK__wishlists__Wishl__02084FDA");
             });
-
             OnModelCreatingPartial(modelBuilder);
         }
 
