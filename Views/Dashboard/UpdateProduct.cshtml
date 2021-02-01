@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Bingol.Models.Product
+@{
     ViewData["Title"] = "Update Product";
 }
 
@@ -6,6 +7,112 @@
     <div class="row">
         <partial name="_PartialAdminNav.cshtml" />
         <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 profile-tab">
+            <form method="post" action="@Url.Action("OnPostUpdateProductDetails", "Dashboard")">
+                <input asp-for="ProductId" class="visually-hidden" />
+                <div class="form-group">
+                    <label class="form-label">Featured Image</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><span class="fas fa-link"></span></span>
+                        <input placeholder="https://imgbb.com/" asp-for="ProductImage" class="form-control" required />
+                    </div>
+                    <span asp-validation-for="ProductImage" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="form-label">Product Name</label>
+                    <input asp-for="ProductName" class="form-control" required />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label class="form-label">SKU Label</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><span class="fas fa-sticky-note"></span></span>
+                            <input placeholder="000-0001" asp-for="ProductSku" class="form-control" />
+                        </div>
+                        <span asp-validation-for="ProductSku" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">BDT</span>
+                                <input asp-for="ProductPrice" class="form-control" required />
+                            </div>
+                            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Weight</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><span class="fas fa-weight"></span></span>
+                                <input placeholder="1KG" asp-for="ProductWeight" class="form-control" />
+                            </div>
+                            <span asp-validation-for="ProductWeight" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="form-label">Long Description</label>
+                    <textarea asp-for="ProductLongDesc" class="form-control tinymce_textarea" rows="5" cols="40" required></textarea>
+                    <span asp-validation-for="ProductLongDesc" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="form-label">Short Description</label>
+                    <textarea asp-for="ProductShortDesc" class="form-control tinymce_textarea" rows="2" cols="40" required></textarea>
+                    <span asp-validation-for="ProductShortDesc" class="text-danger"></span>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select asp-for="ProductCategoryId" class="form-control" asp-items="ViewBag.ProductCategories" required></select>
+                            <span asp-validation-for="ProductCategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Stock</label>
+                            <input asp-for="ProductStock" class="form-control" required />
+                            <span asp-validation-for="ProductStock" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Live</label>
+                            <select asp-for="ProductLive" class="form-control" required>
+                                <option value="1" selected>Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <span asp-validation-for="ProductLive" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Limitation</label>
+                            <select asp-for="ProductUnlimited" class="form-control" required>
+                                <option value="1">Unlimited</option>
+                                <option value="0" selected>Limited</option>
+                            </select>
+                            <span asp-validation-for="ProductUnlimited" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="form-label">Location</label>
+                    <input placeholder="House # 06, Ground Floor, Ahmed Plaza, Rd # 02, Dhaka 1230" asp-for="ProductLocation" class="form-control" />
+                    <span asp-validation-for="ProductLocation" class="text-danger"></span>
+                </div>
+                <div class="d-grid mt-3">
+                    <input type="submit" value="Save" class="btn btn-warning" />
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

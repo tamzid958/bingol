@@ -44,10 +44,6 @@ namespace Bingol.Areas.Identity.Data
         public string UserIp { get; set; }
 
         [PersonalData]
-        [Column(TypeName = "varchar(20)")]
-        public string UserPhone { get; set; }
-
-        [PersonalData]
         [Column(TypeName = "varchar(50)")]
         public string UserFax { get; set; }
 
@@ -62,10 +58,6 @@ namespace Bingol.Areas.Identity.Data
         [PersonalData]
         [Column(TypeName = "varchar(50)")]
         public string UserAddress2 { get; set; }
-
-        [PersonalData]
-        [Column(TypeName = "smallint")]
-        public short UserType { get; set; }
 
         [ForeignKey("OrderUserId")]
         public virtual ICollection<Order> Orders { get; set; }

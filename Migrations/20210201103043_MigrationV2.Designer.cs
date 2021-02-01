@@ -4,14 +4,16 @@ using Bingol.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bingol.Migrations
 {
     [DbContext(typeof(BingolContext))]
-    partial class BingolContextModelSnapshot : ModelSnapshot
+    [Migration("20210201103043_MigrationV2")]
+    partial class MigrationV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,8 +318,9 @@ namespace Bingol.Migrations
 
                     b.Property<string>("ProductCartDesc")
                         .IsRequired()
+                        .HasMaxLength(250)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(max)");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<int?>("ProductCategoryId")
                         .HasColumnType("int")
@@ -355,8 +358,9 @@ namespace Bingol.Migrations
 
                     b.Property<string>("ProductShortDesc")
                         .IsRequired()
+                        .HasMaxLength(1000)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(max)");
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("ProductSku")
                         .IsRequired()

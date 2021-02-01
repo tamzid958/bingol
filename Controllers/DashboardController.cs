@@ -8,8 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Bingol.Controllers
 {
@@ -37,6 +41,7 @@ namespace Bingol.Controllers
         //normal view
         public IActionResult AddProduct()
         {
+            ViewBag.ProductCategories = new SelectList(_db.Productcategories, "CategoryId", "CategoryName");
             return View();
         }
         public IActionResult AddCategory()
@@ -116,7 +121,13 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            return View();
+            var product = _db.Products.First(o => o.ProductId == id);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            ViewBag.ProductCategories = new SelectList(_db.Productcategories, "CategoryId", "CategoryName");
+            return View(product);
         }
         public IActionResult UpdateCategory(int? id)
         {
@@ -138,6 +149,10 @@ namespace Bingol.Controllers
                 return NotFound();
             }
             var option = _db.Options.First(o => o.OptionId == id);
+            if(option == null)
+            {
+                return NotFound();
+            }
             ViewBag.OptionsGroups = new SelectList(_db.Optiongroups, "OptionGroupId", "OptionGroupName");
             return View(option);
         }
@@ -331,6 +346,50 @@ namespace Bingol.Controllers
             _db.Options.Update(option);
             _db.SaveChanges();
             return RedirectToAction("Options");
+        }
+
+        [HttpPost]
+        public IActionResult OnPostAddNewProduct(Product model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddProduct");
+            }
+            model.ProductCartDesc = model.ProductShortDesc;
+            model.ProductUpdateDate = DateTime.Now;
+            model.ProductThumb = model.ProductImage;
+            _db.Products.Add(model);
+            _db.SaveChanges();
+            return RedirectToAction("Products");
+        }
+        public IActionResult OnPostUpdateProductDetails(Product model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Products");
+            }
+            var product = _db.Products.First(o => o.ProductId == model.ProductId);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            product.ProductSku = model.ProductSku;
+            product.ProductName = model.ProductName;
+            product.ProductPrice = model.ProductPrice;
+            product.ProductWeight = model.ProductWeight;
+            product.ProductCartDesc = model.ProductShortDesc;
+            product.ProductLongDesc = model.ProductLongDesc;
+            product.ProductThumb = model.ProductImage;
+            product.ProductImage = model.ProductImage;
+            product.ProductCategoryId = model.ProductCategoryId;
+            product.ProductUpdateDate = DateTime.Now;
+            product.ProductStock = model.ProductStock;
+            product.ProductLive = model.ProductLive;
+            product.ProductUnlimited = model.ProductUnlimited;
+            product.ProductLocation = model.ProductLocation;
+            _db.Products.Update(product);
+            _db.SaveChanges();
+            return RedirectToAction("Products");
         }
     }
 }

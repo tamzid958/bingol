@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 #nullable disable
 
@@ -20,8 +21,14 @@ namespace Bingol.Models
         public string ProductName { get; set; }
         public float ProductPrice { get; set; }
         public float ProductWeight { get; set; }
+        
+        [AllowHtml]
         public string ProductCartDesc { get; set; }
+        
+        [AllowHtml]
         public string ProductShortDesc { get; set; }
+        
+        [AllowHtml]
         public string ProductLongDesc { get; set; }
         public string ProductThumb { get; set; }
         public string ProductImage { get; set; }

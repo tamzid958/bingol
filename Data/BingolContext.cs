@@ -75,7 +75,7 @@ namespace Bingol.Data
                 entity.Property(e => e.OptionGroupName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
-                entity.HasData(new Optiongroup
+              /*  entity.HasData(new Optiongroup
                 {
                     OptionGroupId = 1,
                     OptionGroupName = "color"
@@ -84,7 +84,7 @@ namespace Bingol.Data
                  {
                      OptionGroupId = 2,
                      OptionGroupName = "size"
-                 });
+                 });*/
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -205,7 +205,6 @@ namespace Bingol.Data
 
                 entity.Property(e => e.ProductCartDesc)
                     .IsRequired()
-                    .HasMaxLength(250)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
@@ -232,7 +231,6 @@ namespace Bingol.Data
 
                 entity.Property(e => e.ProductShortDesc)
                     .IsRequired()
-                    .HasMaxLength(1000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ProductSku)

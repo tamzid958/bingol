@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="@(Model.Product.ProductImage.Length == 0 ? "/images/img_preview_lg.png" : Model.ProductImage)" class="img-fluid" alt="fera">
+            <img src="@(Model.Product.ProductImage.Length == 0 ? "/images/img_preview_lg.png" : Model.Product.ProductImage)" class="img-fluid" alt="fera">
         </div>
         <div class="col-md-6 mt-4">
             <nav aria-label="breadcrumb">
@@ -87,7 +87,7 @@
     </nav>
     <div class="tab-content mt-5" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab">
-            <p class="text-md-start">@Model.Product.ProductLongDesc</p>
+            <div class="text-md-start">@(Html.Raw(Model.Product.ProductLongDesc))</div>
         </div>
         <div class="tab-pane fade" id="nav-additional-info" role="tabpanel" aria-labelledby="nav-additional-info-tab">
             <p class="text-md-start">
@@ -103,6 +103,10 @@
                 {
                     <span class="badge bg-gradient text-white bg-dark">@obj.OptionName</span>
                 }
+            </p>
+            <p class="text-md-start">
+                <button class="btn btn-secondary me-3 product-buttons" disabled>Weight</button>
+                  <span class="badge bg-gradient text-white bg-dark">@Model.Product.ProductWeight KG</span>
             </p>
         </div>
         <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
@@ -164,7 +168,7 @@
             {
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product" asp-route-id="@obj.ProductId">
                     <div class="card product-card-owl product-card-owl-lg">
-                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : Model.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
+                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : obj.ProductImage.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
                         <div class="card-img-overlay">
                             <div class="d-flex justify-content-between align-items-start">
                                 <span class="bg-info bg-gradient badge fw-bold text-white">@obj.ProductCategory.CategoryName</span>
@@ -173,7 +177,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="text-decoration-none">@obj.ProductName</h5>
-                            <p class="card-text text-muted">@obj.ProductShortDesc</p>
+                            <div class="card-text text-muted">@obj.ProductShortDesc</div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="fw-bold text-decoration-none">BDT @obj.ProductPrice</h5>
                                 <div class="btn btn-warning bg-gradient">Buy<span class="fa fa-shopping-bag ms-3"></span></div>
@@ -196,7 +200,7 @@
             {
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product" asp-route-id="@obj.ProductId">
                     <div class="card product-card-owl product-card-owl-lg">
-                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : Model.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
+                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : obj.ProductImage.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
                         <div class="card-img-overlay">
                             <div class="d-flex justify-content-between align-items-start">
                                 <span class="bg-info bg-gradient badge fw-bold text-white">@obj.ProductCategory.CategoryName</span>
@@ -205,7 +209,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="text-decoration-none">@obj.ProductName</h5>
-                            <p class="card-text text-muted">@obj.ProductShortDesc</p>
+                            <div class="card-text text-muted">@obj.ProductShortDesc</div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="fw-bold text-decoration-none">BDT @obj.ProductPrice</h5>
                                 <div class="btn btn-warning bg-gradient">Buy<span class="fa fa-shopping-bag ms-3"></span></div>

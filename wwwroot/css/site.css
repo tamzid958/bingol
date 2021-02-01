@@ -182,14 +182,12 @@ body {
 }
 .product-card {
     height: 25rem;
-    transition: 0.9s;
     color: #080326;
 }
 .product-card-owl {
     margin-top: 0.4rem;
     margin-bottom: 0.4rem;
     width: 20rem;
-    transition: 0.9s;
     color: #080326;
 }
 .product-card-owl-lg {
@@ -210,8 +208,6 @@ body {
 }
 .product-card:hover, .product-card-owl:hover {
     transform: scale(1.005);
-    background-color: #353331;
-    color: #F5F5F5;
     box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 .cat-navbar-brand {
