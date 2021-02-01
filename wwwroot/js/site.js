@@ -116,3 +116,7 @@ if (window.location.pathname.toLowerCase() == "/products") {
         $("input[name=color][value=" + colorParam + "]").attr('checked', 'checked');
     }
 }
+$('.custom-select').select2({
+
+    width: 'resolve'
+});

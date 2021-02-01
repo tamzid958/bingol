@@ -5,29 +5,25 @@
     ViewData["ActivePage"] = ManageNavPages.Orders;
 }
 <table class="table table-striped ">
-    <thead>
+    <thead class="bg-dark text-white">
         <tr>
             <th scope="col" class="text-center">ORDER</th>
             <th scope="col" class="text-center">DATE</th>
             <th scope="col" class="text-center">TOTAL</th>
-            <th scope="col" class="text-center">ACTIONS</th>
         </tr>
     </thead>
     <tbody>
-        @for (var i = 0; i < 6; i++)
+        @foreach (var obj in ViewData["OrderList"] as IList<Order>)
         {
             <tr>
                 <td class="text-center">
-                    #4839
+                    # @Html.DisplayFor(modelItem => obj.OrderId)
                 </td>
                 <td class="text-center">
-                    July 5,2020
+                    @Html.DisplayFor(modelItem => obj.OrderDate)
                 </td>
                 <td class="text-center">
-                    BDT 210.00 for 1 item
-                </td>
-                <td class="text-center">
-                    <button type="button" class="btn btn-warning">Invoice</button>
+                    BDT @Html.DisplayFor(modelItem => (obj.Orderdetails.SingleOrDefault().DetailQuantity * obj.Orderdetails.SingleOrDefault().DetailPrice)) for @Html.DisplayFor(modelItem => obj.Orderdetails.SingleOrDefault().DetailQuantity) item
                 </td>
             </tr>
         }

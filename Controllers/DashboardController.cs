@@ -9,11 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Bingol.Controllers
 {
@@ -39,39 +36,84 @@ namespace Bingol.Controllers
             _logger = logger;
         }
         //normal view
-        public IActionResult AddProduct()
+        public async Task<IActionResult> AddProductAsync()
         {
-            ViewBag.ProductCategories = new SelectList(_db.Productcategories, "CategoryId", "CategoryName");
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            ViewBag.ProductCategories = new SelectList(items: _db.Productcategories, "CategoryId", "CategoryName");
             return View();
         }
-        public IActionResult AddCategory()
+        public async Task<IActionResult> AddCategoryAsync()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             return View();
         }
-        public IActionResult AddOption()
+        public async Task<IActionResult> AddOptionAsync()
         {
-            ViewBag.OptionsGroups = new SelectList(_db.Optiongroups, "OptionGroupId", "OptionGroupName");
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            ViewBag.OptionsGroups = new SelectList(items: _db.Optiongroups, "OptionGroupId", "OptionGroupName");
             return View();
         }
-
+        public async Task<IActionResult> AddVariationAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            ViewBag.Products = new SelectList(from s in _db.Products select new {ID = s.ProductId,ProductName = "#" + s.ProductId + " " + s.ProductName},"ID", "ProductName", null);
+            ViewBag.Options = new SelectList(items: _db.Options, "OptionId", "OptionName");
+            return View();
+        }
         //list view
         public async Task<IActionResult> OrdersAsync(int page = 1)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             var orders = await PaginatedList<Order>.CreateAsync(_db.Orders.Include(m => m.OrderUser).Include(m => m.Orderdetails).OrderByDescending(o => o.OrderId), page, 30);
             return View(orders);
         }
         public async Task<IActionResult> ProductsAsync(int page = 1)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             var products = await PaginatedList<Product>.CreateAsync(_db.Products.Include(m => m.ProductCategory).OrderByDescending(o => o.ProductId), page, 30);
             return View(products);
         }
         public async Task<IActionResult> CustomersAsync(int page = 1)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             var customers = await PaginatedList<BingolUser>.CreateAsync(_db.BingolUsers, page, 30);
             return View(customers);
         }
         public async Task<IActionResult> ReviewsAsync(int page = 1)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             var reviews = await PaginatedList<Review>.CreateAsync(_db.Reviews.Include(m => m.ReviewProduct).Include(m => m.ReviewUser), page, 30);
             return View(reviews);
         }
@@ -82,8 +124,23 @@ namespace Bingol.Controllers
         }
         public async Task<IActionResult> OptionsAsync(int page = 1)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             var options = await PaginatedList<Option>.CreateAsync(_db.Options.Include(o => o.OptionsGroup).OrderByDescending(m => m.OptionId), page, 30);
             return View(options);
+        }
+        public async Task<IActionResult> VariationsAsync(int page = 1)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            var productOptions = await PaginatedList<Productoption>.CreateAsync(_db.Productoptions.Include(o => o.OptionGroup).Include(o => o.Product).Include(o => o.Option).OrderByDescending(m => m.OptionId), page, 30);
+            return View(productOptions);
         }
 
 
@@ -115,8 +172,13 @@ namespace Bingol.Controllers
             return View();
         }
 
-        public IActionResult UpdateProduct(int? id)
+        public async Task<IActionResult> UpdateProductAsync(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -126,11 +188,16 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            ViewBag.ProductCategories = new SelectList(_db.Productcategories, "CategoryId", "CategoryName");
+            ViewBag.ProductCategories = new SelectList(items: _db.Productcategories, "CategoryId", "CategoryName");
             return View(product);
         }
-        public IActionResult UpdateCategory(int? id)
+        public async Task<IActionResult> UpdateCategoryAsync(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -142,8 +209,13 @@ namespace Bingol.Controllers
             }
             return View(category);
         }
-        public IActionResult UpdateOption(int? id)
+        public async Task<IActionResult> UpdateOptionAsync(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -153,15 +225,21 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            ViewBag.OptionsGroups = new SelectList(_db.Optiongroups, "OptionGroupId", "OptionGroupName");
+            ViewBag.OptionsGroups = new SelectList(items: _db.Optiongroups, "OptionGroupId", "OptionGroupName");
             return View(option);
         }
+
 
         //get section
 
         [HttpGet]
-        public IActionResult DeleteCategory(int? id)
+        public async Task<IActionResult> DeleteCategoryAsync(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -178,7 +256,11 @@ namespace Bingol.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteCustomerAsync(string id)
         {
-
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             if (string.IsNullOrWhiteSpace(id))
             {
                 return NotFound();
@@ -195,8 +277,14 @@ namespace Bingol.Controllers
             await _userManager.DeleteAsync(customer);
             return RedirectToAction("Customers");
         }
-        public IActionResult DeleteOption(int? id)
+        [HttpGet]
+        public async Task<IActionResult> DeleteOptionAsync(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -211,8 +299,13 @@ namespace Bingol.Controllers
             return RedirectToAction("Options");
         }
         [HttpGet]
-        public IActionResult DeleteProduct(int? id)
+        public async Task<IActionResult> DeleteProductAsync(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -226,7 +319,27 @@ namespace Bingol.Controllers
             _db.SaveChanges();
             return RedirectToAction("Products");
         }
-
+        [HttpGet]
+        public async Task<IActionResult> DeleteVariationAsync(int? id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var productoption = _db.Productoptions.First(x => x.ProductOptionId == id);
+            if (productoption == null)
+            {
+                return NotFound();
+            }
+            _db.Productoptions.Remove(productoption);
+            _db.SaveChanges();
+            return RedirectToAction("Variations");
+        }
 
         //post section
 
@@ -237,7 +350,6 @@ namespace Bingol.Controllers
             {
                 return RedirectToAction("Account");
             }
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -291,22 +403,32 @@ namespace Bingol.Controllers
             return RedirectToAction("ChangePassword");
         }
         [HttpPost]
-        public IActionResult OnPostAddNewCategory(Productcategory model)
+        public async Task<IActionResult> OnPostAddNewCategoryAsync(Productcategory model)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("AddCategory");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             _db.Productcategories.Add(model);
             _db.SaveChanges();
             return RedirectToAction("Categories");
         }
         [HttpPost]
-        public IActionResult OnPostUpdateCategoryDetails(Productcategory model)
+        public async Task<IActionResult> OnPostUpdateCategoryDetailsAsync(Productcategory model)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Categories");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             var category = _db.Productcategories.First(o => o.CategoryId == model.CategoryId);
             if(category == null)
@@ -319,22 +441,32 @@ namespace Bingol.Controllers
             return RedirectToAction("Categories");
         } 
         [HttpPost]
-        public IActionResult OnPostAddNewOption(Option model)
+        public async Task<IActionResult> OnPostAddNewOptionAsync(Option model)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("AddOption");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             _db.Options.Add(model);
             _db.SaveChanges();
             return RedirectToAction("Options");
         }
         [HttpPost]
-        public IActionResult OnPostUpdateOptionDetails(Option model)
+        public async Task<IActionResult> OnPostUpdateOptionDetailsAsync(Option model)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Options");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             var option = _db.Options.First(o => o.OptionId == model.OptionId);
             if(option == null)
@@ -349,11 +481,16 @@ namespace Bingol.Controllers
         }
 
         [HttpPost]
-        public IActionResult OnPostAddNewProduct(Product model)
+        public async Task<IActionResult> OnPostAddNewProductAsync(Product model)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("AddProduct");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             model.ProductCartDesc = model.ProductShortDesc;
             model.ProductUpdateDate = DateTime.Now;
@@ -362,14 +499,21 @@ namespace Bingol.Controllers
             _db.SaveChanges();
             return RedirectToAction("Products");
         }
-        public IActionResult OnPostUpdateProductDetails(Product model)
+
+        [HttpPost]
+        public async Task<IActionResult> OnPostUpdateProductDetailsAsync(Product model)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Products");
             }
             var product = _db.Products.First(o => o.ProductId == model.ProductId);
-            if(product == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (product == null)
             {
                 return NotFound();
             }
@@ -391,5 +535,30 @@ namespace Bingol.Controllers
             _db.SaveChanges();
             return RedirectToAction("Products");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> OnPostAddNewVaritaionAsync(Productoption model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddVariation");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            var optionGroup = _db.Options.First(o => o.OptionId == model.OptionId);
+            if(optionGroup == null)
+            {
+                return BadRequest("Something Wrong Happened");
+            }
+            model.OptionGroupId = (int) optionGroup.OptionsGroupId;
+            model.OptionPriceIncrement = 0;
+            _db.Productoptions.Add(model);
+            _db.SaveChanges();
+            return RedirectToAction("Variations");
+        }
+
     }
 }

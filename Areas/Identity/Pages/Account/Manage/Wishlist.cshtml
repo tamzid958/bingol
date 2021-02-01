@@ -6,22 +6,23 @@
 }
 
 <table class="table table-striped">
-    <thead>
+    <thead class="bg-dark text-white">
         <tr>
             <th scope="col">Product's Name</th>
             <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
-        @for (var i = 0; i < 14; i++)
+        @foreach (var obj in ViewData["Wishlist"] as IList<Wishlist>)
         {
 
             <tr>
-                <th scope="row">Dummy Product</th>
+                <th scope="row">@obj.WishlistProduct.ProductName</th>
                 <th>
-                    <button class="btn btn-sm btn-danger">
-                        <i class="fa fa-trash"></i>
-                    </button>
+                    <form method="post" asp-page-handler="Delete">
+                        <input type="hidden" class="visually-hidden" name="id" value="@obj.WishlistId"/>
+                        <input type="submit" value="Delete" class="btn btn-sm btn-danger" />
+                    </form>
                 </th>
             </tr>
 

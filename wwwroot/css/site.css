@@ -219,6 +219,10 @@ body {
     height: 35px;
     opacity: 0.7;
 }
+.select2-container, .select2-selection--single {
+    height: 38px !important;
+    padding: 3px !important;
+}
 
 @media only screen and (max-width: 576px) {
     .hidder {

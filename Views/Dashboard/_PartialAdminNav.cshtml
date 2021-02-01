@@ -50,6 +50,14 @@
                         <span class="fas fa-tasks"></span>
                         Option List
                     </a>
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "AddVariation" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="AddVariation">
+                        <span class="fa fa-plus-square"></span>
+                        Add Variation
+                    </a>
+                    <a class="m-1 ms-2 p-2 rounded text-decoration-none d-block text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Variations" ? "bg-warning" : "")" asp-controller="Dashboard" asp-action="Variations">
+                        <span class="fa fa-list-alt"></span>
+                        Variation List
+                    </a>
                 </div>
             </li>
             <li class="nav-item">

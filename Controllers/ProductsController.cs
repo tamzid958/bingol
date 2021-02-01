@@ -94,8 +94,8 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            metamodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroupId == 2 && o.Productoptions.Any(m => m.ProductId == id));
-            metamodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroupId == 1 && o.Productoptions.Any(m => m.ProductId == id));
+            metamodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size" && o.Productoptions.Any(m => m.ProductId == id));
+            metamodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "color" && o.Productoptions.Any(m => m.ProductId == id));
             var category = _db.Productcategories.FirstOrDefault(o => o.Products.Any(m => m.ProductId == id));
             metamodel.SimilarProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId == category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
             metamodel.VarientProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId != category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
