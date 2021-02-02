@@ -12,27 +12,50 @@
                         <tr>
                             <th scope="col" class="text-center">ID</th>
                             <th scope="col" class="text-center">Product</th>
+                            <th scope="col" class="text-center">Order Id</th>
                             <th scope="col" class="text-center">Reviewed By</th>
+                            <th scope="col" class="text-center">Review</th>
                             <th scope="col" class="text-center">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var obj in Model)
                         {
-                            <tr>
-                                <td class="text-center">
-                                    @obj.ReviewId
-                                </td>
-                                <td class="text-center">
-                                    @obj.ReviewProduct.ProductName
-                                </td>
-                                <td class="text-center">
-                                    @obj.ReviewUser.Email
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" value="@obj.ReviewId" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="text-center">
+                                @obj.ReviewId
+                            </td>
+                            <td class="text-center">
+                                @obj.ReviewProduct.ProductName
+                            </td>
+                            <td class="text-center">
+                                @obj.ReviewOrderId
+                            </td>
+                            <td class="text-center">
+                                @obj.ReviewUser.Email
+                            </td>
+                            <td class="text-center">
+                                @if (obj.ReviewRating == 1)
+                                {
+                                    <button class="btn btn-danger btn-sm">Not Good</button>
+                                }
+                                else if (obj.ReviewRating == 2)
+                                {
+                                    <button class="btn btn-info btn-sm">Good</button>
+                                }
+                                else if (obj.ReviewRating == 3)
+                                {
+                                    <button class="btn btn-primary bg-primary btn-sm">Better</button>
+                                }
+                                else if (obj.ReviewRating == 4)
+                                {
+                                    <button class="btn btn-success btn-sm">Best</button>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="DeleteReview" asp-route-id="@obj.ReviewId" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

@@ -158,6 +158,18 @@ namespace Bingol.Migrations
                     b.HasKey("OptionGroupId");
 
                     b.ToTable("optiongroups", "bingol");
+
+                    b.HasData(
+                        new
+                        {
+                            OptionGroupId = 1,
+                            OptionGroupName = "color"
+                        },
+                        new
+                        {
+                            OptionGroupId = 2,
+                            OptionGroupName = "size"
+                        });
                 });
 
             modelBuilder.Entity("Bingol.Models.Order", b =>
@@ -295,6 +307,9 @@ namespace Bingol.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("DetailSKU");
+
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("bit");
 
                     b.HasKey("DetailId")
                         .HasName("PK_orderdetails_DetailID");
@@ -451,8 +466,15 @@ namespace Bingol.Migrations
             modelBuilder.Entity("Bingol.Models.Review", b =>
                 {
                     b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("ReviewID");
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ReviewOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReviewOrderdDeatilDetailId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ReviewProductId")
                         .HasColumnType("int")
@@ -467,6 +489,8 @@ namespace Bingol.Migrations
 
                     b.HasKey("ReviewId");
 
+                    b.HasIndex("ReviewOrderdDeatilDetailId");
+
                     b.HasIndex(new[] { "ReviewProductId" }, "IX_reviews_ReviewProductID");
 
                     b.HasIndex(new[] { "ReviewUserId" }, "IX_reviews_ReviewUserID");
@@ -474,11 +498,42 @@ namespace Bingol.Migrations
                     b.ToTable("reviews", "bingol");
                 });
 
+            modelBuilder.Entity("Bingol.Models.TempCart", b =>
+                {
+                    b.Property<int>("TempCartID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Color")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomerID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.HasKey("TempCartID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("TempCarts");
+                });
+
             modelBuilder.Entity("Bingol.Models.Wishlist", b =>
                 {
                     b.Property<int>("WishlistId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("WishlistID");
+                        .UseIdentityColumn();
 
                     b.Property<string>("BingolUser")
                         .HasColumnType("nvarchar(max)");
@@ -720,6 +775,10 @@ namespace Bingol.Migrations
 
             modelBuilder.Entity("Bingol.Models.Review", b =>
                 {
+                    b.HasOne("Bingol.Models.Orderdetail", "ReviewOrderdDeatil")
+                        .WithMany()
+                        .HasForeignKey("ReviewOrderdDeatilDetailId");
+
                     b.HasOne("Bingol.Models.Product", "ReviewProduct")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewProductId")
@@ -731,9 +790,22 @@ namespace Bingol.Migrations
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewUserId");
 
+                    b.Navigation("ReviewOrderdDeatil");
+
                     b.Navigation("ReviewProduct");
 
                     b.Navigation("ReviewUser");
+                });
+
+            modelBuilder.Entity("Bingol.Models.TempCart", b =>
+                {
+                    b.HasOne("Bingol.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Bingol.Models.Wishlist", b =>

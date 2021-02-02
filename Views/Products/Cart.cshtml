@@ -1,52 +1,47 @@
-﻿@{
+﻿@model IEnumerable<Bingol.Models.TempCart>
+@{
     ViewData["Title"] = "Cart";
 }
-
 <div class="container mt-4">
     <div class="row g-3">
         <div class="col-md-5 col-lg-4 order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Your cart</span>
-                <span class="badge bg-success">3</span>
+                <span class="badge bg-success">@ViewBag.Counter</span>
             </h4>
             <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Product name</h6>
-                        <small class="text-muted">Quantity: 1</small>
-                    </div>
-                    <span class="text-muted">BDT 12</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Second product</h6>
-                        <small class="text-muted">Quantity: 1</small>
-                    </div>
-                    <span class="text-muted">BDT 8</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Third item</h6>
-                        <small class="text-muted">Quantity: 1</small>
-                    </div>
-                    <span class="text-muted">BDT 5</span>
-                </li>
+                @foreach (var obj in Model)
+                {
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">@obj.Product.ProductName</h6>
+                            <small class="text-muted">Quantity: @obj.Quantity</small>
+                        </div>
+                        <div>
+                            <span class="text-muted">BDT @(Math.Round((obj.Product.ProductPrice * obj.Quantity),2))</span>
+                            <a class="bg-danger badge bg-gradient p-2 text-white" asp-action="DeleteCartProduct" asp-route-id="@obj.TempCartID"><span class="fas fa-times"></span></a>
+                        </div>
+                    </li>
+                }
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (BDT)</span>
-                    <strong>BDT 20</strong>
-                </li>
+                    <strong>BDT @ViewBag.Total</strong>
+                </li>   
             </ul>
             <div class="card p-2">
-                <a class="w-100 btn btn-warning btn-lg" href="@Url.Action("Checkout","Products")">Continue to checkout</a>
+                <p class="text-success">@TempData["success msg"]</p>
+                <a class="w-100 btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#payment">Continue to checkout</a>
             </div>
         </div>
         <div class="col-md-7 col-lg-8">
             <h4 class="mb-3">Billing address</h4>
-            <form class="needs-validation">
+            <form class="needs-validation" id="checkout-data" method="post" action="@Url.Action("Checkout","Products")">
+                <input type="hidden" value="@ViewBag.Total" name="total" class="visually-hidden" required readonly />
+                <input type="hidden" value="@ViewBag.UserId" name="userId" class="visually-hidden" required readonly />
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="firstName" value="@ViewBag.UserFirstName" readonly required>
+                        <input type="text" class="form-control" id="firstName" name="firstname" value="@ViewBag.UserFirstName" readonly required>
                     </div>
                     <div class="col-sm-6">
                         <label for="lastName" class="form-label">Last name</label>
@@ -63,41 +58,41 @@
 
                     <div class="col-sm-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" value="@ViewBag.Email" readonly required>
+                        <input type="email" class="form-control" id="email" name="email" value="@ViewBag.Email" readonly required>
                     </div>
 
                     <div class="col-sm-6">
                         <label for="phone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" value="@ViewBag.PhoneNumber" readonly required>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="@ViewBag.PhoneNumber" readonly required>
                     </div>
 
                     <div class="col-md-3">
                         <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control" id="Country" value="@ViewBag.City" readonly required>
+                        <input type="text" class="form-control" name="city" id="City" value="@ViewBag.City" readonly required>
                     </div>
 
                     <div class="col-md-3">
                         <label for="state" class="form-label">State</label>
-                        <input type="text" class="form-control" id="state" value="@ViewBag.State" readonly required>
+                        <input type="text" class="form-control" id="state" name="state" value="@ViewBag.State" readonly required>
                     </div>
 
                     <div class="col-md-3">
                         <label for="zip" class="form-label">Zip</label>
-                        <input type="text" class="form-control" id="zip" value="@ViewBag.ZipCode" readonly required>
+                        <input type="text" class="form-control" id="zip" name="zip" value="@ViewBag.ZipCode" readonly required>
                     </div>
 
                     <div class="col-md-3">
                         <label for="country" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="country" value="@ViewBag.Country" readonly required>
+                        <input type="text" class="form-control" name="country" id="country" value="@ViewBag.Country" readonly required>
                     </div>
                     <div class="col-12">
                         <label for="address" class="form-label">Billing Address</label>
-                        <input type="text" class="form-control" id="address" value="@ViewBag.BillingAddress" readonly required>
+                        <input type="text" class="form-control" id="address" name="address1" value="@ViewBag.BillingAddress" readonly required>
                     </div>
 
                     <div class="col-12">
                         <label for="address2" class="form-label">Shipping Address</label>
-                        <input type="text" class="form-control" id="address2" value="@ViewBag.ShippingAddress" readonly required>
+                        <input type="text" class="form-control" id="address2" name="address2" value="@ViewBag.ShippingAddress" readonly required>
                     </div>
                 </div>
             </form>
@@ -105,6 +100,38 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentLabel">Payment Method</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col p-2">
+                        <img src="~/images/mastercard.png" class="img-fluid">
+                    </div>
+                    <div class="col p-2">
+                        <img src="~/images/bkash.png" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning"  id="continue-to-checkout">Pay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
 
 
 

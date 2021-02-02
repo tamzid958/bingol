@@ -1,6 +1,5 @@
 ﻿using Bingol.Models;
 using Bingol.Data;
-using Bingol.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +10,10 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bingol.Areas.Identity.Data;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using Bingol.Helpers;
 
 namespace Bingol.Controllers
 {
@@ -18,16 +21,18 @@ namespace Bingol.Controllers
     {
         private readonly BingolContext _db;
         private readonly UserManager<BingolUser> _userManager;
+        private readonly SignInManager<BingolUser> _signInManager;
         //we can get from email notification
         private const string StoreId = "theby5f956bcb364af";
         private const string StorePassword = "theby5f956bcb364af@ssl";
         private const bool IsSandboxMode = true;
         private const string Currency = "BDT";
 
-        public ProductsController(BingolContext db, UserManager<BingolUser> userManager)
+        public ProductsController(BingolContext db, UserManager<BingolUser> userManager, SignInManager<BingolUser> signInManager)
         {
             _db = db;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IQueryable<Product> SearchProduct(string searching, int category, int color, int size, string sorted, int price)
@@ -94,12 +99,77 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
+            var productavailbility = _db.Products.First(o => o.ProductId == id);
+            if (productavailbility.ProductStock <= 0)
+            {
+                productavailbility.ProductLive = 0;
+                _db.Products.Update(productavailbility);
+                _db.SaveChanges();
+            }
             metamodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size" && o.Productoptions.Any(m => m.ProductId == id));
             metamodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "color" && o.Productoptions.Any(m => m.ProductId == id));
             var category = _db.Productcategories.FirstOrDefault(o => o.Products.Any(m => m.ProductId == id));
-            metamodel.SimilarProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId == category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
-            metamodel.VarientProducts = _db.Products.Include(m => m.ProductCategory).Where(m => m.ProductCategory.CategoryId != category.CategoryId && m.ProductId != id).OrderByDescending(o => o.ProductId).Take(12);
+            metamodel.SimilarProducts = _db.Products.Include(m => m.ProductCategory)
+                .Where(m => m.ProductCategory.CategoryId == category.CategoryId && m.ProductId != id)
+                .OrderByDescending(o => o.ProductId)
+                .Take(12);
+            metamodel.VarientProducts = _db.Products.Include(m => m.ProductCategory)
+                .Where(m => m.ProductCategory.CategoryId != category.CategoryId && m.ProductId != id)
+                .OrderByDescending(o => o.ProductId)
+                .Take(12);
+            var review = _db.Reviews.Where(o => o.ReviewProductId == id);
+            var totalreview = review.Count();
+            var notgoodreview = review.Where(o => o.ReviewRating == 1).Count();
+            var goodreview = review.Where(o => o.ReviewRating == 2).Count();
+            var betterreview = review.Where(o => o.ReviewRating == 3).Count();
+            var bestreview = review.Where(o => o.ReviewRating == 4).Count();
+            ViewBag.TotalReview = totalreview;
+            ViewBag.NotGoodReview = 100 * notgoodreview / totalreview;
+            ViewBag.GoodReview = 100 * goodreview / totalreview;
+            ViewBag.BetterReview = 100 * betterreview / totalreview;
+            ViewBag.BestReview = 100 * bestreview / totalreview;
             return metamodel.Product == null ? NotFound() : (IActionResult) View(metamodel);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> AddtoCart(int id, int quantity, int color, int size)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            if(user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (isAdmin)
+            {
+                return BadRequest("Admin can't buy product");
+            }
+            if (id <= 0 || quantity <= 0)
+            {
+                TempData["message"] = "Something error happened";
+                return RedirectToAction("Product", new { id });
+
+            }
+            var product = _db.Products.First(o => o.ProductId == id && o.ProductStock >= quantity);
+            if(product == null)
+            {
+                TempData["message"] = "Out of Stock Recently";
+                return RedirectToAction("Product", new { id });
+            }
+
+            TempCart tempCart = new TempCart
+            {
+                ProductID = id,
+                CustomerID = user.Id,
+                Quantity = quantity,
+                Color = color,
+                Size = size
+            };
+            _db.TempCarts.Add(tempCart);
+            _db.SaveChanges();
+            TempData["success message"] = "Product added to Cart";
+            return RedirectToAction("Product", new { id });
         }
         
         [Authorize]
@@ -107,6 +177,10 @@ namespace Bingol.Controllers
         public async Task<IActionResult> CartAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             ViewBag.UserFirstName = user.UserFirstName;
             ViewBag.UserLastName = user.UserLastName;
             ViewBag.UserName = user.NormalizedUserName;
@@ -118,94 +192,136 @@ namespace Bingol.Controllers
             ViewBag.City = user.UserCity;
             ViewBag.State = user.UserState;
             ViewBag.ZipCode = user.UserZip;
-            return View();
-        }
+            
+            var tempCarts = _db.TempCarts.Where(o => o.CustomerID == user.Id).Include(o => o.Product);
+            var total = 0.00;
 
-        [Authorize]
-        public IActionResult Checkout()
-        {
-            const string productName = "Blue Jeans";
-            const int price = 8500;
-            var baseUrl = Request.Scheme + "://" + Request.Host;
-
-            var postData = new NameValueCollection
+            foreach(var obj in tempCarts)
             {
-                { "total_amount", $"{price}" },
-                { "tran_id", "Bingol" },
-                { "success_url", baseUrl + "/Identity/Account/Manage/Orders" },
-                { "fail_url", baseUrl + "/CheckoutFail" },
-                { "cancel_url", baseUrl + "/CheckoutCancel" },
-                { "version", "3.00" },
-                { "cus_name", "ABC XY" },
-                { "cus_email", "abc.xyz@mail.co" },
-                { "cus_add1", "Address Line On" },
-                { "cus_add2", "Address Line Tw" },
-                { "cus_city", "City Nam" },
-                { "cus_state", "State Nam" },
-                { "cus_postcode", "Post Cod" },
-                { "cus_country", "Country" },
-                { "cus_phone", "0111111111" },
-                { "cus_fax", "0171111111" },
-                { "ship_name", "ABC XY" },
-                { "ship_add1", "Address Line On" },
-                { "ship_add2", "Address Line Tw" },
-                { "ship_city", "City Nam" },
-                { "ship_state", "State Nam" },
-                { "ship_postcode", "Post Cod" },
-                { "ship_country", "Country" },
-                { "value_a", "ref00" },
-                { "value_b", "ref00" },
-                { "value_c", "ref00" },
-                { "value_d", "ref00" },
-                { "shipping_method", "NO" },
-                { "num_of_item", "1" },
-                { "product_name", $"{productName}" },
-                { "product_profile", "general" },
-                { "product_category", "Demo" }
-            };
-
-
-            var sslv = new SslCommerzGatewayProcessor(StoreId, StorePassword, IsSandboxMode);
-            var response = sslv.InitiateTransaction(postData);
-
-            return Redirect(response);
-        }
-
-        [Authorize]
-        [Route("/{action=Index}")]
-        public IActionResult CheckoutConfirmation()
-        {
-            if (!(!string.IsNullOrEmpty(Request.Form["status"]) && Request.Form["status"] == "VALID"))
-            {
-                ViewBag.SuccessInfo = "There some error while processing your payment. Please try again.";
-                return RedirectToAction("CheckoutFail");
+                total += obj.Product.ProductPrice * obj.Quantity;
             }
+            ViewBag.Counter = tempCarts.Count();
+            ViewBag.UserId = user.Id;
+            ViewBag.Total = Math.Round(total, 2);
+            return View(tempCarts);
+        }
 
-            string trxId = Request.Form["tran_id"];
-            // AMOUNT and Currency FROM DB FOR THIS TRANSACTION
-            const string amount = "85000";
-            var sslv = new SslCommerzGatewayProcessor(StoreId, StorePassword, IsSandboxMode);
-            var response = sslv.OrderValidate(trxId, amount, Currency, Request);
-            var successInfo = $"Validation Response: {response}";
-            ViewBag.SuccessInfo = successInfo;
+        public IActionResult DeleteCartProduct(int? id)
+        {
+            if(id == null)
+            {
+                return BadRequest("Something error happened");
+            }
+            var tempCarts = _db.TempCarts.First(o =>o.TempCartID == id);
+            if(tempCarts == null)
+            {
+                return BadRequest("Something error happened");
+            }
+            _db.TempCarts.Remove(tempCarts);
+            _db.SaveChanges();
+            return RedirectToAction("Cart");
+        }
 
+        public static string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using MD5 md5 = MD5.Create();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            // Convert the byte array to hexadecimal string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("X2"));
+            }
+            return sb.ToString();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Checkout(string total, string userId, string firstname, string email, string phone, string city, string state,string zip, string country, string address1, string address2)
+        {
+            var tempCart = _db.TempCarts.Where(o => o.CustomerID == userId).Include(o => o.Product);
+            var trxid = CreateMD5(DateTime.Now.ToString() + userId);
+            Order order = new Order
+            {
+                OrderUserId = userId,
+                OrderAmount = tempCart.Count(),
+                OrderShipName = "Bingol",
+                OrderShipAddress = address1,
+                OrderShipAddress2 = address2,
+                OrderCity = city,
+                OrderState = state,
+                OrderZip = zip,
+                OrderCountry = country,
+                OrderPhone = phone,
+                OrderFax = "deprecated",
+                OrderShipping = 0,
+                OrderTax = 0,
+                OrderEmail = email,
+                OrderDate = DateTime.Now,
+                OrderShipped = 0,
+                OrderTrackingNumber = trxid,
+            };
+            _db.Orders.Add(order);
+            _db.SaveChanges();
+
+            Order orderforOrderDetail = _db.Orders.First(o => o.OrderTrackingNumber == trxid);
+            
+            foreach (var obj in tempCart)
+            {
+                var size = _db.Options.First(o => o.OptionId == obj.Size);
+                var color = _db.Options.First(o => o.OptionId == obj.Color);
+                Orderdetail orderdetail = new Orderdetail
+                {
+                    DetailOrderId = orderforOrderDetail.OrderId,
+                    DetailProductId = obj.ProductID,
+                    DetailName = size.OptionName + "," + color.OptionName,
+                    DetailPrice = (float) Math.Round((obj.Product.ProductPrice * obj.Quantity), 2),
+                    DetailSku = obj.Product.ProductSku,
+                    DetailQuantity = obj.Quantity
+                };
+                _db.Orderdetails.Add(orderdetail);
+                var product = _db.Products.First(o => o.ProductId == obj.ProductID);
+                product.ProductStock -= obj.Quantity;
+                _db.Products.Update(product);
+            }
+            _db.TempCarts.RemoveRange(tempCart.ToList());
+            _db.SaveChanges();
+            TempData["success msg"] = "Purchased Successfully";
             return RedirectToAction("Cart");
         }
 
         [Authorize]
-        [Route("/{action=Index}")]
-        public IActionResult CheckoutFail()
+        public async Task<IActionResult> AddtoWishlist(int id)
         {
-            ViewBag.FailInfo = "There some error while processing your payment. Please try again.";
-            return View();
-        }
+            var user = await _userManager.GetUserAsync(User);
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (isAdmin)
+            {
+                return BadRequest("Admin can't wishlist product");
+            }
+            if (id <= 0)
+            {
+                TempData["message"] = "Something error happened";
+                return RedirectToAction("Product", new { id });
 
-        [Authorize]
-        [Route("/{action=Index}")]
-        public IActionResult CheckoutCancel()
-        {
-            ViewBag.CancelInfo = "Your payment has been cancel";
-            return View();
+            }
+            Wishlist wishlist = new Wishlist
+            {
+                WishlistProductId = id,
+                WishlistUserId = user.Id,
+                WishlistCondition = 1
+            };
+            _db.Wishlists.Add(wishlist);
+            _db.SaveChanges();
+            TempData["success message"] = "Added to Wishlist";
+            return RedirectToAction("Product", new { id });
         }
     }
 }

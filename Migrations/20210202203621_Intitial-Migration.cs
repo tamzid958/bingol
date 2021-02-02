@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bingol.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class IntitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,12 +36,10 @@ namespace Bingol.Migrations
                     UserZip = table.Column<string>(type: "varchar(12)", nullable: true),
                     UserRegistrationDate = table.Column<DateTime>(type: "datetime", nullable: true),
                     UserIp = table.Column<string>(type: "varchar(50)", nullable: true),
-                    UserPhone = table.Column<string>(type: "varchar(20)", nullable: true),
                     UserFax = table.Column<string>(type: "varchar(50)", nullable: true),
                     UserCountry = table.Column<string>(type: "varchar(20)", nullable: true),
                     UserAddress = table.Column<string>(type: "varchar(100)", nullable: true),
                     UserAddress2 = table.Column<string>(type: "varchar(50)", nullable: true),
-                    UserType = table.Column<short>(type: "smallint", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -265,8 +263,8 @@ namespace Bingol.Migrations
                     ProductName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     ProductPrice = table.Column<float>(type: "real", nullable: false),
                     ProductWeight = table.Column<float>(type: "real", nullable: false),
-                    ProductCartDesc = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: false),
-                    ProductShortDesc = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false),
+                    ProductCartDesc = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
+                    ProductShortDesc = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
                     ProductLongDesc = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
                     ProductThumb = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     ProductImage = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
@@ -301,7 +299,8 @@ namespace Bingol.Migrations
                     DetailName = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: false),
                     DetailPrice = table.Column<float>(type: "real", nullable: false),
                     DetailSKU = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    DetailQuantity = table.Column<int>(type: "int", nullable: false)
+                    DetailQuantity = table.Column<int>(type: "int", nullable: false),
+                    Reviewed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -361,31 +360,27 @@ namespace Bingol.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "reviews",
-                schema: "bingol",
+                name: "TempCarts",
                 columns: table => new
                 {
-                    ReviewID = table.Column<int>(type: "int", nullable: false),
-                    ReviewRating = table.Column<int>(type: "int", nullable: true),
-                    ReviewProductID = table.Column<int>(type: "int", nullable: false),
-                    ReviewUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    TempCartID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<int>(type: "int", nullable: false),
+                    Size = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_reviews", x => x.ReviewID);
+                    table.PrimaryKey("PK_TempCarts", x => x.TempCartID);
                     table.ForeignKey(
-                        name: "FK__reviews__ReviewP__7E37BEF6",
-                        column: x => x.ReviewProductID,
+                        name: "FK_TempCarts_products_ProductID",
+                        column: x => x.ProductID,
                         principalSchema: "bingol",
                         principalTable: "products",
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_reviews_AspNetUsers_ReviewUserID",
-                        column: x => x.ReviewUserID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -393,7 +388,8 @@ namespace Bingol.Migrations
                 schema: "bingol",
                 columns: table => new
                 {
-                    WishlistID = table.Column<int>(type: "int", nullable: false),
+                    WishlistId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     WishlistCondition = table.Column<short>(type: "smallint", nullable: true),
                     WishlistProductID = table.Column<int>(type: "int", nullable: false),
                     WishlistUserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -401,7 +397,7 @@ namespace Bingol.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_wishlists", x => x.WishlistID);
+                    table.PrimaryKey("PK_wishlists", x => x.WishlistId);
                     table.ForeignKey(
                         name: "FK__wishlists__Wishl__02084FDA",
                         column: x => x.WishlistProductID,
@@ -416,6 +412,56 @@ namespace Bingol.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "reviews",
+                schema: "bingol",
+                columns: table => new
+                {
+                    ReviewId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewRating = table.Column<int>(type: "int", nullable: true),
+                    ReviewProductID = table.Column<int>(type: "int", nullable: false),
+                    ReviewOrderId = table.Column<int>(type: "int", nullable: false),
+                    ReviewUserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ReviewOrderdDeatilDetailId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_reviews", x => x.ReviewId);
+                    table.ForeignKey(
+                        name: "FK__reviews__ReviewP__7E37BEF6",
+                        column: x => x.ReviewProductID,
+                        principalSchema: "bingol",
+                        principalTable: "products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_reviews_AspNetUsers_ReviewUserID",
+                        column: x => x.ReviewUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_reviews_orderdetails_ReviewOrderdDeatilDetailId",
+                        column: x => x.ReviewOrderdDeatilDetailId,
+                        principalSchema: "bingol",
+                        principalTable: "orderdetails",
+                        principalColumn: "DetailID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                schema: "bingol",
+                table: "optiongroups",
+                columns: new[] { "OptionGroupID", "OptionGroupName" },
+                values: new object[] { 1, "color" });
+
+            migrationBuilder.InsertData(
+                schema: "bingol",
+                table: "optiongroups",
+                columns: new[] { "OptionGroupID", "OptionGroupName" },
+                values: new object[] { 2, "size" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -505,6 +551,12 @@ namespace Bingol.Migrations
                 column: "ProductCategoryID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_reviews_ReviewOrderdDeatilDetailId",
+                schema: "bingol",
+                table: "reviews",
+                column: "ReviewOrderdDeatilDetailId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_reviews_ReviewProductID",
                 schema: "bingol",
                 table: "reviews",
@@ -515,6 +567,11 @@ namespace Bingol.Migrations
                 schema: "bingol",
                 table: "reviews",
                 column: "ReviewUserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TempCarts_ProductID",
+                table: "TempCarts",
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_wishlists_WishlistProductID",
@@ -547,16 +604,15 @@ namespace Bingol.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "orderdetails",
-                schema: "bingol");
-
-            migrationBuilder.DropTable(
                 name: "productoptions",
                 schema: "bingol");
 
             migrationBuilder.DropTable(
                 name: "reviews",
                 schema: "bingol");
+
+            migrationBuilder.DropTable(
+                name: "TempCarts");
 
             migrationBuilder.DropTable(
                 name: "wishlists",
@@ -566,11 +622,19 @@ namespace Bingol.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "orders",
+                name: "options",
                 schema: "bingol");
 
             migrationBuilder.DropTable(
-                name: "options",
+                name: "orderdetails",
+                schema: "bingol");
+
+            migrationBuilder.DropTable(
+                name: "optiongroups",
+                schema: "bingol");
+
+            migrationBuilder.DropTable(
+                name: "orders",
                 schema: "bingol");
 
             migrationBuilder.DropTable(
@@ -579,10 +643,6 @@ namespace Bingol.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "optiongroups",
-                schema: "bingol");
 
             migrationBuilder.DropTable(
                 name: "productcategories",

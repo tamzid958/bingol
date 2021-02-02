@@ -1,31 +1,89 @@
-﻿@page
+﻿@page "/account/manage/orders"
 @model OrdersModel
 @{
     ViewData["Title"] = "Orders";
     ViewData["ActivePage"] = ManageNavPages.Orders;
 }
-<table class="table table-striped ">
-    <thead class="bg-dark text-white">
-        <tr>
-            <th scope="col" class="text-center">ORDER</th>
-            <th scope="col" class="text-center">DATE</th>
-            <th scope="col" class="text-center">TOTAL</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var obj in ViewData["OrderList"] as IList<Order>)
-        {
+<div class="table-responsive">
+    <table class="table table-striped ">
+        <thead class="bg-dark text-white">
             <tr>
-                <td class="text-center">
-                    # @Html.DisplayFor(modelItem => obj.OrderId)
+                <th scope="col" class="text-start">ORDER</th>
+                <th scope="col" class="text-start">VARIATIONS</th>
+                <th scope="col" class="text-start">DATE</th>
+                <th scope="col" class="text-start">TrxID</th>
+                <th scope="col" class="text-start">PROCESS</th>
+                <th scope="col" class="text-start">TOTAL</th>
+                <th scope="col" class="text-start">REVIEW</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in ViewData["OrderList"] as IList<Orderdetail>)
+            {
+                List<string> var = new List<string>(obj.DetailName.Split(','));
+            <tr>
+                <td class="text-start small">
+                    @obj.DetailProduct.ProductName
                 </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => obj.OrderDate)
+                <td class="text-start small">
+                    Size: @var[0] Color: @var[1]
                 </td>
-                <td class="text-center">
-                    BDT @Html.DisplayFor(modelItem => (obj.Orderdetails.SingleOrDefault().DetailQuantity * obj.Orderdetails.SingleOrDefault().DetailPrice)) for @Html.DisplayFor(modelItem => obj.Orderdetails.SingleOrDefault().DetailQuantity) item
+                <td class="text-start small">
+                    @obj.DetailOrder.OrderDate.ToString().Split()[0]
+                </td>
+                <td class="text-start small text-wrap">
+                    @obj.DetailOrder.OrderTrackingNumber
+                </td>
+                <td class="text-start small">
+                    @(obj.DetailOrder.OrderShipped == 1 ? "Delivered": "Processing")
+                </td>
+                <td class="text-start small">
+                    BDT @obj.DetailPrice for @obj.DetailQuantity item
+                </td>
+                <td class="text-start small">
+                    @if (obj.DetailOrder.OrderShipped == 1 && !obj.Reviewed)
+                    {
+                        <button type="button" class="btn btn-success btn-sm review-btn" data-product-id="@obj.DetailProductId" data-order-id="@obj.DetailId" data-bs-toggle="modal" data-bs-target="#review">Review</button>
+                    }
+                    else if(obj.Reviewed)
+                    {
+                        <p>Reviewed</p>
+                    }
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<div class="modal fade" id="review" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reviewLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" asp-page-handler="LeavingReview">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewLabel">Leave a Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" class="visually-hidden" id="hidden-order-id" name="orderid" value="" required />
+                    <input type="hidden" class="visually-hidden" id="hidden-product-id" name="productid" value="" required />
+                    <div class="form-group">
+                        <input type="radio" class="btn-check" name="reviews" id="notgood" value="1" autocomplete="off" required>
+                        <label class="btn btn-outline-danger" for="notgood">Not Good</label>
+                        <input type="radio" class="btn-check" name="reviews" id="good" value="2" autocomplete="off" required>
+                        <label class="btn btn-outline-info" for="good">Good</label>
+                        <input type="radio" class="btn-check" name="reviews" id="better" value="3" autocomplete="off" required>
+                        <label class="btn btn-outline-primary" for="better">Better</label>
+                        <input type="radio" class="btn-check" name="reviews" id="best" value="4" autocomplete="off" required>
+                        <label class="btn btn-outline-success" for="best">Best</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

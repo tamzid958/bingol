@@ -20,6 +20,7 @@ namespace Bingol.Data
         public BingolContext(DbContextOptions<BingolContext> options)
             : base(options)
         {
+
         }
 
         public virtual DbSet<Option> Options { get; set; }
@@ -32,6 +33,7 @@ namespace Bingol.Data
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<BingolUser> BingolUsers { get; set; }
         public virtual DbSet<Wishlist> Wishlists { get; set; }
+        public virtual DbSet<TempCart> TempCarts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -75,7 +77,7 @@ namespace Bingol.Data
                 entity.Property(e => e.OptionGroupName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
-              /*  entity.HasData(new Optiongroup
+                entity.HasData(new Optiongroup
                 {
                     OptionGroupId = 1,
                     OptionGroupName = "color"
@@ -84,7 +86,7 @@ namespace Bingol.Data
                  {
                      OptionGroupId = 2,
                      OptionGroupName = "size"
-                 });*/
+                 });
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -314,10 +316,6 @@ namespace Bingol.Data
 
                 entity.HasIndex(e => e.ReviewUserId, "IX_reviews_ReviewUserID");
 
-                entity.Property(e => e.ReviewId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ReviewID");
-
                 entity.Property(e => e.ReviewProductId).HasColumnName("ReviewProductID");
 
                 entity.Property(e => e.ReviewUserId).HasColumnName("ReviewUserID");
@@ -335,10 +333,6 @@ namespace Bingol.Data
                 entity.HasIndex(e => e.WishlistProductId, "IX_wishlists_WishlistProductID");
 
                 entity.HasIndex(e => e.WishlistUserId, "IX_wishlists_WishlistUserID");
-
-                entity.Property(e => e.WishlistId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("WishlistID");
 
                 entity.Property(e => e.WishlistProductId).HasColumnName("WishlistProductID");
 

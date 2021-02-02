@@ -35,7 +35,7 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             var userID = _userManager.GetUserId(User);
-            ViewData["Wishlist"] = _db.Wishlists.Where(o => o.WishlistUser.Id == userID).Include(m => m.WishlistProduct).ToList();
+            ViewData["Wishlist"] = _db.Wishlists.Where(o => o.WishlistUser.Id == userID).Include(m => m.WishlistProduct).OrderByDescending(m => m.WishlistId).ToList();
             return Page();
         }
 

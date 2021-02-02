@@ -1,5 +1,6 @@
 ﻿using Bingol.Areas.Identity.Data;
 using Bingol.Data;
+using Bingol.Helpers;
 using Bingol.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -84,7 +85,7 @@ namespace Bingol.Controllers
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            var orders = await PaginatedList<Order>.CreateAsync(_db.Orders.Include(m => m.OrderUser).Include(m => m.Orderdetails).OrderByDescending(o => o.OrderId), page, 30);
+            var orders = await PaginatedList<Orderdetail>.CreateAsync(_db.Orderdetails.Include(o => o.DetailOrder).Include(o => o.DetailProduct).Include(o => o.DetailOrder.OrderUser).OrderByDescending(m => m.DetailId), page, 30);
             return View(orders);
         }
         public async Task<IActionResult> ProductsAsync(int page = 1)
@@ -114,7 +115,7 @@ namespace Bingol.Controllers
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            var reviews = await PaginatedList<Review>.CreateAsync(_db.Reviews.Include(m => m.ReviewProduct).Include(m => m.ReviewUser), page, 30);
+            var reviews = await PaginatedList<Review>.CreateAsync(_db.Reviews.Include(m => m.ReviewProduct).Include(m => m.ReviewUser).OrderByDescending(m => m.ReviewId), page, 30);
             return View(reviews);
         }
         public async Task<IActionResult> CategoriesAsync(int page = 1)
@@ -228,7 +229,20 @@ namespace Bingol.Controllers
             ViewBag.OptionsGroups = new SelectList(items: _db.Optiongroups, "OptionGroupId", "OptionGroupName");
             return View(option);
         }
-
+        public async Task<IActionResult> UpdateOrderAsync(int? id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var order = _db.Orders.First(o => o.OrderId == id);
+            return View(order);
+        }
 
         //get section
 
@@ -339,6 +353,28 @@ namespace Bingol.Controllers
             _db.Productoptions.Remove(productoption);
             _db.SaveChanges();
             return RedirectToAction("Variations");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteReviewAsync(int? id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var review = _db.Reviews.First(x => x.ReviewId == id);
+            if (review == null)
+            {
+                return NotFound();
+            }
+            _db.Reviews.Remove(review);
+            _db.SaveChanges();
+            return RedirectToAction("Reviews");
         }
 
         //post section
@@ -559,6 +595,27 @@ namespace Bingol.Controllers
             _db.SaveChanges();
             return RedirectToAction("Variations");
         }
-
+        [HttpPost]
+        public async Task<IActionResult> OnPostUpdateOrderDetailsAsync(Order model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Orders");
+            }
+            var order = _db.Orders.First(o => o.OrderId == model.OrderId);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            if (order == null)
+            {
+                return NotFound();
+            }
+            order.OrderShipped = model.OrderShipped;
+            _db.Orders.Update(order);
+            _db.SaveChanges();
+            return RedirectToAction("Orders");
+        }
     }
 }

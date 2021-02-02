@@ -1,4 +1,4 @@
-﻿@model PaginatedList<Bingol.Models.Order>
+﻿@model PaginatedList<Bingol.Models.Orderdetail>
 @{
     ViewData["Title"] = "Orders";
 }
@@ -11,31 +11,47 @@
                 <table class="table table-striped table-sm">
                     <thead class="bg-dark text-light">
                         <tr>
-                            <th scope="col" class="text-center">ORDER (TrxID)</th>
-                            <th scope="col" class="text-center">ORDERED BY</th>
-                            <th scope="col" class="text-center">DATE</th>
-                            <th scope="col" class="text-center">TOTAL</th>
-                            <th scope="col" class="text-center">ACTIONS</th>
+                            <th scope="col" class="text-start">Product</th>
+                            <th scope="col" class="text-start">VARIATIONS</th>
+                            <th scope="col" class="text-start">TrxId</th>
+                            <th scope="col" class="text-start">ORDERED BY</th>
+                            <th scope="col" class="text-start">DATE</th>
+                            <th scope="col" class="text-start">PROCESS</th>
+                            <th scope="col" class="text-start">TOTAL</th>
+                            <th scope="col" class="text-start">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var obj in Model)
                         {
+                            List<string> var = new List<string>(obj.DetailName.Split(','));
                             <tr>
-                                <td class="text-center">
-                                    #@obj.OrderId (@obj.OrderTrackingNumber)
+                                <td class="text-start small text-wrap">
+                                    @obj.DetailProduct.ProductName
                                 </td>
-                                <td class="text-center">
-                                    @obj.OrderUser.UserName
+                                <td class="text-start small">
+                                    Size: @var[0] Color: @var[1]
                                 </td>
-                                <td class="text-center">
-                                    @obj.OrderDate
+                                <td class="text-start small text-wrap">
+                                  #@obj.DetailId ( @obj.DetailOrder.OrderTrackingNumber )
                                 </td>
-                                <td class="text-center">
-                                    BDT @(obj.Orderdetails.SingleOrDefault().DetailQuantity * obj.Orderdetails.SingleOrDefault().DetailPrice) for @obj.Orderdetails.SingleOrDefault().DetailQuantity item
+                                <td class="text-start small">
+                                    @obj.DetailOrder.OrderUser.Email
                                 </td>
-                                <td class="text-center">
-                                    <button type="button" value="@obj.OrderId" class="btn btn-warning">INVOICE</button>
+                                <td class="text-start small">
+                                    @obj.DetailOrder.OrderDate.ToString().Split()[0]
+                                </td>
+                                <td class="text-start small">
+                                    @(obj.DetailOrder.OrderShipped == 1 ? "Delivered": "Processing")
+                                </td>
+                                <td class="text-start small">
+                                    BDT @obj.DetailPrice for @obj.DetailQuantity item
+                                </td>
+                                <td class="text-start small">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" value="@obj.DetailId" class="btn btn-warning btn-sm">Invoice</button>
+                                        <a asp-action="UpdateOrder" asp-route-id="@obj.DetailOrderId" class="btn btn-success btn-sm">Modify</a>
+                                    </div>
                                 </td>
                             </tr>
                         }

@@ -39,12 +39,12 @@ namespace Bingol
             });
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.Configure<CookiePolicyOptions>(options =>
+       /*     services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = _ => false;
+                options.CheckConsentNeeded = _ => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,12 +115,15 @@ namespace Bingol
             if (testUser.Result != null) return;
             var administrator = new BingolUser
             {
+                UserFirstName = "Bingol",
+                UserLastName = "Bingol",
+                PhoneNumber = "+880123493249",
                 EmailConfirmed = true,
                 Email = username,
                 UserName = username
             };
 
-            var newUser = userManager.CreateAsync(administrator, "_AStrongP@ssword123!");
+            var newUser = userManager.CreateAsync(administrator, "Bingol123@");
             newUser.Wait();
 
             if (!newUser.Result.Succeeded) return;

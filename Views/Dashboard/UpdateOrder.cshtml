@@ -1,0 +1,31 @@
+﻿@model Bingol.Models.Order
+
+@{
+    ViewData["Title"] = "UpdateOrder";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <partial name="_PartialAdminNav.cshtml" />
+        <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 profile-tab">
+            <form method="post" action="@Url.Action("OnPostUpdateOrderDetails", "Dashboard")">
+                <input type="hidden" asp-for="OrderId" />
+                <div class="form-group">
+                    <label  class="form-label">Change Current Proccess</label>
+                    <select asp-for="OrderShipped" class="form-control" required>
+                        <option value="0">Proccesing</option>
+                        <option value="1">Delivered</option>
+                    </select>
+                    <span asp-validation-for="OrderShipped" class="text-danger"></span>
+                </div>
+                <div class="d-grid mt-3">
+                    <input type="submit" value="Save" class="btn btn-warning" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

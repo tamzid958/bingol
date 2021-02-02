@@ -34,8 +34,34 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             var userID = _userManager.GetUserId(User);
-            ViewData["OrderList"] = _db.Orders.Where(o => o.OrderUser.Id == userID).Include(m => m.Orderdetails).ToList();
+            ViewData["OrderList"] = _db.Orderdetails.Where(o => o.DetailOrder.OrderUserId == userID).Include(o => o.DetailOrder).Include(o => o.DetailProduct).OrderByDescending(m => m.DetailId).ToList();
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostLeavingReviewAsync(int productid, int reviews, int orderid)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            var userID = _userManager.GetUserId(User);
+            Review review = new Review
+            {
+                ReviewProductId = productid,
+                ReviewUserId = userID,
+                ReviewOrderId = orderid,
+                ReviewRating = reviews
+            };
+            var order = _db.Orderdetails.First(o => o.DetailId == orderid);
+            order.Reviewed = true;
+            
+            _db.Orderdetails.Update(order);
+            _db.SaveChanges();
+
+            _db.Reviews.Add(review);
+            _db.SaveChanges();
+            return RedirectToPage("Orders");
         }
 
     }

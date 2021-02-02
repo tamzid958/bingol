@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/account/manage/wishlist"
 @model WishlistModel
 @{
     ViewData["Title"] = "Wishlist";
@@ -9,7 +9,8 @@
     <thead class="bg-dark text-white">
         <tr>
             <th scope="col">Product's Name</th>
-            <th scope="col"></th>
+            <th scope="col">Action</th>
+            <th scope="col">Remove</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,9 @@
 
             <tr>
                 <th scope="row">@obj.WishlistProduct.ProductName</th>
+                <th scope="row">
+                    <a asp-controller="Products" asp-action="Product" asp-route-id="@obj.WishlistProductId" class="btn btn-success">View</a>
+                </th>
                 <th>
                     <form method="post" asp-page-handler="Delete">
                         <input type="hidden" class="visually-hidden" name="id" value="@obj.WishlistId"/>
