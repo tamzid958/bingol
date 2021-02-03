@@ -2,6 +2,7 @@ using Bingol.Areas.Identity.Data;
 using Bingol.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +28,7 @@ namespace Bingol
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSingleton(_ => Configuration);
             services.AddDbContext<BingolContext>
-           (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+           (options => options.UseSqlServer(Configuration.GetConnectionString("AuthDbContextConnection")));
             services.AddDefaultIdentity<BingolUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<BingolContext>();
             services.AddScoped<DbContext, BingolContext>();
@@ -38,12 +39,12 @@ namespace Bingol
             });
             services.AddControllersWithViews();
             services.AddRazorPages();
-       /*     services.Configure<CookiePolicyOptions>(options =>
+            services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = _ => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });*/
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

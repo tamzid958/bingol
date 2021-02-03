@@ -74,14 +74,18 @@ namespace Bingol.Controllers
             var productsIndex = _db.Products;
             var options = _db.Options;
             ViewBag.TotalProducts = productsIndex.Count();
-            ViewBag.maxProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Max(o => o.ProductPrice));
-            ViewBag.minProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Min(o => o.ProductPrice));
             var products = SearchProduct(searching, category, color, size, sorted, price);
             dynamic metamodel = new ExpandoObject();
             metamodel.Products = await PaginatedList<Product>.CreateAsync(products.Include(m => m.ProductCategory).OrderByDescending(m => m.ProductId), page, 12);
             metamodel.Categories = _db.Productcategories;
             metamodel.Color = options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "color");
             metamodel.Size = options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size");
+            if (productsIndex.Any())
+            {
+                ViewBag.maxProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Max(o => o.ProductPrice));
+                ViewBag.minProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Min(o => o.ProductPrice));
+                return View(metamodel);
+            }
             return View(metamodel);
         }
 
