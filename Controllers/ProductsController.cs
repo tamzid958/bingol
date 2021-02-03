@@ -80,12 +80,9 @@ namespace Bingol.Controllers
             metamodel.Categories = _db.Productcategories;
             metamodel.Color = options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "color");
             metamodel.Size = options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size");
-            if (productsIndex.Any())
-            {
-                ViewBag.maxProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Max(o => o.ProductPrice));
-                ViewBag.minProductPrice = (int)Math.Ceiling(productsIndex.AsQueryable().Min(o => o.ProductPrice));
-                return View(metamodel);
-            }
+            if (!productsIndex.Any()) return View(metamodel);
+            ViewBag.maxProductPrice = (int) Math.Ceiling(productsIndex.AsQueryable().Max(o => o.ProductPrice));
+            ViewBag.minProductPrice = (int) Math.Ceiling(productsIndex.AsQueryable().Min(o => o.ProductPrice));
             return View(metamodel);
         }
 
