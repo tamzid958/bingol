@@ -134,7 +134,10 @@ namespace Bingol.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> AddtoCart(int id, int quantity, int color, int size)
+        public async Task<IActionResult> AddtoCart(int id,
+                                                   int quantity,
+                                                   int color,
+                                                   int size)
         {
             var user = await _userManager.GetUserAsync(User);
             var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
@@ -237,8 +240,83 @@ namespace Bingol.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Checkout(string total, string userId, string firstname, string email, string phone, string city, string state,string zip, string country, string address1, string address2)
+        public IActionResult Checkout(string total,
+                                      string userId,
+                                      string firstname,
+                                      string email,
+                                      string phone,
+                                      string city,
+                                      string state,
+                                      string zip,
+                                      string country,
+                                      string address1,
+                                      string address2)
         {
+            if (string.IsNullOrEmpty(total))
+            {
+                TempData["danger msg"] = $"'{nameof(total)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                TempData["danger msg"] = $"'{nameof(userId)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(firstname))
+            {
+                TempData["danger msg"] = $"'{nameof(firstname)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(email))
+            {
+                TempData["danger msg"] = $"'{nameof(email)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(phone))
+            {
+                TempData["danger msg"] = $"'{nameof(phone)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(city))
+            {
+                TempData["danger msg"] = $"'{nameof(total)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(state))
+            {
+                TempData["danger msg"] = $"'{nameof(state)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(zip))
+            {
+                TempData["danger msg"] = $"'{nameof(zip)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+            if (string.IsNullOrEmpty(country))
+            {
+                TempData["danger msg"] = $"'{nameof(country)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(address1))
+            {
+                TempData["danger msg"] = $"'{nameof(address1)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
+            if (string.IsNullOrEmpty(address2))
+            {
+                TempData["danger msg"] = $"'{nameof(address2)}' cannot be null or empty";
+                return RedirectToAction("Cart");
+            }
+
             var tempCart = _db.TempCarts.Where(o => o.CustomerID == userId).Include(o => o.Product);
             var transId = CreateMd5(DateTime.Now.ToString(CultureInfo.InvariantCulture) + userId);
             var order = new Order
@@ -265,7 +343,7 @@ namespace Bingol.Controllers
             _db.SaveChanges();
 
             var orderOrderDetail = _db.Orders.First(o => o.OrderTrackingNumber == transId);
-            
+
             foreach (var obj in tempCart)
             {
                 var size = _db.Options.First(o => o.OptionId == obj.Size);
@@ -275,7 +353,7 @@ namespace Bingol.Controllers
                     DetailOrderId = orderOrderDetail.OrderId,
                     DetailProductId = obj.ProductID,
                     DetailName = size.OptionName + "," + color.OptionName,
-                    DetailPrice = (float) Math.Round((obj.Product.ProductPrice * obj.Quantity), 2),
+                    DetailPrice = (float)Math.Round((obj.Product.ProductPrice * obj.Quantity), 2),
                     DetailSku = obj.Product.ProductSku,
                     DetailQuantity = obj.Quantity
                 };
@@ -289,6 +367,7 @@ namespace Bingol.Controllers
             TempData["success msg"] = "Purchased Successfully";
             return RedirectToAction("Cart");
         }
+        
 
         [Authorize]
         public async Task<IActionResult> AddtoWishlist(int id)

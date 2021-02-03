@@ -30,7 +30,8 @@
             </ul>
             <div class="card p-2">
                 <p class="text-success">@TempData["success msg"]</p>
-                <a class="w-100 btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#payment">Continue to checkout</a>
+                <p class="text-danger">@TempData["danger msg"]</p>
+                <a class="w-100 btn btn-warning btn-lg @(ViewBag.Total <= 0 ?"disabled":"")" data-bs-toggle="modal" data-bs-target="#payment">Continue to checkout</a>
             </div>
         </div>
         <div class="col-md-7 col-lg-8">
