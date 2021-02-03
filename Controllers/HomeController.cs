@@ -3,8 +3,6 @@ using Bingol.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
@@ -25,11 +23,11 @@ namespace Bingol.Controllers
 
         public IActionResult Index()
         {
-            var sizeCheck = _db.Optiongroups.Where(o => o.OptionGroupName == "size");
-            var colorCheck = _db.Optiongroups.Where(o => o.OptionGroupName == "color");
+            var sizeCheck = _db.Optiongroups.First(o => o.OptionGroupName == "size");
+            var colorCheck = _db.Optiongroups.First(o => o.OptionGroupName == "color");
             if(sizeCheck == null)
             {
-                Optiongroup size = new Optiongroup
+                var size = new Optiongroup
                 {
                     OptionGroupId = 2,
                     OptionGroupName = "size"
@@ -39,7 +37,7 @@ namespace Bingol.Controllers
             }
             if (colorCheck == null)
             {
-                Optiongroup color = new Optiongroup
+                var color = new Optiongroup
                 {
                     OptionGroupId = 1,
                     OptionGroupName = "color"

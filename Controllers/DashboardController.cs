@@ -264,7 +264,7 @@ namespace Bingol.Controllers
                 return NotFound();
             }
             _db.Productcategories.Remove(category);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Categories");
         }
         [HttpGet]
@@ -309,7 +309,7 @@ namespace Bingol.Controllers
                 return NotFound();
             }
             _db.Options.Remove(option);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Options");
         }
         [HttpGet]
@@ -330,7 +330,7 @@ namespace Bingol.Controllers
                 return NotFound();
             }
             _db.Products.Remove(product);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Products");
         }
         [HttpGet]
@@ -345,13 +345,13 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            var productoption = _db.Productoptions.First(x => x.ProductOptionId == id);
-            if (productoption == null)
+            var production = _db.Productoptions.First(x => x.ProductOptionId == id);
+            if (production == null)
             {
                 return NotFound();
             }
-            _db.Productoptions.Remove(productoption);
-            _db.SaveChanges();
+            _db.Productoptions.Remove(production);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Variations");
         }
 
@@ -373,7 +373,7 @@ namespace Bingol.Controllers
                 return NotFound();
             }
             _db.Reviews.Remove(review);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Reviews");
         }
 
@@ -433,7 +433,7 @@ namespace Bingol.Controllers
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            _logger.LogInformation("User changed their password successfully.");
+            _logger.LogInformation("User changed their password successfully");
             ViewBag.StatusMessage = "Your password has been changed.";
 
             return RedirectToAction("ChangePassword");
@@ -450,8 +450,8 @@ namespace Bingol.Controllers
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            _db.Productcategories.Add(model);
-            _db.SaveChanges();
+            await _db.Productcategories.AddAsync(model);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Categories");
         }
         [HttpPost]
@@ -473,7 +473,7 @@ namespace Bingol.Controllers
             }
             category.CategoryName = model.CategoryName;
             _db.Productcategories.Update(category);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Categories");
         } 
         [HttpPost]
@@ -488,8 +488,8 @@ namespace Bingol.Controllers
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            _db.Options.Add(model);
-            _db.SaveChanges();
+            await _db.Options.AddAsync(model);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Options");
         }
         [HttpPost]
@@ -512,7 +512,7 @@ namespace Bingol.Controllers
             option.OptionName = model.OptionName;
             option.OptionsGroupId = model.OptionsGroupId;
             _db.Options.Update(option);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Options");
         }
 
@@ -531,8 +531,8 @@ namespace Bingol.Controllers
             model.ProductCartDesc = model.ProductShortDesc;
             model.ProductUpdateDate = DateTime.Now;
             model.ProductThumb = model.ProductImage;
-            _db.Products.Add(model);
-            _db.SaveChanges();
+            await _db.Products.AddAsync(model);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Products");
         }
 
@@ -568,7 +568,7 @@ namespace Bingol.Controllers
             product.ProductUnlimited = model.ProductUnlimited;
             product.ProductLocation = model.ProductLocation;
             _db.Products.Update(product);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Products");
         }
 
@@ -589,10 +589,11 @@ namespace Bingol.Controllers
             {
                 return BadRequest("Something Wrong Happened");
             }
-            model.OptionGroupId = (int) optionGroup.OptionsGroupId;
+
+            if (optionGroup.OptionsGroupId != null) model.OptionGroupId = (int) optionGroup.OptionsGroupId;
             model.OptionPriceIncrement = 0;
-            _db.Productoptions.Add(model);
-            _db.SaveChanges();
+            await _db.Productoptions.AddAsync(model);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Variations");
         }
         [HttpPost]
@@ -614,7 +615,7 @@ namespace Bingol.Controllers
             }
             order.OrderShipped = model.OrderShipped;
             _db.Orders.Update(order);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Orders");
         }
     }

@@ -8,7 +8,6 @@ using Bingol.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Bingol.Models;
-using System.Collections.Generic;
 
 namespace Bingol.Areas.Identity.Pages.Account.Manage
 {
@@ -33,8 +32,8 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            var userID = _userManager.GetUserId(User);
-            ViewData["OrderList"] = _db.Orderdetails.Where(o => o.DetailOrder.OrderUserId == userID).Include(o => o.DetailOrder).Include(o => o.DetailProduct).OrderByDescending(m => m.DetailId).ToList();
+            var userId = _userManager.GetUserId(User);
+            ViewData["OrderList"] = _db.Orderdetails.Where(o => o.DetailOrder.OrderUserId == userId).Include(o => o.DetailOrder).Include(o => o.DetailProduct).OrderByDescending(m => m.DetailId).ToList();
             return Page();
         }
 
@@ -45,11 +44,11 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            var userID = _userManager.GetUserId(User);
-            Review review = new Review
+            var userId = _userManager.GetUserId(User);
+            var review = new Review
             {
                 ReviewProductId = productid,
-                ReviewUserId = userID,
+                ReviewUserId = userId,
                 ReviewOrderId = orderid,
                 ReviewRating = reviews
             };
@@ -57,10 +56,10 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
             order.Reviewed = true;
             
             _db.Orderdetails.Update(order);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
-            _db.Reviews.Add(review);
-            _db.SaveChanges();
+            await _db.Reviews.AddAsync(review);
+            await _db.SaveChangesAsync();
             return RedirectToPage("Orders");
         }
 

@@ -24,6 +24,7 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
             _logger = logger;
         }
+
         public string Username { get; set; }
 
         [TempData]
@@ -68,7 +69,7 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
             var state = user.UserState;
             var zip = user.UserZip;
             var country = user.UserCountry;
-            var billingdAddress = user.UserAddress;
+            var billingAddress = user.UserAddress;
             var shippingAddress = user.UserAddress2;
             Input = new InputModel
             {
@@ -76,7 +77,7 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
                 State = state,
                 ZipCode = zip,
                 Country = country,
-                BillingAddress = billingdAddress,
+                BillingAddress = billingAddress,
                 ShippingAddress = shippingAddress
             };
         }

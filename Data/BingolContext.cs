@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using Bingol.Areas.Identity.Data;
 using Bingol.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Bingol.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Bingol.Models;
 
 namespace Bingol.Areas.Identity.Pages.Account.Manage
 {
@@ -34,8 +33,8 @@ namespace Bingol.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            var userID = _userManager.GetUserId(User);
-            ViewData["Wishlist"] = _db.Wishlists.Where(o => o.WishlistUser.Id == userID).Include(m => m.WishlistProduct).OrderByDescending(m => m.WishlistId).ToList();
+            var userId = _userManager.GetUserId(User);
+            ViewData["Wishlist"] = _db.Wishlists.Where(o => o.WishlistUser.Id == userId).Include(m => m.WishlistProduct).OrderByDescending(m => m.WishlistId).ToList();
             return Page();
         }
 

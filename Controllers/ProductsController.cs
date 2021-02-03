@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bingol.Areas.Identity.Data;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using Bingol.Helpers;
@@ -99,12 +98,12 @@ namespace Bingol.Controllers
             {
                 return NotFound();
             }
-            var productavailbility = _db.Products.First(o => o.ProductId == id);
-            if (productavailbility.ProductStock <= 0)
+            var productivity = _db.Products.First(o => o.ProductId == id);
+            if (productivity.ProductStock <= 0)
             {
-                productavailbility.ProductLive = 0;
-                _db.Products.Update(productavailbility);
-                _db.SaveChanges();
+                productivity.ProductLive = 0;
+                _db.Products.Update(productivity);
+                await _db.SaveChangesAsync();
             }
             metamodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size" && o.Productoptions.Any(m => m.ProductId == id));
             metamodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "color" && o.Productoptions.Any(m => m.ProductId == id));
@@ -118,16 +117,17 @@ namespace Bingol.Controllers
                 .OrderByDescending(o => o.ProductId)
                 .Take(12);
             var review = _db.Reviews.Where(o => o.ReviewProductId == id);
-            var totalreview = review.Count();
-            var notgoodreview = review.Where(o => o.ReviewRating == 1).Count();
-            var goodreview = review.Where(o => o.ReviewRating == 2).Count();
-            var betterreview = review.Where(o => o.ReviewRating == 3).Count();
-            var bestreview = review.Where(o => o.ReviewRating == 4).Count();
-            ViewBag.TotalReview = totalreview;
-            ViewBag.NotGoodReview = 100 * notgoodreview / totalreview;
-            ViewBag.GoodReview = 100 * goodreview / totalreview;
-            ViewBag.BetterReview = 100 * betterreview / totalreview;
-            ViewBag.BestReview = 100 * bestreview / totalreview;
+            var totalled = review.Count();
+            var notochord = review.Count(o => o.ReviewRating == 1);
+            var goodies = review.Count(o => o.ReviewRating == 2);
+            var bettering = review.Count(o => o.ReviewRating == 3);
+            var bestrew = review.Count(o => o.ReviewRating == 4);
+            ViewBag.TotalReview = totalled;
+            if (totalled == 0) return metamodel.Product == null ? NotFound() : (IActionResult) View(metamodel);
+            ViewBag.NotGoodReview = 100 * notochord / totalled;
+            ViewBag.GoodReview = 100 * goodies / totalled;
+            ViewBag.BetterReview = 100 * bettering / totalled;
+            ViewBag.BestReview = 100 * bestrew / totalled;
             return metamodel.Product == null ? NotFound() : (IActionResult) View(metamodel);
         }
 
@@ -158,7 +158,7 @@ namespace Bingol.Controllers
                 return RedirectToAction("Product", new { id });
             }
 
-            TempCart tempCart = new TempCart
+            var tempCart = new TempCart
             {
                 ProductID = id,
                 CustomerID = user.Id,
@@ -166,8 +166,8 @@ namespace Bingol.Controllers
                 Color = color,
                 Size = size
             };
-            _db.TempCarts.Add(tempCart);
-            _db.SaveChanges();
+            await _db.TempCarts.AddAsync(tempCart);
+            await _db.SaveChangesAsync();
             TempData["success message"] = "Product added to Cart";
             return RedirectToAction("Product", new { id });
         }
@@ -194,12 +194,8 @@ namespace Bingol.Controllers
             ViewBag.ZipCode = user.UserZip;
             
             var tempCarts = _db.TempCarts.Where(o => o.CustomerID == user.Id).Include(o => o.Product);
-            var total = 0.00;
+            var total = Enumerable.Aggregate(tempCarts, 0.00, (current, obj) => current + obj.Product.ProductPrice * obj.Quantity);
 
-            foreach(var obj in tempCarts)
-            {
-                total += obj.Product.ProductPrice * obj.Quantity;
-            }
             ViewBag.Counter = tempCarts.Count();
             ViewBag.UserId = user.Id;
             ViewBag.Total = Math.Round(total, 2);
@@ -222,18 +218,18 @@ namespace Bingol.Controllers
             return RedirectToAction("Cart");
         }
 
-        public static string CreateMD5(string input)
+        private static string CreateMd5(string input)
         {
             // Use input string to calculate MD5 hash
-            using MD5 md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-            byte[] hashBytes = md5.ComputeHash(inputBytes);
+            using var md5 = MD5.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hashBytes = md5.ComputeHash(inputBytes);
 
             // Convert the byte array to hexadecimal string
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hashBytes.Length; i++)
+            var sb = new StringBuilder();
+            foreach (var t in hashBytes)
             {
-                sb.Append(hashBytes[i].ToString("X2"));
+                sb.Append(t.ToString("X2"));
             }
             return sb.ToString();
         }
@@ -243,8 +239,8 @@ namespace Bingol.Controllers
         public IActionResult Checkout(string total, string userId, string firstname, string email, string phone, string city, string state,string zip, string country, string address1, string address2)
         {
             var tempCart = _db.TempCarts.Where(o => o.CustomerID == userId).Include(o => o.Product);
-            var trxid = CreateMD5(DateTime.Now.ToString() + userId);
-            Order order = new Order
+            var transId = CreateMd5(DateTime.Now.ToString(CultureInfo.InvariantCulture) + userId);
+            var order = new Order
             {
                 OrderUserId = userId,
                 OrderAmount = tempCart.Count(),
@@ -262,27 +258,27 @@ namespace Bingol.Controllers
                 OrderEmail = email,
                 OrderDate = DateTime.Now,
                 OrderShipped = 0,
-                OrderTrackingNumber = trxid,
+                OrderTrackingNumber = transId,
             };
             _db.Orders.Add(order);
             _db.SaveChanges();
 
-            Order orderforOrderDetail = _db.Orders.First(o => o.OrderTrackingNumber == trxid);
+            var orderOrderDetail = _db.Orders.First(o => o.OrderTrackingNumber == transId);
             
             foreach (var obj in tempCart)
             {
                 var size = _db.Options.First(o => o.OptionId == obj.Size);
                 var color = _db.Options.First(o => o.OptionId == obj.Color);
-                Orderdetail orderdetail = new Orderdetail
+                var ordering = new Orderdetail
                 {
-                    DetailOrderId = orderforOrderDetail.OrderId,
+                    DetailOrderId = orderOrderDetail.OrderId,
                     DetailProductId = obj.ProductID,
                     DetailName = size.OptionName + "," + color.OptionName,
                     DetailPrice = (float) Math.Round((obj.Product.ProductPrice * obj.Quantity), 2),
                     DetailSku = obj.Product.ProductSku,
                     DetailQuantity = obj.Quantity
                 };
-                _db.Orderdetails.Add(orderdetail);
+                _db.Orderdetails.Add(ordering);
                 var product = _db.Products.First(o => o.ProductId == obj.ProductID);
                 product.ProductStock -= obj.Quantity;
                 _db.Products.Update(product);
@@ -312,14 +308,14 @@ namespace Bingol.Controllers
                 return RedirectToAction("Product", new { id });
 
             }
-            Wishlist wishlist = new Wishlist
+            var wishlist = new Wishlist
             {
                 WishlistProductId = id,
                 WishlistUserId = user.Id,
                 WishlistCondition = 1
             };
-            _db.Wishlists.Add(wishlist);
-            _db.SaveChanges();
+            await _db.Wishlists.AddAsync(wishlist);
+            await _db.SaveChangesAsync();
             TempData["success message"] = "Added to Wishlist";
             return RedirectToAction("Product", new { id });
         }
