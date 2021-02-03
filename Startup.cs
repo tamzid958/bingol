@@ -43,6 +43,7 @@ namespace Bingol
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = _ => true;
+                options.ConsentCookie.IsEssential = true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
         }

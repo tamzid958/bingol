@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <label class="form-label">Product Name</label>
-                    <input asp-for="ProductName" class="form-control" required/>
+                    <input asp-for="ProductName" class="form-control" maxlength="30" required/>
                     <span asp-validation-for="ProductName" class="text-danger"></span>
                 </div>
                 <div class="row mt-3">
@@ -57,7 +57,9 @@
                 </div>
                 <div class="form-group mt-3">
                     <label class="form-label">Short Description</label>
-                    <textarea asp-for="ProductShortDesc" class="form-control tinymce_textarea" rows="2" cols="40" maxlength="30" placeholder="max 30 characters" required></textarea>
+                    <textarea asp-for="ProductShortDesc" id="txtTinyMCE" class="form-control tinymce_textarea" rows="2" cols="40" placeholder="max 75 characters" required></textarea>
+                    <div id="character_count">
+                    </div>
                     <span asp-validation-for="ProductShortDesc" class="text-danger"></span>
                 </div>
                 <div class="row mt-3">
@@ -106,7 +108,7 @@
                     <span asp-validation-for="ProductLocation" class="text-danger"></span>
                 </div>
                 <div class="d-grid mt-3">
-                    <input type="submit" value="Create" class="btn btn-warning" />
+                    <input type="submit" value="Create" id="validate-product" class="btn btn-warning" />
                 </div>
             </form>
         </div>

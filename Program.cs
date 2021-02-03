@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
 
 namespace Bingol
@@ -8,6 +9,11 @@ namespace Bingol
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+            _ = new SqlConnectionStringBuilder
+            {
+                IntegratedSecurity = true,
+                MultipleActiveResultSets = true
+            };
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>

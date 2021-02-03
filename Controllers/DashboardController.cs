@@ -559,6 +559,7 @@ namespace Bingol.Controllers
             product.ProductWeight = model.ProductWeight;
             product.ProductCartDesc = model.ProductShortDesc;
             product.ProductLongDesc = model.ProductLongDesc;
+            product.ProductShortDesc = model.ProductShortDesc;
             product.ProductThumb = model.ProductImage;
             product.ProductImage = model.ProductImage;
             product.ProductCategoryId = model.ProductCategoryId;

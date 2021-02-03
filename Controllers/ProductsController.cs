@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using Bingol.Helpers;
+using System.Collections.Generic;
 
 namespace Bingol.Controllers
 {
@@ -108,7 +109,7 @@ namespace Bingol.Controllers
             }
             metamodel.ProductSizeOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "size" && o.Productoptions.Any(m => m.ProductId == id));
             metamodel.ProductColorOptions = _db.Options.Where(o => o.OptionsGroup.OptionGroupName.ToLower() == "color" && o.Productoptions.Any(m => m.ProductId == id));
-            var category = _db.Productcategories.FirstOrDefault(o => o.Products.Any(m => m.ProductId == id));
+            var category = _db.Productcategories.First(o => o.Products.Any(m => m.ProductId == id));
             metamodel.SimilarProducts = _db.Products.Include(m => m.ProductCategory)
                 .Where(m => m.ProductCategory.CategoryId == category.CategoryId && m.ProductId != id)
                 .OrderByDescending(o => o.ProductId)
@@ -170,8 +171,8 @@ namespace Bingol.Controllers
                 Color = color,
                 Size = size
             };
-            await _db.TempCarts.AddAsync(tempCart);
-            await _db.SaveChangesAsync();
+            _db.TempCarts.Add(tempCart);
+            _db.SaveChanges();
             TempData["success message"] = "Product added to Cart";
             return RedirectToAction("Product", new { id });
         }
@@ -343,7 +344,8 @@ namespace Bingol.Controllers
             _db.SaveChanges();
 
             var orderOrderDetail = _db.Orders.First(o => o.OrderTrackingNumber == transId);
-
+            IList<Orderdetail> orderList = new List<Orderdetail>();
+            
             foreach (var obj in tempCart)
             {
                 var size = _db.Options.First(o => o.OptionId == obj.Size);
@@ -357,13 +359,17 @@ namespace Bingol.Controllers
                     DetailSku = obj.Product.ProductSku,
                     DetailQuantity = obj.Quantity
                 };
-                _db.Orderdetails.Add(ordering);
+                orderList.Add(ordering);
                 var product = _db.Products.First(o => o.ProductId == obj.ProductID);
                 product.ProductStock -= obj.Quantity;
-                _db.Products.Update(product);
+                _db.Update(product);
             }
+
+            _db.Orderdetails.AddRange(orderList);
+
             _db.TempCarts.RemoveRange(tempCart.ToList());
             _db.SaveChanges();
+
             TempData["success msg"] = "Purchased Successfully";
             return RedirectToAction("Cart");
         }
@@ -394,8 +400,8 @@ namespace Bingol.Controllers
                 WishlistUserId = user.Id,
                 WishlistCondition = 1
             };
-            await _db.Wishlists.AddAsync(wishlist);
-            await _db.SaveChangesAsync();
+            _db.Wishlists.Add(wishlist);
+            _db.SaveChanges();
             TempData["success message"] = "Added to Wishlist";
             return RedirectToAction("Product", new { id });
         }

@@ -167,7 +167,7 @@
             {
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product" asp-route-id="@obj.ProductId">
                     <div class="card product-card-owl product-card-owl-lg">
-                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : obj.ProductImage.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
+                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : obj.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
                         <div class="card-img-overlay">
                             <div class="d-flex justify-content-between align-items-start">
                                 <span class="bg-info bg-gradient badge fw-bold text-white">@obj.ProductCategory.CategoryName</span>
@@ -176,7 +176,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="text-decoration-none">@obj.ProductName</h5>
-                            <div class="card-text text-muted">@obj.ProductShortDesc</div>
+                            <div class="card-text text-muted">@Html.Raw(obj.ProductShortDesc)</div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="fw-bold text-decoration-none">BDT @obj.ProductPrice</h5>
                                 <div class="btn btn-warning bg-gradient">Buy<span class="fa fa-shopping-bag ms-3"></span></div>
@@ -199,7 +199,7 @@
             {
                 <a class="text-decoration-none" asp-area="" asp-controller="Products" asp-action="Product" asp-route-id="@obj.ProductId">
                     <div class="card product-card-owl product-card-owl-lg">
-                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : obj.ProductImage.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
+                        <img src="@(obj.ProductImage.Length == 0 ? "/images/img_preview.png" : obj.ProductImage)" class="card-img card-img-top" alt="@obj.ProductName">
                         <div class="card-img-overlay">
                             <div class="d-flex justify-content-between align-items-start">
                                 <span class="bg-info bg-gradient badge fw-bold text-white">@obj.ProductCategory.CategoryName</span>
@@ -208,7 +208,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="text-decoration-none">@obj.ProductName</h5>
-                            <div class="card-text text-muted">@obj.ProductShortDesc</div>
+                            <div class="card-text text-muted">@Html.Raw(obj.ProductShortDesc)</div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="fw-bold text-decoration-none">BDT @obj.ProductPrice</h5>
                                 <div class="btn btn-warning bg-gradient">Buy<span class="fa fa-shopping-bag ms-3"></span></div>

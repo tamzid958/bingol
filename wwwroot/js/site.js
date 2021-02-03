@@ -9,8 +9,32 @@ tinymce.init({
     toolbar_mode: 'floating',
     tinycomments_mode: "embedded",
     tinycomments_author: "Bingol",
+    setup: function (ed) {
+        ed.on('keyup', function (e) {
+            var count = CountCharacters();
+            document.getElementById("character_count").innerHTML = "Characters: " + count;
+        });
+    }
+
 });
 
+function CountCharacters() {
+    var body = tinymce.get("txtTinyMCE").getBody();
+    var content = tinymce.trim(body.innerText || body.textContent);
+    return content.length;
+};
+function ValidateCharacterLength() {
+    var max = 75;
+    var count = CountCharacters();
+    if (count > max) {
+        alert("Maximum " + max + " characters allowed.")
+        return false;
+    }
+    return;
+}
+$("#validate-product").click(function () {
+    return ValidateCharacterLength();
+})
 $('.owl-carousel').owlCarousel({
     margin: 10,
     loop: true,
