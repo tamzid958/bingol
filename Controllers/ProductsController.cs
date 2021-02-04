@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Bingol.Helpers;
 using System.Collections.Generic;
+using static System.String;
 
 namespace Bingol.Controllers
 {
@@ -21,24 +22,17 @@ namespace Bingol.Controllers
     {
         private readonly BingolContext _db;
         private readonly UserManager<BingolUser> _userManager;
-        private readonly SignInManager<BingolUser> _signInManager;
-        //we can get from email notification
-        private const string StoreId = "theby5f956bcb364af";
-        private const string StorePassword = "theby5f956bcb364af@ssl";
-        private const bool IsSandboxMode = true;
-        private const string Currency = "BDT";
 
-        public ProductsController(BingolContext db, UserManager<BingolUser> userManager, SignInManager<BingolUser> signInManager)
+        public ProductsController(BingolContext db, UserManager<BingolUser> userManager)
         {
             _db = db;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public IQueryable<Product> SearchProduct(string searching, int category, int color, int size, string sorted, int price)
         {
             var products = _db.Products.AsQueryable();
-            if (!string.IsNullOrEmpty(searching))
+            if (!IsNullOrEmpty(searching))
             {
                 products = products.Where(o => o.ProductName.ToLower().Contains(searching.ToLower()));
             }
@@ -59,7 +53,7 @@ namespace Bingol.Controllers
                 products = products.Where(o => o.Productoptions.Any(a => a.OptionId == size));
             }
 
-            if (string.IsNullOrEmpty(sorted)) return products;
+            if (IsNullOrEmpty(sorted)) return products;
             {
                 products = sorted switch
                 {
@@ -171,8 +165,8 @@ namespace Bingol.Controllers
                 Color = color,
                 Size = size
             };
-            _db.TempCarts.Add(tempCart);
-            _db.SaveChanges();
+            await _db.TempCarts.AddAsync(tempCart);
+            await _db.SaveChangesAsync();
             TempData["success message"] = "Product added to Cart";
             return RedirectToAction("Product", new { id });
         }
@@ -253,66 +247,66 @@ namespace Bingol.Controllers
                                       string address1,
                                       string address2)
         {
-            if (string.IsNullOrEmpty(total))
+            if (IsNullOrEmpty(total))
             {
                 TempData["danger msg"] = $"'{nameof(total)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(userId))
+            if (IsNullOrEmpty(userId))
             {
                 TempData["danger msg"] = $"'{nameof(userId)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(firstname))
+            if (IsNullOrEmpty(firstname))
             {
                 TempData["danger msg"] = $"'{nameof(firstname)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(email))
+            if (IsNullOrEmpty(email))
             {
                 TempData["danger msg"] = $"'{nameof(email)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(phone))
+            if (IsNullOrEmpty(phone))
             {
                 TempData["danger msg"] = $"'{nameof(phone)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(city))
+            if (IsNullOrEmpty(city))
             {
                 TempData["danger msg"] = $"'{nameof(total)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(state))
+            if (IsNullOrEmpty(state))
             {
                 TempData["danger msg"] = $"'{nameof(state)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(zip))
+            if (IsNullOrEmpty(zip))
             {
                 TempData["danger msg"] = $"'{nameof(zip)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
-            if (string.IsNullOrEmpty(country))
+            if (IsNullOrEmpty(country))
             {
                 TempData["danger msg"] = $"'{nameof(country)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(address1))
+            if (IsNullOrEmpty(address1))
             {
                 TempData["danger msg"] = $"'{nameof(address1)}' cannot be null or empty";
                 return RedirectToAction("Cart");
             }
 
-            if (string.IsNullOrEmpty(address2))
+            if (IsNullOrEmpty(address2))
             {
                 TempData["danger msg"] = $"'{nameof(address2)}' cannot be null or empty";
                 return RedirectToAction("Cart");
@@ -400,8 +394,8 @@ namespace Bingol.Controllers
                 WishlistUserId = user.Id,
                 WishlistCondition = 1
             };
-            _db.Wishlists.Add(wishlist);
-            _db.SaveChanges();
+            await _db.Wishlists.AddAsync(wishlist);
+            await _db.SaveChangesAsync();
             TempData["success message"] = "Added to Wishlist";
             return RedirectToAction("Product", new { id });
         }

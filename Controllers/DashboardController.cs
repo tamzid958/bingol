@@ -22,18 +22,15 @@ namespace Bingol.Controllers
         private readonly UserManager<BingolUser> _userManager;
         private readonly SignInManager<BingolUser> _signInManager;
         private readonly ILogger<DashboardController> _logger;
-        private readonly IEmailSender _emailSender;
-       
+
         public DashboardController(BingolContext db,
             UserManager<BingolUser> userManager,
             SignInManager<BingolUser> signInManager,
-            IEmailSender emailSender,
             ILogger<DashboardController> logger)
         {
             _db = db;
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
             _logger = logger;
         }
         //normal view
