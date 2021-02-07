@@ -74,6 +74,13 @@ namespace Bingol.Controllers
             ViewBag.Options = new SelectList(items: _db.Options, "OptionId", "OptionName");
             return View();
         }
+        public IActionResult Invoice(int? id)
+        {
+            var order = _db.Orderdetails.Where(o => o.DetailOrder.OrderId == id).Include(o => o.DetailOrder).Include(o => o.DetailOrder.OrderUser).Include(o => o.DetailProduct);
+            var total = Enumerable.Aggregate(order, 0.00, (current, obj) => current + obj.DetailPrice);
+            ViewBag.Total = Math.Round(total, 2);
+            return View(order);
+        }
         //list view
         public async Task<IActionResult> OrdersAsync(int page = 1)
         {

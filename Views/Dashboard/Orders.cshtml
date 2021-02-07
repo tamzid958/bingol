@@ -49,7 +49,7 @@
                                 </td>
                                 <td class="text-start small">
                                     <div class="btn-group" role="group">
-                                        <button type="button" value="@obj.DetailId" class="btn btn-warning btn-sm">Invoice</button>
+                                        <a asp-action="Invoice" asp-route-id="@obj.DetailOrder.OrderId" class="btn btn-warning btn-sm">Invoice</a>
                                         <a asp-action="UpdateOrder" asp-route-id="@obj.DetailOrderId" class="btn btn-success btn-sm">Modify</a>
                                     </div>
                                 </td>

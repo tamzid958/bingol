@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Bingol.Models.Orderdetail>
+@{ 
+    ViewData["Title"] = "Invoice";
+}
+<div class="container mt-3">
+    <div class="d-grid">
+        <button class="btn btn-warning" type="button" id="invoice-btn">Download PDF</button>
+    </div>
+</div>
+<div class="container-fluid mt-3" id="invoice-paper">
+    <div class="container">
+        <div class="d-flex justify-content-start">
+            <p class="fs-2">
+                <u> 
+                    Invoice
+                </u>
+            </p>
+        </div>
+        <div class="mt-3">
+            <p>
+                <span class="fw-bold">@Model.First().DetailOrder.OrderUser.UserFirstName @Model.First().DetailOrder.OrderUser.UserLastName </span> <br />
+                @Model.First().DetailOrder.OrderUser.UserAddress2 <br />
+                @Model.First().DetailOrder.OrderUser.UserCity, @Model.First().DetailOrder.OrderUser.UserState, @Model.First().DetailOrder.OrderUser.UserCountry <br />
+
+              Phone: @Model.First().DetailOrder.OrderUser.PhoneNumber, Email: @Model.First().DetailOrder.OrderUser.Email
+            </p>
+            <table class="table table-striped">
+                <thead class="bg-warning">
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">TRX ID</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <th scope="row">@obj.DetailProduct.ProductName</th>
+                            <td>@obj.DetailOrder.OrderTrackingNumber</td>
+                            <td>@(obj.DetailPrice / obj.DetailQuantity)</td>
+                            <td>@obj.DetailQuantity</td>
+                            <td>@obj.DetailPrice</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+                <div class="alert alert-info" role="alert">
+                    SubTotal : @ViewBag.Total
+                </div>
+            </div>
+            <p class="mt-5">
+                Thank You, <br />
+                From Bingol
+            </p>
+        </div>
+    </div>
+</div>

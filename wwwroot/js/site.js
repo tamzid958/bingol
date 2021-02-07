@@ -161,3 +161,7 @@ $(".review-btn").click(function () {
     $("#hidden-product-id").val(productid).change();
     $("#hidden-order-id").val(orderid).change()
 })
+$("#invoice-btn").click(function () {
+    var element = document.getElementById('invoice-paper');
+    html2pdf(element);
+});
